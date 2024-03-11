@@ -7,15 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8455026D5A9BFE3E981F9712 /* Pods_Book2OnNoN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98081F088704D346DB8C29E3 /* Pods_Book2OnNoN.framework */; };
 		9E80595A2B9F248E00EB91B7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8059592B9F248E00EB91B7 /* AppDelegate.swift */; };
 		9E80595C2B9F248E00EB91B7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E80595B2B9F248E00EB91B7 /* SceneDelegate.swift */; };
 		9E80595E2B9F248E00EB91B7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E80595D2B9F248E00EB91B7 /* ViewController.swift */; };
 		9E8059642B9F248E00EB91B7 /* Book2OnNoN.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9E8059622B9F248E00EB91B7 /* Book2OnNoN.xcdatamodeld */; };
 		9E8059662B9F249000EB91B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E8059652B9F249000EB91B7 /* Assets.xcassets */; };
 		9E8059692B9F249000EB91B7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E8059672B9F249000EB91B7 /* LaunchScreen.storyboard */; };
+		9E8059762B9F283900EB91B7 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8059752B9F283900EB91B7 /* BaseViewController.swift */; };
+		9E80597F2B9F296C00EB91B7 /* Pretendard-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9E80597A2B9F296C00EB91B7 /* Pretendard-Bold.otf */; };
+		9E8059802B9F296C00EB91B7 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9E80597B2B9F296C00EB91B7 /* Pretendard-Light.otf */; };
+		9E8059812B9F296C00EB91B7 /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9E80597C2B9F296C00EB91B7 /* Pretendard-Medium.otf */; };
+		9E8059822B9F296C00EB91B7 /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9E80597D2B9F296C00EB91B7 /* Pretendard-Regular.otf */; };
+		9E8059832B9F296C00EB91B7 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9E80597E2B9F296C00EB91B7 /* Pretendard-SemiBold.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		000C88D4B215C8A8542F0133 /* Pods-Book2OnNoN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Book2OnNoN.debug.xcconfig"; path = "Target Support Files/Pods-Book2OnNoN/Pods-Book2OnNoN.debug.xcconfig"; sourceTree = "<group>"; };
+		6C15A17024470C92B0696F63 /* Pods-Book2OnNoN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Book2OnNoN.release.xcconfig"; path = "Target Support Files/Pods-Book2OnNoN/Pods-Book2OnNoN.release.xcconfig"; sourceTree = "<group>"; };
+		98081F088704D346DB8C29E3 /* Pods_Book2OnNoN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Book2OnNoN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E8059562B9F248E00EB91B7 /* Book2OnNoN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Book2OnNoN.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E8059592B9F248E00EB91B7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E80595B2B9F248E00EB91B7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +34,12 @@
 		9E8059652B9F249000EB91B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9E8059682B9F249000EB91B7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9E80596A2B9F249000EB91B7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9E8059752B9F283900EB91B7 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		9E80597A2B9F296C00EB91B7 /* Pretendard-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.otf"; sourceTree = "<group>"; };
+		9E80597B2B9F296C00EB91B7 /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
+		9E80597C2B9F296C00EB91B7 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
+		9E80597D2B9F296C00EB91B7 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		9E80597E2B9F296C00EB91B7 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +47,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8455026D5A9BFE3E981F9712 /* Pods_Book2OnNoN.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6DCB567F292B33BA4ACB79B6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				000C88D4B215C8A8542F0133 /* Pods-Book2OnNoN.debug.xcconfig */,
+				6C15A17024470C92B0696F63 /* Pods-Book2OnNoN.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		7229E3C20D2975A80EB226DE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				98081F088704D346DB8C29E3 /* Pods_Book2OnNoN.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9E80594D2B9F248E00EB91B7 = {
 			isa = PBXGroup;
 			children = (
 				9E8059582B9F248E00EB91B7 /* Book2OnNoN */,
 				9E8059572B9F248E00EB91B7 /* Products */,
+				6DCB567F292B33BA4ACB79B6 /* Pods */,
+				7229E3C20D2975A80EB226DE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,6 +92,8 @@
 		9E8059582B9F248E00EB91B7 /* Book2OnNoN */ = {
 			isa = PBXGroup;
 			children = (
+				9E8059702B9F27A800EB91B7 /* Configuration */,
+				9E8059712B9F27EE00EB91B7 /* Source */,
 				9E8059592B9F248E00EB91B7 /* AppDelegate.swift */,
 				9E80595B2B9F248E00EB91B7 /* SceneDelegate.swift */,
 				9E80595D2B9F248E00EB91B7 /* ViewController.swift */,
@@ -67,6 +105,74 @@
 			path = Book2OnNoN;
 			sourceTree = "<group>";
 		};
+		9E8059702B9F27A800EB91B7 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				9E8059792B9F291300EB91B7 /* Extension */,
+				9E8059782B9F290700EB91B7 /* Font */,
+				9E8059772B9F290000EB91B7 /* Network */,
+				9E8059742B9F282400EB91B7 /* Base */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		9E8059712B9F27EE00EB91B7 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				9E8059722B9F27F700EB91B7 /* Model */,
+				9E8059732B9F27FA00EB91B7 /* Views */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		9E8059722B9F27F700EB91B7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		9E8059732B9F27FA00EB91B7 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9E8059742B9F282400EB91B7 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				9E8059752B9F283900EB91B7 /* BaseViewController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		9E8059772B9F290000EB91B7 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		9E8059782B9F290700EB91B7 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				9E80597A2B9F296C00EB91B7 /* Pretendard-Bold.otf */,
+				9E80597B2B9F296C00EB91B7 /* Pretendard-Light.otf */,
+				9E80597C2B9F296C00EB91B7 /* Pretendard-Medium.otf */,
+				9E80597D2B9F296C00EB91B7 /* Pretendard-Regular.otf */,
+				9E80597E2B9F296C00EB91B7 /* Pretendard-SemiBold.otf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		9E8059792B9F291300EB91B7 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,9 +180,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9E80596D2B9F249000EB91B7 /* Build configuration list for PBXNativeTarget "Book2OnNoN" */;
 			buildPhases = (
+				07A1147285361A0B415ECD15 /* [CP] Check Pods Manifest.lock */,
 				9E8059522B9F248E00EB91B7 /* Sources */,
 				9E8059532B9F248E00EB91B7 /* Frameworks */,
 				9E8059542B9F248E00EB91B7 /* Resources */,
+				F8809A65B4FD4AAB0203C039 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -126,17 +234,65 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E8059692B9F249000EB91B7 /* LaunchScreen.storyboard in Resources */,
+				9E8059822B9F296C00EB91B7 /* Pretendard-Regular.otf in Resources */,
+				9E8059832B9F296C00EB91B7 /* Pretendard-SemiBold.otf in Resources */,
+				9E8059812B9F296C00EB91B7 /* Pretendard-Medium.otf in Resources */,
+				9E8059802B9F296C00EB91B7 /* Pretendard-Light.otf in Resources */,
+				9E80597F2B9F296C00EB91B7 /* Pretendard-Bold.otf in Resources */,
 				9E8059662B9F249000EB91B7 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		07A1147285361A0B415ECD15 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Book2OnNoN-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F8809A65B4FD4AAB0203C039 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Book2OnNoN/Pods-Book2OnNoN-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Book2OnNoN/Pods-Book2OnNoN-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Book2OnNoN/Pods-Book2OnNoN-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		9E8059522B9F248E00EB91B7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E8059762B9F283900EB91B7 /* BaseViewController.swift in Sources */,
 				9E8059642B9F248E00EB91B7 /* Book2OnNoN.xcdatamodeld in Sources */,
 				9E80595E2B9F248E00EB91B7 /* ViewController.swift in Sources */,
 				9E80595A2B9F248E00EB91B7 /* AppDelegate.swift in Sources */,
@@ -279,6 +435,7 @@
 		};
 		9E80596E2B9F249000EB91B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 000C88D4B215C8A8542F0133 /* Pods-Book2OnNoN.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -311,6 +468,7 @@
 		};
 		9E80596F2B9F249000EB91B7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C15A17024470C92B0696F63 /* Pods-Book2OnNoN.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
