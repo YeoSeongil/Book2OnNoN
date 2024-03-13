@@ -74,8 +74,8 @@ class SearchViewModel {
             })
             .disposed(by: disposeBag)
     }
-    
 }
+
 extension SearchViewModel: SearchViewModelType {
     // Input
     var searchDropDownButtonTapped: AnyObserver<Void> {
