@@ -6,24 +6,24 @@
 //
 
 import UIKit
+import SnapKit
 
-class Book2OnNonBaseTabBarController: UITabBarController {
+final class Book2OnNonBaseTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setupTabbar()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setupTabbar() {
+        let homeVc = UINavigationController(rootViewController: HomeViewController())
+        let searchVc = SearchViewController()
+        homeVc.tabBarItem = UITabBarItem(title: "나의 서재", image: UIImage(systemName: "books.vertical"), selectedImage:UIImage(systemName: "books.vertical.fill"))
+        viewControllers = [
+            homeVc
+        ]
+        
+        self.tabBar.tintColor = .black
     }
-    */
 
 }
