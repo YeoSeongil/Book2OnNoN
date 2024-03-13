@@ -10,7 +10,6 @@ import RxSwift
 import Alamofire
 
 public enum BookAPI {
-    case getBook
     case searchBook(title: String, type: String)
 }
 
@@ -22,8 +21,6 @@ extension BookAPI: Router, URLRequestConvertible {
     
     public var path: String {
         switch self {
-        case .getBook:
-            return "none"
         case .searchBook:
             return "ttb/api/ItemSearch.aspx"
         }
@@ -31,14 +28,14 @@ extension BookAPI: Router, URLRequestConvertible {
     
     public var method: HTTPMethod {
         switch self {
-        case .getBook, .searchBook:
+        case .searchBook:
             return .get
         }
     }
     
     public var headers: [String : String]? {
         switch self {
-        case .getBook, .searchBook:
+        case .searchBook:
             return nil
         }
     }
@@ -56,15 +53,11 @@ extension BookAPI: Router, URLRequestConvertible {
                 "output": "js",
                 "Version": "20131101"
             ]
-        case .getBook:
-            return nil
         }
     }
     
     public var encoding: ParameterEncoding? {
         switch self {
-        case .getBook:
-            return nil
         case .searchBook:
             return URLEncoding.default
         }
