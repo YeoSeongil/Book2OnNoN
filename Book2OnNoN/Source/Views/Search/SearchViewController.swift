@@ -93,6 +93,8 @@ class SearchViewController: BaseViewController {
     }
     
     override func bind() {
+        searchResultTableView.rx.setDelegate(self).disposed(by: disposeBag)
+        
         // Input
         searchDropDownButton.rx.tap
             .asObservable()
@@ -113,6 +115,13 @@ class SearchViewController: BaseViewController {
             self?.searchDropDownButton.setTitle(item, for: .normal)
             self?.viewModel.whichSelectedDropDownItem.onNext(item)
         }
+        
+        searchResultTableView.rx.modelSelected(Item.self)
+            .bind(onNext: { [weak self] item in
+                let detailViewModel = SearchDetailViewModel(item: item)
+                let detailViewController = SearchDetailViewController(viewModel: detailViewModel)
+                self?.navigationController?.pushViewController(detailViewController, animated: true)
+            }).disposed(by: disposeBag)
             
         // Output
         viewModel.resultDownButtonTapped
@@ -122,7 +131,6 @@ class SearchViewController: BaseViewController {
                 self?.searchOptionDropDown.dataSource = data
             }).disposed(by: disposeBag)
         
-        searchResultTableView.rx.setDelegate(self).disposed(by: disposeBag)
         viewModel.resultSearchItem
             .drive(searchResultTableView.rx.items(cellIdentifier: SearchResultTableViewCell.id, cellType: SearchResultTableViewCell.self)) { row, item, cell in
                 cell.configuration(book: item)
