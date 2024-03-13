@@ -20,6 +20,7 @@ class SearchViewController: BaseViewController {
         let textField = UITextField()
         textField.placeholder = "검색어를 입력하세요."
         textField.borderStyle = .none
+        textField.textColor = .black
         return textField
     }()
     
@@ -36,7 +37,12 @@ class SearchViewController: BaseViewController {
          return dropDown
      }()
 
-    private var selectedSearchOption: String?
+    private lazy var searchResultTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.id)
+        tableView.backgroundColor = .white
+        return tableView
+    }()
     
     // MARK: init
     init(viewModel: SearchViewModelType = SearchViewModel()) {
@@ -48,7 +54,7 @@ class SearchViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: setUp ViewController
+    // MARK: SetUp ViewController
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         searchTextField.layer.addBorder(edge: .bottom, color: .black, thickness: 2.0)
@@ -59,7 +65,7 @@ class SearchViewController: BaseViewController {
     }
     
     override func setAddViews() {
-        [searchTextField, searchDropDownButton].forEach {
+        [searchTextField, searchDropDownButton, searchResultTableView].forEach {
             view.addSubview($0)
         }
     }
@@ -77,6 +83,12 @@ class SearchViewController: BaseViewController {
             $0.leading.equalTo(view.safeAreaLayoutGuide).offset(5)
             $0.trailing.equalTo(searchTextField.snp.leading)
             $0.height.equalTo(50)
+        }
+        
+        searchResultTableView.snp.makeConstraints {
+            $0.top.equalTo(searchTextField.snp.bottom).offset(5)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(5)
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(5)
         }
     }
     
@@ -110,11 +122,11 @@ class SearchViewController: BaseViewController {
                 self?.searchOptionDropDown.dataSource = data
             }).disposed(by: disposeBag)
         
-        viewModel.resultSearch
-            .asDriver()
-            .drive(onNext: { t in
-                print(t)
-            }).disposed(by: disposeBag)
+        searchResultTableView.rx.setDelegate(self).disposed(by: disposeBag)
+        viewModel.resultSearchItem
+            .drive(searchResultTableView.rx.items(cellIdentifier: SearchResultTableViewCell.id, cellType: SearchResultTableViewCell.self)) { row, item, cell in
+                cell.configuration(book: item)
+            }.disposed(by: disposeBag)
     }
     
     private func showDropDown() {
@@ -122,4 +134,9 @@ class SearchViewController: BaseViewController {
     }
 }
 
+extension SearchViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return CGFloat(100.0)
+    }
+}
 
