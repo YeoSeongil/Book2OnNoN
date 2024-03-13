@@ -15,15 +15,7 @@ class SearchViewController: BaseViewController {
 
     private let viewModel: SearchViewModelType
     
-    init(viewModel: SearchViewModelType = SearchViewModel()) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+    // MARK: UI Components
     private lazy var searchTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "검색어를 입력하세요."
@@ -46,6 +38,17 @@ class SearchViewController: BaseViewController {
 
     private var selectedSearchOption: String?
     
+    // MARK: init
+    init(viewModel: SearchViewModelType = SearchViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: setUp ViewController
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         searchTextField.layer.addBorder(edge: .bottom, color: .black, thickness: 2.0)
@@ -63,15 +66,15 @@ class SearchViewController: BaseViewController {
     
     override func setConstraints() {
         searchTextField.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            $0.leading.equalToSuperview().offset(70)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.equalToSuperview().offset(60)
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(50)
         }
         
         searchDropDownButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
-            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(10)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(5)
             $0.trailing.equalTo(searchTextField.snp.leading)
             $0.height.equalTo(50)
         }
@@ -87,6 +90,11 @@ class SearchViewController: BaseViewController {
         searchTextField.rx.text.orEmpty
             .asObservable()
             .bind(to: viewModel.searchTextFieldInputTextValue)
+            .disposed(by: disposeBag)
+        
+        searchTextField.rx.controlEvent(.editingDidEnd)
+            .asObservable()
+            .bind(to: viewModel.searchEditingDidEnd)
             .disposed(by: disposeBag)
         
         searchOptionDropDown.rx.selectionAction.onNext { [weak self] index, item in
