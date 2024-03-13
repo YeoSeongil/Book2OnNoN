@@ -18,7 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        let rootViewController = ViewController()
+        //let rootViewController = SearchViewController()
+        let rootViewController = Book2OnNonBaseTabBarController()
         window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
     }
