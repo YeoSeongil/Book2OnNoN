@@ -18,7 +18,8 @@ protocol SearchViewModelType {
     
     // Output
     var resultDownButtonTapped: Driver<[String]> { get }
-    var resultSearch: Driver<Book> { get }
+    var resultSearch: Driver<[Book]> { get }
+    var resultSearchItem: Driver<[Item]> { get }
 }
 
 class SearchViewModel {
@@ -32,7 +33,8 @@ class SearchViewModel {
     
     // Output
     private let outputDropDownButtonTapped = PublishRelay<[String]>()
-    private let outputSearchResult = PublishRelay<Book>()
+    private let outputSearchResult = PublishRelay<[Book]>()
+    private let outputSearchResultItem = PublishRelay<[Item]>()
     
     init() {
         setUpDropDownButton()
@@ -67,7 +69,8 @@ class SearchViewModel {
                     }
             }
             .subscribe(onNext: { result in
-                self.outputSearchResult.accept(result)
+                self.outputSearchResult.accept([result])
+                self.outputSearchResultItem.accept(result.item)
             })
             .disposed(by: disposeBag)
     }
@@ -96,8 +99,12 @@ extension SearchViewModel: SearchViewModelType {
         outputDropDownButtonTapped.asDriver(onErrorJustReturn: [])
     }
     
-    var resultSearch: Driver<Book> {
+    var resultSearch: Driver<[Book]> {
         outputSearchResult.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var resultSearchItem: Driver<[Item]> {
+        outputSearchResultItem.asDriver(onErrorDriveWith: .empty())
     }
 }
 
