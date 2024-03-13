@@ -41,16 +41,26 @@ class SearchViewModel {
     
     private func setUpDropDownButton() {
         inputSearchDropDownButtonTapped
-            .map {["제목", "저자명", "출판사", "ISBN"]}
+            .map {["제목", "저자명", "출판사"]}
             .bind(to: outputDropDownButtonTapped)
             .disposed(by: disposeBag)
     }
     
     private func trySearchBook() {
+        let dropDownTypeMapping: [String: String] = [
+            "제목": "Title",
+            "저자명": "Author",
+            "출판사": "Publisher"
+        ]
+        
         inputSearchEditingDidEnd
             .withLatestFrom(Observable.combineLatest(inputSelectedDropDownItem, inputSearchTextField))
-            .flatMap { type, title in
-                return BookRepository.shared.getBookSearchData(title: title, type: type)
+            .flatMap { type, title -> Observable<Book> in
+                guard let modifiedType = dropDownTypeMapping[type] else {
+                    return Observable.empty()
+                }
+                
+                return BookRepository.shared.getBookSearchData(title: title, type: modifiedType)
                     .asObservable()
                     .catch { error in
                         return Observable.empty()
@@ -61,8 +71,8 @@ class SearchViewModel {
             })
             .disposed(by: disposeBag)
     }
+    
 }
-
 extension SearchViewModel: SearchViewModelType {
     // Input
     var searchDropDownButtonTapped: AnyObserver<Void> {
