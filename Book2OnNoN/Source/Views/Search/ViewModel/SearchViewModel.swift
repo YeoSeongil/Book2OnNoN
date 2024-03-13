@@ -56,7 +56,9 @@ class SearchViewModel {
                         return Observable.empty()
                     }
             }
-            .bind(to: outputSearchResult)
+            .subscribe(onNext: { result in
+                self.outputSearchResult.accept(result)
+            })
             .disposed(by: disposeBag)
     }
 }
