@@ -21,7 +21,7 @@ class SearchDetailSummaryView: UIView {
     private let detailBookTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .Pretendard.semibold
-        label.numberOfLines = 3
+        label.numberOfLines = 5
         label.textColor = .black
         return label
     }()
