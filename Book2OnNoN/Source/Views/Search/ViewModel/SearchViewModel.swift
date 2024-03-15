@@ -9,6 +9,11 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+enum SearchError: Error {
+    case emptySearchText
+    case noResults
+}
+
 protocol SearchViewModelType {
     // Input
     var searchDropDownButtonTapped: AnyObserver<Void> { get } // SearchDropDown Button이 Tapped 되었는지 옵저빙
@@ -20,6 +25,7 @@ protocol SearchViewModelType {
     var resultDownButtonTapped: Driver<[String]> { get }
     var resultSearch: Driver<[Book]> { get }
     var resultSearchItem: Driver<[Item]> { get }
+    var resultSearchError: Driver<SearchError> { get }
 }
 
 class SearchViewModel {
@@ -35,6 +41,7 @@ class SearchViewModel {
     private let outputDropDownButtonTapped = PublishRelay<[String]>()
     private let outputSearchResult = PublishRelay<[Book]>()
     private let outputSearchResultItem = PublishRelay<[Item]>()
+    private let outputSearchError = PublishRelay<SearchError>()
     
     init() {
         setUpDropDownButton()
@@ -58,6 +65,11 @@ class SearchViewModel {
         inputSearchEditingDidEnd
             .withLatestFrom(Observable.combineLatest(inputSelectedDropDownItem, inputSearchTextField))
             .flatMap { type, title -> Observable<Book> in
+                guard !title.isEmpty else {
+                    self.outputSearchError.accept(.emptySearchText)
+                    return Observable.empty()
+                }
+                
                 guard let modifiedType = dropDownTypeMapping[type] else {
                     return Observable.empty()
                 }
@@ -69,8 +81,12 @@ class SearchViewModel {
                     }
             }
             .subscribe(onNext: { result in
-                self.outputSearchResult.accept([result])
-                self.outputSearchResultItem.accept(result.item)
+                if result.totalResults == 0 { 
+                    self.outputSearchError.accept(.noResults)
+                } else {
+                    self.outputSearchResult.accept([result])
+                    self.outputSearchResultItem.accept(result.item)
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -105,6 +121,10 @@ extension SearchViewModel: SearchViewModelType {
     
     var resultSearchItem: Driver<[Item]> {
         outputSearchResultItem.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var resultSearchError: Driver<SearchError> {
+        outputSearchError.asDriver(onErrorDriveWith: .empty())
     }
 }
 
