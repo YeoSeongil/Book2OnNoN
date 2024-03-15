@@ -10,9 +10,9 @@ import RxSwift
 import Alamofire
 
 public struct BookService {
-    func getBookSearchData(title: String, type:String) -> Single<Result<Book, Error>>{
+    func getBookSearchData(title: String, type:String, page: Int) -> Single<Result<Book, Error>>{
         return Single.create { single -> Disposable in
-            AF.request(BookAPI.searchBook(title: title, type: type))
+            AF.request(BookAPI.searchBook(title: title, type: type, page: page))
                 .responseDecodable(of: Book.self) { response in
                     switch response.result {
                     case .success(let data):

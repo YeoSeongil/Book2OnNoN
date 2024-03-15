@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 protocol BookRepositoryProtocol {
-    func getBookSearchData(title: String, type: String) -> Single<Book>
+    func getBookSearchData(title: String, type: String, page: Int) -> Single<Book>
 }
 
 class BookRepository: BookRepositoryProtocol {
@@ -19,8 +19,8 @@ class BookRepository: BookRepositoryProtocol {
     
     private init() {}
     
-    func getBookSearchData(title: String, type: String) -> Single<Book> {
-        return BookService().getBookSearchData(title: title, type: type)
+    func getBookSearchData(title: String, type: String, page: Int) -> Single<Book> {
+        return BookService().getBookSearchData(title: title, type: type, page: page)
             .flatMap { result -> Single<Book> in
                 switch result {
                 case .success(let book):

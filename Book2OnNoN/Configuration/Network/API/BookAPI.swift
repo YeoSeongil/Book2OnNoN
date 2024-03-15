@@ -10,7 +10,7 @@ import RxSwift
 import Alamofire
 
 public enum BookAPI {
-    case searchBook(title: String, type: String)
+    case searchBook(title: String, type: String, page: Int)
 }
 
 extension BookAPI: Router, URLRequestConvertible {
@@ -42,16 +42,16 @@ extension BookAPI: Router, URLRequestConvertible {
     
     public var parameters: [String : Any]? {
         switch self {
-        case let .searchBook(title, type):
+        case let .searchBook(title, type, page):
             return [
                 "ttbkey" : API.key,
                 "Query" : title,
                 "QueryType" : type,
                 "MaxResults" : 10,
-                "start": 1,
+                "start": page,
                 "SearchTarget": "Book",
                 "output": "js",
-                "Version": "20131101"
+                "Version": "20131101",
             ]
         }
     }
