@@ -6,15 +6,58 @@
 //
 
 import UIKit
+import SnapKit
 
 class SearchDetailDescriptionView: UIView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
+    // MARK: UIComponents
+    private let detailBookDescriptionTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "줄거리"
+        label.font = .Pretendard.semibold
+        label.textColor = .black
+        return label
+    }()
+    
+    private let detailBookDescriptionTextView: UITextView = {
+        let textView = UITextView()
+        textView.font = .Pretendard.regular
+        return textView
+    }()
 
+    // MARK: init
+    override init(frame: CGRect) {
+      super.init(frame: frame)
+        setView()
+        setConfiguration()
+    }
+    
+    required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Set View
+    private func setView() {
+        [detailBookDescriptionTitleLabel, detailBookDescriptionTextView].forEach {
+            addSubview($0)
+        }
+    }
+    
+    private func setConfiguration() {
+        detailBookDescriptionTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(safeAreaLayoutGuide)
+            $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
+        }
+        
+        detailBookDescriptionTextView.snp.makeConstraints {
+            $0.top.equalTo(detailBookDescriptionTitleLabel.snp.bottom)
+            $0.bottom.equalTo(safeAreaLayoutGuide)
+            $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
+        }
+    }
+    
+    // MARK: Method
+    func configuration(with item: Item) {
+        detailBookDescriptionTextView.text = item.description
+    }
 }
