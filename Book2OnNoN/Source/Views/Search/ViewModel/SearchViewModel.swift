@@ -65,30 +65,38 @@ class SearchViewModel {
         inputSearchEditingDidEnd
             .withLatestFrom(Observable.combineLatest(inputSelectedDropDownItem, inputSearchTextField))
             .flatMap { type, title -> Observable<Book> in
-                guard !title.isEmpty else {
-                    self.outputSearchError.accept(.emptySearchText)
-                    return Observable.empty()
-                }
-                
-                guard let modifiedType = dropDownTypeMapping[type] else {
-                    return Observable.empty()
-                }
-                
-                return BookRepository.shared.getBookSearchData(title: title, type: modifiedType)
-                    .asObservable()
-                    .catch { error in
-                        return Observable.empty()
-                    }
+                return self.tryGetBook(type: type, title: title, mapping: dropDownTypeMapping)
             }
             .subscribe(onNext: { result in
-                if result.totalResults == 0 { 
-                    self.outputSearchError.accept(.noResults)
-                } else {
-                    self.outputSearchResult.accept([result])
-                    self.outputSearchResultItem.accept(result.item)
-                }
+                self.handleSearchResult(result)
             })
             .disposed(by: disposeBag)
+    }
+    
+    private func tryGetBook(type: String, title: String, mapping: [String: String]) -> Observable<Book> {
+        guard !title.isEmpty else {
+            self.outputSearchError.accept(.emptySearchText)
+            return Observable.empty()
+        }
+        
+        guard let modifiedType = mapping[type] else {
+            return Observable.empty()
+        }
+        
+        return BookRepository.shared.getBookSearchData(title: title, type: modifiedType)
+            .asObservable()
+            .catch { error in
+                return Observable.empty()
+            }
+    }
+
+    private func handleSearchResult(_ result: Book) {
+        if result.totalResults == 0 {
+            self.outputSearchError.accept(.noResults)
+        } else {
+            self.outputSearchResult.accept([result])
+            self.outputSearchResultItem.accept(result.item)
+        }
     }
 }
 
