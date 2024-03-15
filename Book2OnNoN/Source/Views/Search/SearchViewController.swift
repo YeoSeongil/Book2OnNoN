@@ -132,6 +132,7 @@ class SearchViewController: BaseViewController {
             }).disposed(by: disposeBag)
         
         searchResultTableView.rx.didScroll
+            .asObservable()
             .throttle(.seconds(2), latest: false, scheduler: MainScheduler.instance)
             .map { self.isNearBottomEdge() }
             .bind(to: viewModel.isSearchResultTableViewisNearBottomEdge)
@@ -139,21 +140,18 @@ class SearchViewController: BaseViewController {
         
         // Output
         viewModel.resultDownButtonTapped
-            .asDriver()
             .drive(onNext: {[weak self] data in
                 self?.searchOptionDropDown.show()
                 self?.searchOptionDropDown.dataSource = data
             }).disposed(by: disposeBag)
         
         viewModel.resultSearchItem
-            .asDriver()
             .drive(searchResultTableView.rx.items(cellIdentifier: SearchResultTableViewCell.id, cellType: SearchResultTableViewCell.self)) { row, item, cell in
                 cell.configuration(book: item)
             }.disposed(by: disposeBag)
         
         // Todo : Error 처리 구현, Alter를 띄우거나 검색창에 애니메이션 추가
         viewModel.resultSearchError
-            .asDriver()
             .drive(onNext: { err in
                 switch err {
                 case .emptySearchText:
