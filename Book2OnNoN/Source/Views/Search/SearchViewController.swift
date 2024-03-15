@@ -170,10 +170,10 @@ class SearchViewController: BaseViewController {
     
     private func isNearBottomEdge() -> Bool {
         guard self.searchResultTableView.contentSize.height > 0 else {
-                return false
-            }
-        return self.searchResultTableView.contentOffset.y + self.searchResultTableView.bounds.size.height + 1.0 >= self.searchResultTableView.contentSize.height
+            return false
         }
+        return self.searchResultTableView.contentOffset.y + self.searchResultTableView.bounds.size.height + 1.0 >= self.searchResultTableView.contentSize.height
+    }
 }
 
 extension SearchViewController: UITableViewDelegate {
