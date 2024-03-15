@@ -33,8 +33,7 @@ class SearchDetailSummaryView: UIView {
         label.textColor = .gray
         return label
     }()
-    
-    
+
     // MARK: init
     override init(frame: CGRect) {
       super.init(frame: frame)
@@ -72,6 +71,7 @@ class SearchDetailSummaryView: UIView {
             $0.leading.equalTo(detailBookThumbnailImageView.snp.trailing).offset(10)
             $0.trailing.equalTo(safeAreaInsets)
         }
+
     }
     
     // MARK: Method
