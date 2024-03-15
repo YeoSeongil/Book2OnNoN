@@ -27,6 +27,7 @@ class SearchViewController: BaseViewController {
     private lazy var searchDropDownButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("제목", for: .normal)
+        button.titleLabel?.font = UIFont.Pretendard.semibold
         button.tintColor = .black
         return button
     }()
@@ -62,6 +63,13 @@ class SearchViewController: BaseViewController {
     
     override func setViewController() {
         view.backgroundColor = .white
+        title = "책 찾기"
+    }
+    
+    override func setNavigation() {
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        backButton.tintColor = .black
+        self.navigationItem.backBarButtonItem = backButton
     }
     
     override func setAddViews() {
