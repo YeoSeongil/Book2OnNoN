@@ -13,13 +13,11 @@ import SnapKit
 class SearchDetailViewController: BaseViewController {
     
     private let viewModel: SearchDetailViewModelType
-    // MARK: UI Components
     
-    private lazy var testLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .white
-        return label
-    }()
+    // MARK: UI Components
+    private let summaryView = SearchDetailSummaryView()
+    private let descriptionView = SearchDetailDescriptionView()
+
     
     // MARK: init
     init(viewModel: SearchDetailViewModelType) {
@@ -34,23 +32,28 @@ class SearchDetailViewController: BaseViewController {
     // MARK: SetUp ViewController
     override func setViewController() {
         super.setViewController()
-        view.backgroundColor = .blue
+        view.backgroundColor = .white
     }
     
     override func setAddViews() {
         super.setAddViews()
-        [testLabel].forEach {
+        [summaryView, descriptionView].forEach {
             view.addSubview($0)
         }
     }
     
     override func setConstraints() {
         super.setConstraints()
-        testLabel.snp.makeConstraints{
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
-            $0.width.equalTo(100)
-            $0.height.equalTo(100)
+        summaryView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalToSuperview().inset(10)
+            $0.height.equalTo(150)
+        }
+        
+        descriptionView.snp.makeConstraints {
+            $0.top.equalTo(summaryView.snp.bottom).offset(15)
+            $0.horizontalEdges.equalToSuperview().inset(10)
+            $0.height.equalTo(150)
         }
     }
     
@@ -59,8 +62,11 @@ class SearchDetailViewController: BaseViewController {
         viewModel.resultDetailItem
             .drive(onNext: { [weak self] item in
                 guard let item = item else { return }
-                self?.testLabel.text = item.title
+                self?.summaryView.configuration(with: item)
+                self?.descriptionView.configuration(with: item)
             })
             .disposed(by: disposeBag)
     }
+    
+    // MARK: Method
 }
