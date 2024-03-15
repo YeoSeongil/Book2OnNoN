@@ -131,6 +131,12 @@ class SearchViewController: BaseViewController {
                 self?.navigationController?.pushViewController(detailViewController, animated: true)
             }).disposed(by: disposeBag)
         
+        searchResultTableView.rx.didScroll
+            .throttle(.seconds(2), latest: false, scheduler: MainScheduler.instance)
+            .map { self.isNearBottomEdge() }
+            .bind(to: viewModel.isSearchResultTableViewisNearBottomEdge)
+            .disposed(by: disposeBag)
+        
         // Output
         viewModel.resultDownButtonTapped
             .asDriver()
@@ -161,6 +167,13 @@ class SearchViewController: BaseViewController {
     private func showDropDown() {
         searchOptionDropDown.show()
     }
+    
+    private func isNearBottomEdge() -> Bool {
+        guard self.searchResultTableView.contentSize.height > 0 else {
+                return false
+            }
+        return self.searchResultTableView.contentOffset.y + self.searchResultTableView.bounds.size.height + 1.0 >= self.searchResultTableView.contentSize.height
+        }
 }
 
 extension SearchViewController: UITableViewDelegate {
