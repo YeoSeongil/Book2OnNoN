@@ -12,7 +12,7 @@ import SnapKit
 import DropDown
 
 class SearchViewController: BaseViewController {
-
+    
     private let viewModel: SearchViewModelType
     
     // MARK: UI Components
@@ -33,11 +33,11 @@ class SearchViewController: BaseViewController {
     }()
     
     private lazy var searchOptionDropDown: DropDown = {
-         let dropDown = DropDown()
-         dropDown.anchorView = searchDropDownButton
-         return dropDown
-     }()
-
+        let dropDown = DropDown()
+        dropDown.anchorView = searchDropDownButton
+        return dropDown
+    }()
+    
     private lazy var searchResultTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.id)
@@ -130,7 +130,7 @@ class SearchViewController: BaseViewController {
                 let detailViewController = SearchDetailViewController(viewModel: detailViewModel)
                 self?.navigationController?.pushViewController(detailViewController, animated: true)
             }).disposed(by: disposeBag)
-            
+        
         // Output
         viewModel.resultDownButtonTapped
             .asDriver()
@@ -140,9 +140,22 @@ class SearchViewController: BaseViewController {
             }).disposed(by: disposeBag)
         
         viewModel.resultSearchItem
+            .asDriver()
             .drive(searchResultTableView.rx.items(cellIdentifier: SearchResultTableViewCell.id, cellType: SearchResultTableViewCell.self)) { row, item, cell in
                 cell.configuration(book: item)
             }.disposed(by: disposeBag)
+        
+        // Todo : Error 처리 구현, Alter를 띄우거나 검색창에 애니메이션 추가
+        viewModel.resultSearchError
+            .asDriver()
+            .drive(onNext: { err in
+                switch err {
+                case .emptySearchText:
+                    print("검색어를 입력해주세요.")
+                case .noResults:
+                    print("검색 결과가 없습니다.")
+                }
+            }).disposed(by: disposeBag)
     }
     
     private func showDropDown() {
