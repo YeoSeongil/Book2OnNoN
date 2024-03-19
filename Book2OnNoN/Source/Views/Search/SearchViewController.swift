@@ -79,13 +79,12 @@ class SearchViewController: BaseViewController {
     }
     
     override func setNavigation() {
-        // 네비게이션 바 배경 색상 설정
-
         navigationController?.navigationBar.barTintColor = .black
         tabBarController?.tabBar.barTintColor = .black
         let searchDropDownBarButtonItem = UIBarButtonItem(customView: searchDropDownButton)
         let searchTextFieldBarButtonItem = UIBarButtonItem(customView: searchTextField)
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        backButton.tintColor = .white
         self.navigationItem.backBarButtonItem = backButton
         self.navigationItem.rightBarButtonItems = [searchDropDownBarButtonItem, searchTextFieldBarButtonItem]
     }
