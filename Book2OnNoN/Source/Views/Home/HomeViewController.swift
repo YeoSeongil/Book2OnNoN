@@ -13,7 +13,6 @@ class HomeViewController: BaseViewController {
     
     override func setViewController() {
         super.setViewController()
-        view.backgroundColor = .black
     }
     
     override func setConstraints() {
