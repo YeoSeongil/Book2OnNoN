@@ -17,12 +17,14 @@ final class Book2OnNonBaseTabBarController: UITabBarController {
     
     private func setupTabbar() {
         let homeVc = UINavigationController(rootViewController: HomeViewController())
+        homeVc.navigationBar.isTranslucent = false
         homeVc.tabBarItem = UITabBarItem(title: "나의 서재", image: UIImage(systemName: "books.vertical"), selectedImage:UIImage(systemName: "books.vertical.fill"))
+        
         viewControllers = [
             homeVc
         ]
         
         self.tabBar.tintColor = .white
+        self.tabBar.isTranslucent = false
     }
-
 }
