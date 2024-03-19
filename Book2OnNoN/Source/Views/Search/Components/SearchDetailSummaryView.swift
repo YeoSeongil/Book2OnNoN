@@ -13,7 +13,6 @@ class SearchDetailSummaryView: UIView {
     // MARK: UIComponents
     private let detailBookThumbnailImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .clear
         imageView.contentMode = .scaleToFill
         return imageView
     }()
