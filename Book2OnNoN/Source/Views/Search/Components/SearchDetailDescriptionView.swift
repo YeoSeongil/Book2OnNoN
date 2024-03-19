@@ -15,13 +15,15 @@ class SearchDetailDescriptionView: UIView {
         let label = UILabel()
         label.text = "줄거리"
         label.font = .Pretendard.semibold
-        label.textColor = .black
+        label.textColor = .white
         return label
     }()
     
     private let detailBookDescriptionTextView: UITextView = {
         let textView = UITextView()
         textView.font = .Pretendard.regular
+        textView.textColor = .white
+        textView.backgroundColor = .clear
         return textView
     }()
 

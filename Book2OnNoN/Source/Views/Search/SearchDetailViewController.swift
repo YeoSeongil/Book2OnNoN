@@ -32,7 +32,7 @@ class SearchDetailViewController: BaseViewController {
     // MARK: SetUp ViewController
     override func setViewController() {
         super.setViewController()
-        view.backgroundColor = .white
+        view.backgroundColor = .black
     }
     
     override func setAddViews() {

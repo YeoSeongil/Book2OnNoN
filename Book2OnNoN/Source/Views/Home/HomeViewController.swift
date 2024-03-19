@@ -13,7 +13,7 @@ class HomeViewController: BaseViewController {
     
     override func setViewController() {
         super.setViewController()
-        view.backgroundColor = .white
+        view.backgroundColor = .black
     }
     
     override func setConstraints() {
@@ -24,11 +24,11 @@ class HomeViewController: BaseViewController {
         super.setNavigation()
         
         let rightButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self , action: #selector(bookSearchButtonTapped))
-        rightButton.tintColor = .black
+        rightButton.tintColor = .white
         self.navigationItem.rightBarButtonItem = rightButton
         
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-        backButton.tintColor = .black
+        backButton.tintColor = .white
         self.navigationItem.backBarButtonItem = backButton
     }
     

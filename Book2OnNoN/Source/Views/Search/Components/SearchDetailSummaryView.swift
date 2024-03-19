@@ -22,7 +22,7 @@ class SearchDetailSummaryView: UIView {
         let label = UILabel()
         label.font = .Pretendard.semibold
         label.numberOfLines = 5
-        label.textColor = .black
+        label.textColor = .white
         return label
     }()
         

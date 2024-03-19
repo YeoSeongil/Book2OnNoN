@@ -17,13 +17,12 @@ final class Book2OnNonBaseTabBarController: UITabBarController {
     
     private func setupTabbar() {
         let homeVc = UINavigationController(rootViewController: HomeViewController())
-        let searchVc = SearchViewController()
         homeVc.tabBarItem = UITabBarItem(title: "나의 서재", image: UIImage(systemName: "books.vertical"), selectedImage:UIImage(systemName: "books.vertical.fill"))
         viewControllers = [
             homeVc
         ]
         
-        self.tabBar.tintColor = .black
+        self.tabBar.tintColor = .white
     }
 
 }

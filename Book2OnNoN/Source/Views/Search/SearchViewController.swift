@@ -20,7 +20,7 @@ class SearchViewController: BaseViewController {
         let textField = UITextField()
         textField.placeholder = "검색어를 입력하세요."
         textField.borderStyle = .none
-        textField.textColor = .black
+        textField.textColor = .white
         return textField
     }()
     
@@ -28,7 +28,7 @@ class SearchViewController: BaseViewController {
         let button = UIButton(type: .system)
         button.setTitle("제목", for: .normal)
         button.titleLabel?.font = UIFont.Pretendard.semibold
-        button.tintColor = .black
+        button.tintColor = .white
         return button
     }()
     
@@ -41,7 +41,7 @@ class SearchViewController: BaseViewController {
     private lazy var searchResultTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.id)
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = .clear
         return tableView
     }()
     
@@ -62,13 +62,13 @@ class SearchViewController: BaseViewController {
     }
     
     override func setViewController() {
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         title = "책 찾기"
     }
     
     override func setNavigation() {
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-        backButton.tintColor = .black
+        backButton.tintColor = .white
         self.navigationItem.backBarButtonItem = backButton
     }
     

@@ -20,7 +20,7 @@ class SearchResultTableViewCell: UITableViewCell {
     
     private let bookTitleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .white
         label.font = .Pretendard.cellBookTitle
         label.numberOfLines = 2
         return label
@@ -28,7 +28,7 @@ class SearchResultTableViewCell: UITableViewCell {
     
     private let bookAuthorLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .white
         label.font = .Pretendard.medium
         label.numberOfLines = 2
         return label
