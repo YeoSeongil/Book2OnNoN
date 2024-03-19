@@ -17,15 +17,19 @@ class SearchViewController: BaseViewController {
     
     // MARK: UI Components
     private lazy var searchTextField: UITextField = {
-        let textField = UITextField()
+        let textField = UITextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width-120, height: 30))
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
+        textField.leftViewMode = .always
         textField.placeholder = "검색어를 입력하세요."
-        textField.borderStyle = .none
+        textField.layer.cornerRadius = 10
+        textField.backgroundColor = .BlackPearl
+        textField.font = .Pretendard.medium
         textField.textColor = .white
         return textField
     }()
     
     private lazy var searchDropDownButton: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 70, height: 30))
         button.setTitle("제목", for: .normal)
         button.titleLabel?.font = UIFont.Pretendard.semibold
         button.tintColor = .white
@@ -41,7 +45,7 @@ class SearchViewController: BaseViewController {
     private lazy var searchResultTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.id)
-        tableView.backgroundColor = .clear
+        tableView.backgroundColor = .black
         return tableView
     }()
     
@@ -56,48 +60,34 @@ class SearchViewController: BaseViewController {
     }
     
     // MARK: SetUp ViewController
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        searchTextField.layer.addBorder(edge: .bottom, color: .black, thickness: 2.0)
-    }
-    
     override func setViewController() {
-        view.backgroundColor = .black
-        title = "책 찾기"
-    }
-    
-    override func setNavigation() {
-        let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-        backButton.tintColor = .white
-        self.navigationItem.backBarButtonItem = backButton
+        super.setViewController()
     }
     
     override func setAddViews() {
-        [searchTextField, searchDropDownButton, searchResultTableView].forEach {
+        [searchResultTableView].forEach {
             view.addSubview($0)
         }
     }
     
     override func setConstraints() {
-        searchTextField.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.equalToSuperview().offset(60)
-            $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(50)
-        }
-        
-        searchDropDownButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(5)
-            $0.trailing.equalTo(searchTextField.snp.leading)
-            $0.height.equalTo(50)
-        }
-        
         searchResultTableView.snp.makeConstraints {
-            $0.top.equalTo(searchTextField.snp.bottom).offset(5)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(5)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(5)
         }
+    }
+    
+    override func setNavigation() {
+        // 네비게이션 바 배경 색상 설정
+
+        navigationController?.navigationBar.barTintColor = .black
+        tabBarController?.tabBar.barTintColor = .black
+        let searchDropDownBarButtonItem = UIBarButtonItem(customView: searchDropDownButton)
+        let searchTextFieldBarButtonItem = UIBarButtonItem(customView: searchTextField)
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = backButton
+        self.navigationItem.rightBarButtonItems = [searchDropDownBarButtonItem, searchTextFieldBarButtonItem]
     }
     
     override func bind() {
@@ -114,7 +104,7 @@ class SearchViewController: BaseViewController {
             .bind(to: viewModel.searchTextFieldInputTextValue)
             .disposed(by: disposeBag)
         
-        searchTextField.rx.controlEvent(.editingDidEnd)
+        searchTextField.rx.controlEvent(.editingDidEndOnExit)
             .asObservable()
             .bind(to: viewModel.searchEditingDidEnd)
             .disposed(by: disposeBag)
