@@ -56,7 +56,7 @@ class SearchResultTableViewCell: UITableViewCell {
     
     // MARK: SetUp Cell
     private func setCell() {
-        backgroundColor = .clear
+        backgroundColor = .black
         selectionStyle = .none
     }
     
@@ -87,7 +87,6 @@ class SearchResultTableViewCell: UITableViewCell {
         
         bookPublisherLabel.snp.makeConstraints {
             $0.top.equalTo(bookAuthorLabel.snp.bottom).offset(5)
-            //$0.bottom.equalToSuperview().inset(5)
             $0.leading.equalTo(bookThumbnailImageView.snp.trailing).offset(10)
             $0.trailing.equalToSuperview().inset(5)
         }
