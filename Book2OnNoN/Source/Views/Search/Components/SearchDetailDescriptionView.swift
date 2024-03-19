@@ -24,6 +24,7 @@ class SearchDetailDescriptionView: UIView {
         textView.font = .Pretendard.regular
         textView.textColor = .white
         textView.backgroundColor = .clear
+        textView.isEditable = false
         return textView
     }()
 
