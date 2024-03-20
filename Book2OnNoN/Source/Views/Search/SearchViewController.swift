@@ -60,6 +60,11 @@ class SearchViewController: BaseViewController {
     }
     
     // MARK: SetUp ViewController
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        searchTextField.becomeFirstResponder()
+    }
+    
     override func setViewController() {
         super.setViewController()
     }
