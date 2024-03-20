@@ -20,7 +20,7 @@ class SearchViewController: BaseViewController {
         let textField = UITextField(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width-120, height: 30))
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         textField.leftViewMode = .always
-        textField.placeholder = "검색어를 입력하세요."
+        textField.attributedPlaceholder = NSAttributedString(string: "검색어를 입력하세요.", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
         textField.layer.cornerRadius = 10
         textField.backgroundColor = .BlackPearl
         textField.font = .Pretendard.medium
