@@ -13,7 +13,7 @@ import RxCocoa
 protocol SearchDetailRecordButtonViewDelegate: AnyObject {
     func didTappedRecordFinishedReadingButton()
     func didTappedRecordReadingButton()
-    func didrecordInterestedButton()
+    func didrecordInterestedButton(with event: Void)
 }
 
 class SearchDetailRecordButtonView: UIView {
@@ -61,7 +61,7 @@ class SearchDetailRecordButtonView: UIView {
     override init(frame: CGRect) {
       super.init(frame: frame)
         setView()
-        setConfiguration()
+        setConstraints()
         bind()
     }
     
@@ -80,7 +80,7 @@ class SearchDetailRecordButtonView: UIView {
         }
     }
     
-    private func setConfiguration() {
+    private func setConstraints() {
         recordButtonStackView.snp.makeConstraints {
             $0.verticalEdges.equalTo(safeAreaLayoutGuide)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
@@ -88,19 +88,33 @@ class SearchDetailRecordButtonView: UIView {
     }
     
     private func bind() {
+        let buttons = [recordFinishedReadingButton, recordReadingButton, recordInterestedButton]
+        
+        buttons.forEach { button in
+            button.rx.tap
+                .subscribe(onNext: { [weak self] _ in
+                    buttons.forEach { $0.backgroundColor = .clear} // 모든 버튼의 색상 초기화
+                    button.backgroundColor = .PrestigeBlue // 선택된 버튼만 색상 변경
+                })
+                .disposed(by: disposeBag)
+        }
+        
         recordFinishedReadingButton.rx.tap
-            .subscribe(onNext: { _ in
-                self.delegate?.didTappedRecordFinishedReadingButton()
+            .asObservable()
+            .subscribe(onNext: { [weak self]_ in
+                self?.delegate?.didTappedRecordFinishedReadingButton()
             }).disposed(by: disposeBag)
         
         recordReadingButton.rx.tap
+            .asObservable()
             .subscribe(onNext: { _ in
                 self.delegate?.didTappedRecordReadingButton()
             }).disposed(by: disposeBag)
         
         recordInterestedButton.rx.tap
-            .subscribe(onNext: { _ in
-                self.delegate?.didrecordInterestedButton()
+            .asObservable()
+            .subscribe(onNext: { event in
+                self.delegate?.didrecordInterestedButton(with: event)
             }).disposed(by: disposeBag)
     }
 }

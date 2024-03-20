@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class SearchDetailViewController: BaseViewController {
+class SearchDetaViewController: BaseViewController {
     
     private let viewModel: SearchDetailViewModelType
     
@@ -22,6 +22,7 @@ class SearchDetailViewController: BaseViewController {
         view.delegate = self
         return view
     }()
+    private let testView = RecordFinishedReadingBookView()
     
     // MARK: init
     init(viewModel: SearchDetailViewModelType) {
@@ -34,6 +35,10 @@ class SearchDetailViewController: BaseViewController {
     }
     
     // MARK: SetUp ViewController
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     override func setViewController() {
         super.setViewController()
         view.backgroundColor = .black
@@ -41,7 +46,7 @@ class SearchDetailViewController: BaseViewController {
     
     override func setAddViews() {
         super.setAddViews()
-        [summaryView, descriptionView, recordButtonView].forEach {
+        [summaryView, descriptionView, recordButtonView, testView].forEach {
             view.addSubview($0)
         }
     }
@@ -55,15 +60,21 @@ class SearchDetailViewController: BaseViewController {
         }
         
         descriptionView.snp.makeConstraints {
-            $0.top.equalTo(summaryView.snp.bottom).offset(15)
+            $0.top.equalTo(summaryView.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview().inset(10)
-            $0.height.equalTo(100)
+            $0.height.equalTo(120)
         }
 
         recordButtonView.snp.makeConstraints {
-            $0.top.equalTo(descriptionView.snp.bottom).offset(15)
+            $0.top.equalTo(descriptionView.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview().inset(10)
             $0.height.equalTo(50)
+        }
+        
+        testView.snp.makeConstraints {
+            $0.top.equalTo(recordButtonView.snp.bottom).offset(20)
+            $0.horizontalEdges.equalToSuperview().inset(10)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
@@ -83,17 +94,16 @@ class SearchDetailViewController: BaseViewController {
 }
 
 extension SearchDetailViewController: SearchDetailRecordButtonViewDelegate {
+    func didrecordInterestedButton(with event: Void) {
+        viewModel.testInput.onNext(event)
+    }
+    
     func didTappedRecordFinishedReadingButton() {
         print("버튼1")
+        self.testView.isHidden = true
     }
     
     func didTappedRecordReadingButton() {
         print("버튼2")
     }
-    
-    func didrecordInterestedButton() {
-        print("버튼3")
-    }
-    
-    
 }
