@@ -37,7 +37,7 @@ class SearchDetailSummaryView: UIView {
     override init(frame: CGRect) {
       super.init(frame: frame)
         setView()
-        setConfiguration()
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -51,10 +51,10 @@ class SearchDetailSummaryView: UIView {
         }
     }
     
-    private func setConfiguration() {
+    private func setConstraints() {
         detailBookThumbnailImageView.snp.makeConstraints {
             $0.width.equalTo(100)
-            $0.height.equalToSuperview()
+            $0.height.equalToSuperview().inset(10)
             $0.centerY.equalTo(safeAreaLayoutGuide)
             $0.leading.equalTo(safeAreaLayoutGuide)
         }
@@ -66,7 +66,7 @@ class SearchDetailSummaryView: UIView {
         }
         
         detailBookAuthorLabel.snp.makeConstraints {
-            $0.bottom.equalTo(safeAreaInsets)
+            $0.bottom.equalTo(safeAreaInsets).inset(10)
             $0.leading.equalTo(detailBookThumbnailImageView.snp.trailing).offset(10)
             $0.trailing.equalTo(safeAreaInsets)
         }

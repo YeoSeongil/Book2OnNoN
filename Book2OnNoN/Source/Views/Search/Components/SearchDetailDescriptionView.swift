@@ -32,7 +32,7 @@ class SearchDetailDescriptionView: UIView {
     override init(frame: CGRect) {
       super.init(frame: frame)
         setView()
-        setConfiguration()
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -46,7 +46,7 @@ class SearchDetailDescriptionView: UIView {
         }
     }
     
-    private func setConfiguration() {
+    private func setConstraints() {
         detailBookDescriptionTitleLabel.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
