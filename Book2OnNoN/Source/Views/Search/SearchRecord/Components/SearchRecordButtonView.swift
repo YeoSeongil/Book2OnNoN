@@ -10,7 +10,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-protocol SearchDetailRecordButtonViewDelegate: AnyObject {
+protocol SearchRecordButtonViewDelegate: AnyObject {
     func didTappedRecordFinishedReadingButton()
     func didTappedRecordReadingButton()
     func didrecordInterestedButton(with event: Void)
@@ -18,7 +18,7 @@ protocol SearchDetailRecordButtonViewDelegate: AnyObject {
 
 class SearchDetailRecordButtonView: UIView {
 
-    weak var delegate: SearchDetailRecordButtonViewDelegate?
+    weak var delegate: SearchRecordButtonViewDelegate?
     private let disposeBag = DisposeBag()
     
     // MARK: UIComponents

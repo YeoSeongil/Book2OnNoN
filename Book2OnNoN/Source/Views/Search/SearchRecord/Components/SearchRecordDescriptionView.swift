@@ -8,10 +8,10 @@
 import UIKit
 import SnapKit
 
-class SearchDetailDescriptionView: UIView {
+class SearchRecordDescriptionView: UIView {
 
     // MARK: UIComponents
-    private let detailBookDescriptionTitleLabel: UILabel = {
+    private let recordBookDescriptionTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "줄거리"
         label.font = .Pretendard.semibold
@@ -19,7 +19,7 @@ class SearchDetailDescriptionView: UIView {
         return label
     }()
     
-    private let detailBookDescriptionTextView: UITextView = {
+    private let recordBookDescriptionTextView: UITextView = {
         let textView = UITextView()
         textView.font = .Pretendard.regular
         textView.textColor = .white
@@ -41,19 +41,19 @@ class SearchDetailDescriptionView: UIView {
     
     // MARK: Set View
     private func setView() {
-        [detailBookDescriptionTitleLabel, detailBookDescriptionTextView].forEach {
+        [recordBookDescriptionTitleLabel, recordBookDescriptionTextView].forEach {
             addSubview($0)
         }
     }
     
     private func setConstraints() {
-        detailBookDescriptionTitleLabel.snp.makeConstraints {
+        recordBookDescriptionTitleLabel.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
         }
         
-        detailBookDescriptionTextView.snp.makeConstraints {
-            $0.top.equalTo(detailBookDescriptionTitleLabel.snp.bottom)
+        recordBookDescriptionTextView.snp.makeConstraints {
+            $0.top.equalTo(recordBookDescriptionTitleLabel.snp.bottom)
             $0.bottom.equalTo(safeAreaLayoutGuide)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
         }
@@ -61,6 +61,6 @@ class SearchDetailDescriptionView: UIView {
     
     // MARK: Method
     func configuration(with item: Item) {
-        detailBookDescriptionTextView.text = item.description
+        recordBookDescriptionTextView.text = item.description
     }
 }

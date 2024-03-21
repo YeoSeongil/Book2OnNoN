@@ -8,16 +8,16 @@
 import UIKit
 import SnapKit
 
-class SearchDetailSummaryView: UIView {
+class SearchRecordSummaryView: UIView {
 
     // MARK: UIComponents
-    private let detailBookThumbnailImageView: UIImageView = {
+    private let recordBookThumbnailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
         return imageView
     }()
     
-    private let detailBookTitleLabel: UILabel = {
+    private let recordBookTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .Pretendard.semibold
         label.numberOfLines = 5
@@ -25,7 +25,7 @@ class SearchDetailSummaryView: UIView {
         return label
     }()
         
-    private let detailBookAuthorLabel: UILabel = {
+    private let recordBookAuthorLabel: UILabel = {
         let label = UILabel()
         label.font = .Pretendard.regular
         label.numberOfLines = 3
@@ -46,28 +46,28 @@ class SearchDetailSummaryView: UIView {
     
     // MARK: Set View
     private func setView() {
-        [detailBookThumbnailImageView, detailBookTitleLabel, detailBookAuthorLabel].forEach {
+        [recordBookThumbnailImageView, recordBookTitleLabel, recordBookAuthorLabel].forEach {
             addSubview($0)
         }
     }
     
     private func setConstraints() {
-        detailBookThumbnailImageView.snp.makeConstraints {
+        recordBookThumbnailImageView.snp.makeConstraints {
             $0.width.equalTo(100)
             $0.height.equalToSuperview().inset(10)
             $0.centerY.equalTo(safeAreaLayoutGuide)
             $0.leading.equalTo(safeAreaLayoutGuide)
         }
         
-        detailBookTitleLabel.snp.makeConstraints {
-            $0.bottom.equalTo(detailBookAuthorLabel.snp.top).offset(-10)
-            $0.leading.equalTo(detailBookThumbnailImageView.snp.trailing).offset(10)
+        recordBookTitleLabel.snp.makeConstraints {
+            $0.bottom.equalTo(recordBookAuthorLabel.snp.top).offset(-10)
+            $0.leading.equalTo(recordBookThumbnailImageView.snp.trailing).offset(10)
             $0.trailing.equalTo(safeAreaInsets)
         }
         
-        detailBookAuthorLabel.snp.makeConstraints {
+        recordBookAuthorLabel.snp.makeConstraints {
             $0.bottom.equalTo(safeAreaInsets).inset(10)
-            $0.leading.equalTo(detailBookThumbnailImageView.snp.trailing).offset(10)
+            $0.leading.equalTo(recordBookThumbnailImageView.snp.trailing).offset(10)
             $0.trailing.equalTo(safeAreaInsets)
         }
 
@@ -75,8 +75,8 @@ class SearchDetailSummaryView: UIView {
     
     // MARK: Method
     func configuration(with item: Item) {
-        detailBookThumbnailImageView.setImageKingfisher(with: item.cover)
-        detailBookTitleLabel.text = item.title
-        detailBookAuthorLabel.text = item.author
+        recordBookThumbnailImageView.setImageKingfisher(with: item.cover)
+        recordBookTitleLabel.text = item.title
+        recordBookAuthorLabel.text = item.author
     }
 }
