@@ -9,13 +9,13 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol SearchDetailViewModelType {
+protocol SearchRecordViewModelType {
     var testInput: AnyObserver<Void> { get }
     // Output
     var resultDetailItem: Driver<Item?> { get }
 }
 
-class SearchDetailViewModel {
+class SearchRecordViewModel {
     private let disposeBag = DisposeBag()
     private let item: Item
     
@@ -32,7 +32,7 @@ class SearchDetailViewModel {
     }
 }
 
-extension SearchDetailViewModel: SearchDetailViewModelType {
+extension SearchRecordViewModel: SearchRecordViewModelType {
     var testInput: AnyObserver<Void> {
         tapTest.asObserver()
     }
