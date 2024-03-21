@@ -10,22 +10,45 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class SearchDetaViewController: BaseViewController {
+class SearchRecordViewController: BaseViewController {
     
-    private let viewModel: SearchDetailViewModelType
+    private let viewModel: SearchRecordViewModelType
     
     // MARK: UI Components
-    private let summaryView = SearchDetailSummaryView()
-    private let descriptionView = SearchDetailDescriptionView()
+    private let recordSaveButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("저장", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.Pretendard.semibold
+        return button
+    }()
+    
+    private let summaryView = SearchRecordSummaryView()
+    private let descriptionView = SearchRecordDescriptionView()
     private lazy var recordButtonView: SearchDetailRecordButtonView = {
-       let view = SearchDetailRecordButtonView()
+        let view = SearchDetailRecordButtonView()
         view.delegate = self
         return view
     }()
-    private let testView = RecordFinishedReadingBookView()
+    private lazy var recordFinishedView: RecordFinishedReadingBookView = {
+        let view = RecordFinishedReadingBookView()
+        view.isHidden = false
+        return view
+    }()
+    private lazy var recordReadingView: RecordReadingBookView = {
+        let view = RecordReadingBookView()
+        view.isHidden = true
+        return view
+    }()
     
+    private lazy var recordInterestView: RecordInterestedBookView = {
+        let view = RecordInterestedBookView()
+        view.isHidden = true
+        return view
+    }()
+
     // MARK: init
-    init(viewModel: SearchDetailViewModelType) {
+    init(viewModel: SearchRecordViewModelType) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -44,9 +67,14 @@ class SearchDetaViewController: BaseViewController {
         view.backgroundColor = .black
     }
     
+    override func setNavigation() {
+        let rightButton = UIBarButtonItem(customView: recordSaveButton)
+        self.navigationItem.rightBarButtonItem = rightButton
+    }
+    
     override func setAddViews() {
         super.setAddViews()
-        [summaryView, descriptionView, recordButtonView, testView].forEach {
+        [summaryView, descriptionView, recordButtonView, recordFinishedView, recordReadingView, recordInterestView ].forEach {
             view.addSubview($0)
         }
     }
@@ -71,7 +99,19 @@ class SearchDetaViewController: BaseViewController {
             $0.height.equalTo(50)
         }
         
-        testView.snp.makeConstraints {
+        recordFinishedView.snp.makeConstraints {
+            $0.top.equalTo(recordButtonView.snp.bottom).offset(20)
+            $0.horizontalEdges.equalToSuperview().inset(10)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(1)
+        }
+        
+        recordReadingView.snp.makeConstraints {
+            $0.top.equalTo(recordButtonView.snp.bottom).offset(20)
+            $0.horizontalEdges.equalToSuperview().inset(10)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        }        
+        
+        recordInterestView.snp.makeConstraints {
             $0.top.equalTo(recordButtonView.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview().inset(10)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
@@ -80,6 +120,11 @@ class SearchDetaViewController: BaseViewController {
     
     override func bind() {
         super.bind()
+        recordSaveButton.rx.tap
+            .bind(to: viewModel.didRecordSaveButtonTapped)
+            .disposed(by: disposeBag)
+        // Input
+        
         // Output
         viewModel.resultDetailItem
             .drive(onNext: { [weak self] item in
@@ -93,17 +138,27 @@ class SearchDetaViewController: BaseViewController {
     // MARK: Method
 }
 
-extension SearchDetailViewController: SearchDetailRecordButtonViewDelegate {
-    func didrecordInterestedButton(with event: Void) {
-        viewModel.testInput.onNext(event)
+extension SearchRecordViewController: SearchRecordButtonViewDelegate {
+    func didTapRecordButton(type: RecordButtonType) {
+        switch type {
+        case .finishedReading:
+            viewModel.didRecordButtonTapped.onNext("finish")
+            recordFinishedView.isHidden = false
+            recordReadingView.isHidden = true
+            recordInterestView.isHidden = true
+        case .reading:
+            viewModel.didRecordButtonTapped.onNext("reading")
+            recordFinishedView.isHidden = true
+            recordReadingView.isHidden = false
+            recordInterestView.isHidden = true
+            self.view.endEditing(true)
+        case .interested:
+            viewModel.didRecordButtonTapped.onNext("interested")
+            recordFinishedView.isHidden = true
+            recordReadingView.isHidden = true
+            recordInterestView.isHidden = false
+            self.view.endEditing(true)
+        }
     }
-    
-    func didTappedRecordFinishedReadingButton() {
-        print("버튼1")
-        self.testView.isHidden = true
-    }
-    
-    func didTappedRecordReadingButton() {
-        print("버튼2")
-    }
+
 }
