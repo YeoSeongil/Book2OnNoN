@@ -10,10 +10,14 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
+enum RecordButtonType {
+    case finishedReading
+    case reading
+    case interested
+}
+
 protocol SearchRecordButtonViewDelegate: AnyObject {
-    func didTappedRecordFinishedReadingButton()
-    func didTappedRecordReadingButton()
-    func didrecordInterestedButton(with event: Void)
+    func didTapRecordButton(type: RecordButtonType)
 }
 
 class SearchDetailRecordButtonView: UIView {
@@ -95,26 +99,16 @@ class SearchDetailRecordButtonView: UIView {
                 .subscribe(onNext: { [weak self] _ in
                     buttons.forEach { $0.backgroundColor = .clear} // 모든 버튼의 색상 초기화
                     button.backgroundColor = .PrestigeBlue // 선택된 버튼만 색상 변경
+
+                    if button == self?.recordFinishedReadingButton {
+                        self?.delegate?.didTapRecordButton(type: .finishedReading)
+                    } else if button == self?.recordReadingButton {
+                        self?.delegate?.didTapRecordButton(type: .reading)
+                    } else if button == self?.recordInterestedButton {
+                        self?.delegate?.didTapRecordButton(type: .interested)
+                    }
                 })
                 .disposed(by: disposeBag)
         }
-        
-        recordFinishedReadingButton.rx.tap
-            .asObservable()
-            .subscribe(onNext: { [weak self]_ in
-                self?.delegate?.didTappedRecordFinishedReadingButton()
-            }).disposed(by: disposeBag)
-        
-        recordReadingButton.rx.tap
-            .asObservable()
-            .subscribe(onNext: { _ in
-                self.delegate?.didTappedRecordReadingButton()
-            }).disposed(by: disposeBag)
-        
-        recordInterestedButton.rx.tap
-            .asObservable()
-            .subscribe(onNext: { event in
-                self.delegate?.didrecordInterestedButton(with: event)
-            }).disposed(by: disposeBag)
     }
 }
