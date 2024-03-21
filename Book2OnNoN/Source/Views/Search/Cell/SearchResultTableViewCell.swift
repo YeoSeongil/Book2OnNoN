@@ -15,6 +15,7 @@ class SearchResultTableViewCell: UITableViewCell {
     // MARK: UI Components
     private let bookThumbnailImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
         return imageView
     }()
     
