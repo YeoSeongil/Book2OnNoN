@@ -28,9 +28,21 @@ class RecordFinishedReadingBookView: UIView {
         let textField = UITextField()
         textField.backgroundColor = .PrestigeBlue
         textField.textColor = .white
+        textField.tintColor = .clear
         textField.font = .Pretendard.regular
         textField.layer.cornerRadius = 5
         textField.inputView = startReadingBookDatePicker
+        
+        let imageView = UIImageView(image: UIImage(systemName: "calendar"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .white
+        
+        let leftViewContainer = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
+        leftViewContainer.addSubview(imageView)
+        imageView.frame = leftViewContainer.bounds
+        textField.leftView = leftViewContainer
+        textField.leftViewMode = .always
+        
         return textField
     }()
     
@@ -55,8 +67,20 @@ class RecordFinishedReadingBookView: UIView {
         textField.backgroundColor = .PrestigeBlue
         textField.layer.cornerRadius = 5
         textField.textColor = .white
+        textField.tintColor = .clear
         textField.font = .Pretendard.regular
         textField.inputView = finishReadingBookDatePicker
+        
+        let imageView = UIImageView(image: UIImage(systemName: "calendar"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .white
+        
+        let leftViewContainer = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
+        leftViewContainer.addSubview(imageView)
+        imageView.frame = leftViewContainer.bounds
+        textField.leftView = leftViewContainer
+        textField.leftViewMode = .always
+        
         return textField
     }()
     
