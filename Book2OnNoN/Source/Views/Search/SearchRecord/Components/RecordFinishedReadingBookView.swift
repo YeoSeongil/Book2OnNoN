@@ -156,6 +156,7 @@ class RecordFinishedReadingBookView: UIScrollView {
         }
         
         alwaysBounceVertical = true
+        showsVerticalScrollIndicator = false
     }
     
     private func setConfiguration() {
