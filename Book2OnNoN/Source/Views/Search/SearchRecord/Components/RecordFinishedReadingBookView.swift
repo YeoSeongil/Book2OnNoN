@@ -11,11 +11,15 @@ import RxSwift
 import RxCocoa
 import Cosmos
 
-class RecordFinishedReadingBookView: UIView {
+class RecordFinishedReadingBookView: UIScrollView {
     
     private let disposeBag = DisposeBag()
-
+    private let contentView: UIView = {
+        let view = UIView()
+        return view
+    }()
     // MARK: UIComponents
+    
     private let startReadingBookLabel: UILabel = {
         let label = UILabel()
         label.text = "읽기 시작한 날"
@@ -146,48 +150,57 @@ class RecordFinishedReadingBookView: UIView {
     
     // MARK: Set View
     private func setView() {
+        addSubview(contentView)
         [startReadingBookLabel, startReadingBookDateTextField, finishReadingBookLabel, finishReadingBookDateTextField, bookAssessmentLabel, bookAssessmentTextField, bookRatingView].forEach {
-            addSubview($0)
+            contentView.addSubview($0)
         }
+        
+        alwaysBounceVertical = true
     }
     
     private func setConfiguration() {
+        contentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.width.equalToSuperview()
+            $0.height.equalToSuperview().offset(75)
+        }
+        
         startReadingBookLabel.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide)
-            $0.leading.equalTo(safeAreaLayoutGuide)
+            $0.top.equalTo(contentView.snp.top)
+            $0.leading.equalTo(contentView.snp.leading)
         }
         
         startReadingBookDateTextField.snp.makeConstraints {
             $0.top.equalTo(startReadingBookLabel.snp.bottom).offset(5)
-            $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
+            $0.horizontalEdges.equalTo(contentView.snp.horizontalEdges)
             $0.height.equalTo(30)
         }
         
         finishReadingBookLabel.snp.makeConstraints {
             $0.top.equalTo(startReadingBookDateTextField.snp.bottom).offset(5)
-            $0.leading.equalTo(safeAreaLayoutGuide)
+            $0.leading.equalTo(contentView.snp.leading)
         }
         
         finishReadingBookDateTextField.snp.makeConstraints {
             $0.top.equalTo(finishReadingBookLabel.snp.bottom).offset(5)
-            $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
+            $0.horizontalEdges.equalTo(contentView.snp.horizontalEdges)
             $0.height.equalTo(30)
         }
         
         bookAssessmentLabel.snp.makeConstraints {
             $0.top.equalTo(finishReadingBookDateTextField.snp.bottom).offset(20)
-            $0.leading.equalTo(safeAreaLayoutGuide)
+            $0.leading.equalTo(contentView.snp.leading)
         }
         
         bookAssessmentTextField.snp.makeConstraints {
             $0.top.equalTo(bookAssessmentLabel.snp.bottom).offset(5)
-            $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
+            $0.horizontalEdges.equalTo(contentView.snp.horizontalEdges)
             $0.height.equalTo(30)
         }
         
         bookRatingView.snp.makeConstraints {
             $0.top.equalTo(bookAssessmentTextField.snp.bottom).offset(15)
-            $0.centerX.equalTo(safeAreaLayoutGuide)
+            $0.centerX.equalTo(contentView.snp.centerX)
         }
     }
     
