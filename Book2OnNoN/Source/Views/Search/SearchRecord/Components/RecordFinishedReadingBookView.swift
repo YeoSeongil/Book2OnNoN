@@ -9,12 +9,12 @@ import UIKit
 import SnapKit
 import RxSwift
 import RxCocoa
-
+import Cosmos
 
 class RecordFinishedReadingBookView: UIView {
     
     private let disposeBag = DisposeBag()
-    
+
     // MARK: UIComponents
     private let startReadingBookLabel: UILabel = {
         let label = UILabel()
@@ -28,7 +28,6 @@ class RecordFinishedReadingBookView: UIView {
         let textField = UITextField()
         textField.backgroundColor = .PrestigeBlue
         textField.textColor = .white
-        textField.tintColor = .clear
         textField.font = .Pretendard.regular
         textField.layer.cornerRadius = 5
         textField.inputView = startReadingBookDatePicker
@@ -93,6 +92,46 @@ class RecordFinishedReadingBookView: UIView {
         return picker
     }()
     
+    private let bookAssessmentLabel: UILabel = {
+        let label = UILabel()
+        label.text = "나만의 한줄 서평"
+        label.textColor = .white
+        label.font = .Pretendard.semibold
+        return label
+    }()
+    
+    private lazy var bookAssessmentTextField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .PrestigeBlue
+        textField.textColor = .white
+        textField.font = .Pretendard.regular
+        textField.layer.cornerRadius = 5
+        
+        let imageView = UIImageView(image: UIImage(systemName: "square.and.pencil"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .white
+        
+        let leftViewContainer = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
+        leftViewContainer.addSubview(imageView)
+        imageView.frame = leftViewContainer.bounds
+        textField.leftView = leftViewContainer
+        textField.leftViewMode = .always
+        
+        return textField
+    }()
+    
+    private let bookRatingView: CosmosView = {
+        let view = CosmosView()
+        view.settings.fillMode = .half
+        view.settings.filledImage = UIImage(named: "ratingFilledStar")
+        view.settings.emptyImage = UIImage(named: "ratingEmptyStar")
+        view.settings.starSize = 30
+        view.settings.starMargin = 5
+        view.text = "2.5점 / 5점"
+        view.settings.textColor = .white
+        return view
+    }()
+    
     // MARK: init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -107,7 +146,7 @@ class RecordFinishedReadingBookView: UIView {
     
     // MARK: Set View
     private func setView() {
-        [startReadingBookLabel, startReadingBookDateTextField, finishReadingBookLabel, finishReadingBookDateTextField].forEach {
+        [startReadingBookLabel, startReadingBookDateTextField, finishReadingBookLabel, finishReadingBookDateTextField, bookAssessmentLabel, bookAssessmentTextField, bookRatingView].forEach {
             addSubview($0)
         }
     }
@@ -134,6 +173,22 @@ class RecordFinishedReadingBookView: UIView {
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
             $0.height.equalTo(30)
         }
+        
+        bookAssessmentLabel.snp.makeConstraints {
+            $0.top.equalTo(finishReadingBookDateTextField.snp.bottom).offset(20)
+            $0.leading.equalTo(safeAreaLayoutGuide)
+        }
+        
+        bookAssessmentTextField.snp.makeConstraints {
+            $0.top.equalTo(bookAssessmentLabel.snp.bottom).offset(5)
+            $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
+            $0.height.equalTo(30)
+        }
+        
+        bookRatingView.snp.makeConstraints {
+            $0.top.equalTo(bookAssessmentTextField.snp.bottom).offset(15)
+            $0.centerX.equalTo(safeAreaLayoutGuide)
+        }
     }
     
     private func bind() {
@@ -150,6 +205,11 @@ class RecordFinishedReadingBookView: UIView {
             }
             .bind(to: finishReadingBookDateTextField.rx.text)
             .disposed(by: disposeBag)
+        
+        bookRatingView.rx.didTouchCosmos
+            .onNext { rating in
+                self.bookRatingView.text = "\(rating)점 / 5.0점"
+            }
     }
     
     // MARK: Method
