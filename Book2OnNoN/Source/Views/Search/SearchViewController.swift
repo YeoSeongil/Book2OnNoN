@@ -120,9 +120,9 @@ class SearchViewController: BaseViewController {
         
         searchResultTableView.rx.modelSelected(Item.self)
             .bind(onNext: { [weak self] item in
-                let detailViewModel = SearchDetailViewModel(item: item)
-                let detailViewController = SearchDetailViewController(viewModel: detailViewModel)
-                self?.navigationController?.pushViewController(detailViewController, animated: true)
+                let recordViewModel = SearchRecordViewModel(item: item)
+                let recordViewController = SearchRecordViewController(viewModel: recordViewModel)
+                self?.navigationController?.pushViewController(recordViewController, animated: true)
             }).disposed(by: disposeBag)
         
         searchResultTableView.rx.didScroll
