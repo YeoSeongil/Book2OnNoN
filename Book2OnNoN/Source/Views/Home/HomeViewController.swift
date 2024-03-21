@@ -11,6 +11,13 @@ import RxCocoa
 
 class HomeViewController: BaseViewController {
     
+    let searchButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        button.tintColor = .white
+        return button
+    }()
+    
     override func setViewController() {
         super.setViewController()
     }
@@ -21,9 +28,8 @@ class HomeViewController: BaseViewController {
     
     override func setNavigation() {
         super.setNavigation()
-        
-        let rightButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self , action: #selector(bookSearchButtonTapped))
-        rightButton.tintColor = .white
+    
+        let rightButton = UIBarButtonItem(customView: searchButton)
         self.navigationItem.rightBarButtonItem = rightButton
         
         let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
@@ -31,7 +37,10 @@ class HomeViewController: BaseViewController {
         self.navigationItem.backBarButtonItem = backButton
     }
     
-    @objc private func bookSearchButtonTapped(_ sender: UIButton) {
-        self.navigationController?.pushViewController(SearchViewController(), animated: true)
+    override func bind() {
+        searchButton.rx.tap
+            .subscribe(onNext: { _ in
+                self.navigationController?.pushViewController(SearchViewController(), animated: true)
+            }).disposed(by: disposeBag)
     }
 }
