@@ -139,6 +139,7 @@ extension SearchRecordViewController: SearchRecordButtonViewDelegate {
             recordFinishedView.isHidden = false
             recordReadingView.isHidden = true
             recordInterestView.isHidden = true
+            self.view.endEditing(true)
         case .reading:
             viewModel.didRecordButtonTapped.onNext("reading")
             recordFinishedView.isHidden = true
