@@ -23,5 +23,20 @@ public struct BookService {
                 }
             return Disposables.create()
         }
+    }    
+    
+    func getBookSearchLookUpData(isbn: String) -> Single<Result<LookUp, Error>>{
+        return Single.create { single -> Disposable in
+            AF.request(BookAPI.lookUpBook(isbn: isbn))
+                .responseDecodable(of: LookUp.self) { response in
+                    switch response.result {
+                    case .success(let data):
+                        single(.success(.success(data)))
+                    case .failure(let error):
+                        single(.success(.failure(error)))
+                    }
+                }
+            return Disposables.create()
+        }
     }
 }
