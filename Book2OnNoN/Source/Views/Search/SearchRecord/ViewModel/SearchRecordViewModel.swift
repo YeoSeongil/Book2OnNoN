@@ -31,16 +31,7 @@ class SearchRecordViewModel {
     
     init(item: Item) {
         self.item = item
-        BookRepository.shared.getLookUpItemData(isbn: item.isbn)
-            .asObservable()
-            .subscribe(onNext: { result in
-                self.handleGetLookUpResult(result)
-            })
-            .disposed(by: disposeBag)
-        
-        outputLookUpItem.subscribe(onNext: { item in
-            print(item)
-        })
+        tryGetLookUpBook()
     }
                                                                                         
     private func test() {
@@ -48,6 +39,15 @@ class SearchRecordViewModel {
             .subscribe(onNext: { str in
                 print(str)
             })
+    }
+    
+    private func tryGetLookUpBook() {
+        BookRepository.shared.getLookUpItemData(isbn: item.isbn)
+            .asObservable()
+            .subscribe(onNext: { result in
+                self.handleGetLookUpResult(result)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func handleGetLookUpResult(_ result: LookUp) {
