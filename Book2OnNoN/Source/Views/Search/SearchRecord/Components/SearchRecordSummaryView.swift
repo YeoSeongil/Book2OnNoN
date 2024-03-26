@@ -7,9 +7,14 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
 class SearchRecordSummaryView: UIView {
-
+    
+    private let disposeBag = DisposeBag()
+    private let viewModel: SearchRecordViewModelType
+    
     // MARK: UIComponents
     private let recordBookThumbnailImageView: UIImageView = {
         let imageView = UIImageView()
@@ -34,12 +39,14 @@ class SearchRecordSummaryView: UIView {
     }()
 
     // MARK: init
-    override init(frame: CGRect) {
-      super.init(frame: frame)
+    init(viewModel: SearchRecordViewModelType) {
+        self.viewModel = viewModel
+        super.init(frame: .zero)
         setView()
         setConstraints()
+        bind()
     }
-    
+
     required init?(coder: NSCoder) {
       fatalError("init(coder:) has not been implemented")
     }
@@ -70,13 +77,20 @@ class SearchRecordSummaryView: UIView {
             $0.leading.equalTo(recordBookThumbnailImageView.snp.trailing).offset(10)
             $0.trailing.equalTo(safeAreaInsets)
         }
-
+    }
+    
+    private func bind() {
+        viewModel.resultLookUpItem
+            .drive(onNext: { item in
+                self.configuration(with: item)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: Method
-    func configuration(with item: Item) {
-        recordBookThumbnailImageView.setImageKingfisher(with: item.cover)
-        recordBookTitleLabel.text = item.title
-        recordBookAuthorLabel.text = item.author
+    private func configuration(with item: [LookUpItem]) {
+        recordBookThumbnailImageView.setImageKingfisher(with: item[0].cover)
+        recordBookTitleLabel.text = item[0].title
+        recordBookAuthorLabel.text = item[0].author
     }
 }
