@@ -28,6 +28,7 @@ class RecordReadingBookView: UIView {
         let textField = UITextField()
         textField.backgroundColor = .PrestigeBlue
         textField.textColor = .white
+        textField.tintColor = .clear
         textField.font = .Pretendard.regular
         textField.layer.cornerRadius = 5
         textField.inputView = startReadingBookDatePicker
@@ -65,6 +66,7 @@ class RecordReadingBookView: UIView {
         let textField = UITextField()
         textField.backgroundColor = .PrestigeBlue
         textField.textColor = .white
+        textField.tintColor = .clear
         textField.font = .Pretendard.regular
         textField.layer.cornerRadius = 5
         textField.inputView = amountOfReadingBookPicker
