@@ -136,6 +136,14 @@ class RecordFinishedReadingBookView: UIScrollView {
         return view
     }()
     
+    private lazy var accessoryLabel: UILabel = {
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 40))
+        label.backgroundColor = .PrestigeBlue
+        label.font = .Pretendard.medium
+        label.textColor = .white
+        return label
+    }()
+    
     // MARK: init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -224,6 +232,16 @@ class RecordFinishedReadingBookView: UIScrollView {
             .onNext { rating in
                 self.bookRatingView.text = "\(rating)점 / 5.0점"
             }
+        
+        bookAssessmentTextField.rx.controlEvent(.editingDidBegin)
+            .subscribe(onNext: { [weak self] _ in
+                self?.bookAssessmentTextField.inputAccessoryView = self?.accessoryLabel
+            })
+            .disposed(by: disposeBag)
+        
+        bookAssessmentTextField.rx.text.orEmpty
+            .bind(to: accessoryLabel.rx.text)
+            .disposed(by: disposeBag)
     }
     
     // MARK: Method
@@ -234,4 +252,5 @@ class RecordFinishedReadingBookView: UIScrollView {
         formatter.dateFormat = "yyyy.MM.dd"
         return formatter
     }()
+
 }
