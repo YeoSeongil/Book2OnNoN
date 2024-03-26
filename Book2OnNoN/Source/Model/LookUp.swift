@@ -42,7 +42,7 @@ struct LookUpItem: Codable {
     let salesPoint: Int
     let adult, fixedPrice: Bool
     let customerReviewRank: Int
-    let subInfo: SubInfo
+    let subInfo: LookUpSubInfo
 
     enum CodingKeys: String, CodingKey {
         case title, link, author, pubDate, description, isbn, isbn13
