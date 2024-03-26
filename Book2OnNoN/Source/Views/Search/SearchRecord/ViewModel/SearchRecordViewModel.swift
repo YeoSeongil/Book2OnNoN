@@ -10,34 +10,63 @@ import RxSwift
 import RxCocoa
 
 protocol SearchRecordViewModelType {
-    var testInput: AnyObserver<Void> { get }
+    // Input
+    var didRecordSaveButtonTapped: AnyObserver<Void> { get }
+    var didRecordButtonTapped: AnyObserver<String> { get }
+    
     // Output
-    var resultDetailItem: Driver<Item?> { get }
+    var resultLookUpItem: Driver<[LookUpItem]> { get }
 }
 
 class SearchRecordViewModel {
     private let disposeBag = DisposeBag()
     private let item: Item
     
-    var tapTest = PublishSubject<Void>()
+    // Input
+    var inputRecordSaveButtonTapped = PublishSubject<Void>()
+    var inputRecordFinishedReadingButtonTapped = BehaviorSubject<String>(value: "finish")
+    
     // Output
-    var outputDetailItem = BehaviorRelay<Item?>(value: nil)
+    var outputLookUpItem = PublishRelay<[LookUpItem]>()
     
     init(item: Item) {
         self.item = item
-        outputDetailItem.accept(item)
-        tapTest.subscribe(onNext: {
-            print("v")
+        BookRepository.shared.getLookUpItemData(isbn: item.isbn)
+            .asObservable()
+            .subscribe(onNext: { result in
+                self.handleGetLookUpResult(result)
+            })
+            .disposed(by: disposeBag)
+        
+        outputLookUpItem.subscribe(onNext: { item in
+            print(item)
         })
+    }
+                                                                                        
+    private func test() {
+        inputRecordSaveButtonTapped.withLatestFrom(inputRecordFinishedReadingButtonTapped)
+            .subscribe(onNext: { str in
+                print(str)
+            })
+    }
+    
+    private func handleGetLookUpResult(_ result: LookUp) {
+        outputLookUpItem.accept(result.item)
     }
 }
 
 extension SearchRecordViewModel: SearchRecordViewModelType {
-    var testInput: AnyObserver<Void> {
-        tapTest.asObserver()
+    // Input
+    var didRecordSaveButtonTapped: AnyObserver<Void> {
+        inputRecordSaveButtonTapped.asObserver()
     }
     
-    var resultDetailItem: Driver<Item?> {
-        outputDetailItem.asDriver()
+    var didRecordButtonTapped: AnyObserver<String> {
+        inputRecordFinishedReadingButtonTapped.asObserver()
+    }
+    
+    // Output
+    var resultLookUpItem: Driver<[LookUpItem]> {
+        outputLookUpItem.asDriver(onErrorDriveWith: .empty())
     }
 }
