@@ -23,20 +23,20 @@ class SearchRecordViewController: BaseViewController {
         return button
     }()
     
-    private let summaryView = SearchRecordSummaryView()
-    private let descriptionView = SearchRecordDescriptionView()
+    private lazy var  summaryView = SearchRecordSummaryView(viewModel: viewModel)
+    private lazy var  descriptionView = SearchRecordDescriptionView(viewModel: viewModel)
     private lazy var recordButtonView: SearchDetailRecordButtonView = {
         let view = SearchDetailRecordButtonView()
         view.delegate = self
         return view
     }()
     private lazy var recordFinishedView: RecordFinishedReadingBookView = {
-        let view = RecordFinishedReadingBookView()
+        let view = RecordFinishedReadingBookView(viewModel: viewModel)
         view.isHidden = false
         return view
     }()
     private lazy var recordReadingView: RecordReadingBookView = {
-        let view = RecordReadingBookView()
+        let view = RecordReadingBookView(viewModel: viewModel)
         view.isHidden = true
         return view
     }()
@@ -126,13 +126,6 @@ class SearchRecordViewController: BaseViewController {
         // Input
         
         // Output
-        viewModel.resultDetailItem
-            .drive(onNext: { [weak self] item in
-                guard let item = item else { return }
-                self?.summaryView.configuration(with: item)
-                self?.descriptionView.configuration(with: item)
-            })
-            .disposed(by: disposeBag)
     }
     
     // MARK: Method
