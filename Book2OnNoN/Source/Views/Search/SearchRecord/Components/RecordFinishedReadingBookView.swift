@@ -18,8 +18,8 @@ class RecordFinishedReadingBookView: UIScrollView {
         let view = UIView()
         return view
     }()
-    // MARK: UIComponents
     
+    // MARK: UIComponents
     private let startReadingBookLabel: UILabel = {
         let label = UILabel()
         label.text = "읽기 시작한 날"
@@ -219,6 +219,7 @@ class RecordFinishedReadingBookView: UIScrollView {
                 self?.dateFormatter.string(from: $0)
             }
             .bind(to: startReadingBookDateTextField.rx.text)
+
             .disposed(by: disposeBag)
         
         finishReadingBookDatePicker.rx.date
@@ -236,6 +237,15 @@ class RecordFinishedReadingBookView: UIScrollView {
         bookAssessmentTextField.rx.controlEvent(.editingDidBegin)
             .subscribe(onNext: { [weak self] _ in
                 self?.bookAssessmentTextField.inputAccessoryView = self?.accessoryLabel
+            })
+            .disposed(by: disposeBag)
+        
+        bookAssessmentTextField.rx.text.orEmpty
+            .map { $0.count <= 25 }
+            .subscribe(onNext: { [weak self ] isEditable in
+                if !isEditable {
+                    self?.bookAssessmentTextField.text = String(self?.bookAssessmentTextField.text?.dropLast() ?? "")
+                }
             })
             .disposed(by: disposeBag)
         
