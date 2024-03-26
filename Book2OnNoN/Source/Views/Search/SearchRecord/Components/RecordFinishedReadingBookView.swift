@@ -34,6 +34,7 @@ class RecordFinishedReadingBookView: UIScrollView {
         let textField = UITextField()
         textField.backgroundColor = .PrestigeBlue
         textField.textColor = .white
+        textField.tintColor = .clear
         textField.font = .Pretendard.regular
         textField.layer.cornerRadius = 5
         textField.inputView = startReadingBookDatePicker
