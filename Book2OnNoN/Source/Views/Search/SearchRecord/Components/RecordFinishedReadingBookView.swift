@@ -14,6 +14,8 @@ import Cosmos
 class RecordFinishedReadingBookView: UIScrollView {
     
     private let disposeBag = DisposeBag()
+    private let viewModel: SearchRecordViewModelType
+    
     private let contentView: UIView = {
         let view = UIView()
         return view
@@ -145,8 +147,10 @@ class RecordFinishedReadingBookView: UIScrollView {
     }()
     
     // MARK: init
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+
+    init(viewModel: SearchRecordViewModelType) {
+        self.viewModel = viewModel
+        super.init(frame: .zero)
         setView()
         setConfiguration()
         bind()
@@ -214,21 +218,7 @@ class RecordFinishedReadingBookView: UIScrollView {
     }
     
     private func bind() {
-        startReadingBookDatePicker.rx.date
-            .map { [weak self] in
-                self?.dateFormatter.string(from: $0)
-            }
-            .bind(to: startReadingBookDateTextField.rx.text)
-
-            .disposed(by: disposeBag)
-        
-        finishReadingBookDatePicker.rx.date
-            .map { [weak self] in
-                self?.dateFormatter.string(from: $0)
-            }
-            .bind(to: finishReadingBookDateTextField.rx.text)
-            .disposed(by: disposeBag)
-        
+        // View Logic
         bookRatingView.rx.didTouchCosmos
             .onNext { rating in
                 self.bookRatingView.text = "\(rating)점 / 5.0점"
@@ -247,6 +237,20 @@ class RecordFinishedReadingBookView: UIScrollView {
                     self?.bookAssessmentTextField.text = String(self?.bookAssessmentTextField.text?.dropLast() ?? "")
                 }
             })
+            .disposed(by: disposeBag)
+        
+        startReadingBookDatePicker.rx.date
+            .map { [weak self] in
+                self?.dateFormatter.string(from: $0)
+            }
+            .bind(to: startReadingBookDateTextField.rx.text)
+            .disposed(by: disposeBag)
+        
+        finishReadingBookDatePicker.rx.date
+            .map { [weak self] in
+                self?.dateFormatter.string(from: $0)
+            }
+            .bind(to: finishReadingBookDateTextField.rx.text)
             .disposed(by: disposeBag)
         
         bookAssessmentTextField.rx.text.orEmpty
