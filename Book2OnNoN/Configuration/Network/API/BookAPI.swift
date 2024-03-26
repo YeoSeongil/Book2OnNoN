@@ -11,6 +11,7 @@ import Alamofire
 
 public enum BookAPI {
     case searchBook(title: String, type: String, page: Int)
+    case lookUpBook(isbn: String)
 }
 
 extension BookAPI: Router, URLRequestConvertible {
@@ -23,6 +24,8 @@ extension BookAPI: Router, URLRequestConvertible {
         switch self {
         case .searchBook:
             return "ttb/api/ItemSearch.aspx"
+        case .lookUpBook:
+            return "ttb/api/ItemLookUp.aspx"
         }
     }
     
@@ -30,12 +33,16 @@ extension BookAPI: Router, URLRequestConvertible {
         switch self {
         case .searchBook:
             return .get
+        case .lookUpBook:
+            return .get
         }
     }
     
     public var headers: [String : String]? {
         switch self {
         case .searchBook:
+            return nil
+        case .lookUpBook:
             return nil
         }
     }
@@ -52,6 +59,17 @@ extension BookAPI: Router, URLRequestConvertible {
                 "SearchTarget": "Book",
                 "output": "js",
                 "Version": "20131101",
+                "Cover": "Big"
+            ]
+        case let .lookUpBook(isbn):
+            return [
+                "ttbkey" : API.key,
+                "itemIdType" : "ISBN",
+                "ItemId" : isbn,
+                "output": "js",
+                "Version": "20131101",
+                "OptResult": "ebookList,usedList,reviewList",
+                "Cover": "Big"
             ]
         }
     }
@@ -59,6 +77,8 @@ extension BookAPI: Router, URLRequestConvertible {
     public var encoding: ParameterEncoding? {
         switch self {
         case .searchBook:
+            return URLEncoding.default
+        case .lookUpBook:
             return URLEncoding.default
         }
     }
