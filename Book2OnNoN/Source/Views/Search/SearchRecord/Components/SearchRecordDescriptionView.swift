@@ -7,9 +7,15 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
+
 
 class SearchRecordDescriptionView: UIView {
 
+    private let disposeBag = DisposeBag()
+    private let viewModel: SearchRecordViewModelType
+    
     // MARK: UIComponents
     private let recordBookDescriptionTitleLabel: UILabel = {
         let label = UILabel()
@@ -29,10 +35,12 @@ class SearchRecordDescriptionView: UIView {
     }()
 
     // MARK: init
-    override init(frame: CGRect) {
-      super.init(frame: frame)
+    init(viewModel: SearchRecordViewModelType) {
+        self.viewModel = viewModel
+        super.init(frame: .zero)
         setView()
         setConstraints()
+        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -59,8 +67,16 @@ class SearchRecordDescriptionView: UIView {
         }
     }
     
+    private func bind() {
+        viewModel.resultLookUpItem
+            .drive(onNext: { item in
+                self.configuration(with: item)
+            })
+            .disposed(by: disposeBag)
+    }
+    
     // MARK: Method
-    func configuration(with item: Item) {
-        recordBookDescriptionTextView.text = item.description
+    private func configuration(with item: [LookUpItem]) {
+        recordBookDescriptionTextView.text = item[0].description
     }
 }
