@@ -10,6 +10,7 @@ import RxSwift
 
 protocol BookRepositoryProtocol {
     func getBookSearchData(title: String, type: String, page: Int) -> Single<Book>
+    func getLookUpItemData(isbn: String) -> Single<LookUp>
 }
 
 class BookRepository: BookRepositoryProtocol {
@@ -22,6 +23,18 @@ class BookRepository: BookRepositoryProtocol {
     func getBookSearchData(title: String, type: String, page: Int) -> Single<Book> {
         return BookService().getBookSearchData(title: title, type: type, page: page)
             .flatMap { result -> Single<Book> in
+                switch result {
+                case .success(let book):
+                    return .just(book)
+                case .failure(let error):
+                    return .error(error)
+                }
+            }
+    }    
+    
+    func getLookUpItemData(isbn: String) -> Single<LookUp> {
+        return BookService().getBookSearchLookUpData(isbn: isbn)
+            .flatMap { result -> Single<LookUp> in
                 switch result {
                 case .success(let book):
                     return .just(book)
