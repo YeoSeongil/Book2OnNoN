@@ -24,17 +24,21 @@ class SearchRecordViewController: BaseViewController {
     }()
     
     private lazy var  summaryView = SearchRecordSummaryView(viewModel: viewModel)
+    
     private lazy var  descriptionView = SearchRecordDescriptionView(viewModel: viewModel)
+    
     private lazy var recordButtonView: SearchDetailRecordButtonView = {
         let view = SearchDetailRecordButtonView()
         view.delegate = self
         return view
     }()
+    
     private lazy var recordFinishedView: RecordFinishedReadingBookView = {
         let view = RecordFinishedReadingBookView(viewModel: viewModel)
         view.isHidden = false
         return view
     }()
+    
     private lazy var recordReadingView: RecordReadingBookView = {
         let view = RecordReadingBookView(viewModel: viewModel)
         view.isHidden = true
@@ -42,7 +46,7 @@ class SearchRecordViewController: BaseViewController {
     }()
     
     private lazy var recordInterestView: RecordInterestedBookView = {
-        let view = RecordInterestedBookView()
+        let view = RecordInterestedBookView(viewModel: viewModel)
         view.isHidden = true
         return view
     }()
