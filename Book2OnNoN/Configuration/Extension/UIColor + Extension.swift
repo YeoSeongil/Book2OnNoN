@@ -8,7 +8,6 @@
 import UIKit
 
 extension UIColor {
-
   /// Hex Color를 변환시켜 UIColor 색상을 설정합니다.
   /// ```
   /// let homeColor: UIColor = UIColor(hex: 0xF4F100)
@@ -29,5 +28,6 @@ extension UIColor {
 extension UIColor {
     // Blue
     static let BlackPearl = UIColor(hexCode: 0x757575)
+    static let PrestigeBlue = UIColor(hexCode: 0x2f3542)
 }
 

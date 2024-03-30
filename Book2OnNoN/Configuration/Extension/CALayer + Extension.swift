@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 extension CALayer {
-    // MARK: - addBorder
     func addBorder(edge: UIRectEdge, color: UIColor, thickness: CGFloat) {
         let border = CALayer()
         switch edge {
