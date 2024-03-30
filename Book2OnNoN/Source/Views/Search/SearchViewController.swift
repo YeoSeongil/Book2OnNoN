@@ -149,9 +149,9 @@ class SearchViewController: BaseViewController {
             .drive(onNext: { err in
                 switch err {
                 case .emptySearchText:
-                    print("검색어를 입력해주세요.")
+                    self.searchTextField.shakeAnimation()
                 case .noResults:
-                    print("검색 결과가 없습니다.")
+                    self.showOnlyOkAlert(title: "😢", message: "검색 결과가 없습니다.", buttonTitle: "확인했어요")
                 }
             }).disposed(by: disposeBag)
     }
@@ -166,6 +166,7 @@ class SearchViewController: BaseViewController {
         }
         return self.searchResultTableView.contentOffset.y + self.searchResultTableView.bounds.size.height + 1.0 >= self.searchResultTableView.contentSize.height
     }
+
 }
 
 extension SearchViewController: UITableViewDelegate {
