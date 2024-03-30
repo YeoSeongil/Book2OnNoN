@@ -144,7 +144,6 @@ class SearchViewController: BaseViewController {
                 cell.configuration(book: item)
             }.disposed(by: disposeBag)
         
-        // Todo : Error 처리 구현, Alter를 띄우거나 검색창에 애니메이션 추가
         viewModel.resultSearchError
             .drive(onNext: { err in
                 switch err {
@@ -152,6 +151,7 @@ class SearchViewController: BaseViewController {
                     self.searchTextField.shakeAnimation()
                 case .noResults:
                     self.showOnlyOkAlert(title: "😢", message: "검색 결과가 없습니다.", buttonTitle: "확인했어요")
+                    self.searchTextField.text = .none
                 }
             }).disposed(by: disposeBag)
     }
