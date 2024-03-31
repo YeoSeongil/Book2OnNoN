@@ -1,6 +1,6 @@
 //
 //  User+CoreDataProperties.swift
-//  
+//  Book2OnNoN
 //
 //  Created by 여성일 on 4/1/24.
 //
@@ -16,13 +16,14 @@ extension User {
         return NSFetchRequest<User>(entityName: "User")
     }
 
-    @NSManaged public var register: Bool
     @NSManaged public var name: String?
+    @NSManaged public var register: Bool
     @NSManaged public var finishedReadingBook: FinishedReadingBook?
     @NSManaged public var interestedReadingBook: InterestedReadingBook?
     @NSManaged public var readingBook: ReadingBook?
+
 }
 
 extension User : Identifiable {
-    
+
 }
