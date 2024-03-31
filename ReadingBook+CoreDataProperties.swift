@@ -22,3 +22,7 @@ extension ReadingBook {
     @NSManaged public var isbn: String?
 
 }
+
+extension ReadingBook : Identifiable {
+    
+}

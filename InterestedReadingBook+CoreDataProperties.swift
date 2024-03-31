@@ -22,3 +22,7 @@ extension InterestedReadingBook {
     @NSManaged public var rating: Float
 
 }
+
+extension InterestedReadingBook : Identifiable {
+    
+}

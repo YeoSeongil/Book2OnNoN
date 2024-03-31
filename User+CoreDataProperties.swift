@@ -21,5 +21,8 @@ extension User {
     @NSManaged public var finishedReadingBook: FinishedReadingBook?
     @NSManaged public var interestedReadingBook: InterestedReadingBook?
     @NSManaged public var readingBook: ReadingBook?
+}
 
+extension User : Identifiable {
+    
 }
