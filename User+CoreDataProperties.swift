@@ -17,7 +17,7 @@ extension User {
     }
 
     @NSManaged public var name: String?
-    @NSManaged public var register: Bool
+    @NSManaged public var isRegister: Bool
     @NSManaged public var finishedReadingBook: FinishedReadingBook?
     @NSManaged public var interestedReadingBook: InterestedReadingBook?
     @NSManaged public var readingBook: ReadingBook?
