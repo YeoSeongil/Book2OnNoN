@@ -12,7 +12,7 @@ class CoreDataManager {
     static let shared: CoreDataManager = CoreDataManager()
     
     private lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "Book2OnNoN")
+        let container = NSPersistentContainer(name: "Book2OnNoNData")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("error \(error)")
@@ -24,6 +24,8 @@ class CoreDataManager {
     private var managedObjectContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
+    
+    private init() {  _ = persistentContainer }
     
     func saveData() {
         guard managedObjectContext.hasChanges else { return }
