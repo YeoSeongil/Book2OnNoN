@@ -139,6 +139,14 @@ class RecordFinishedReadingBookView: UIScrollView {
         return view
     }()
     
+    private let recordSaveButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .PrestigeBlue
+        button.setTitle("기록하기", for: .normal)
+        button.layer.cornerRadius = 10.0
+        return button
+    }()
+    
     private lazy var accessoryLabel: UILabel = {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 40))
         label.backgroundColor = .PrestigeBlue
@@ -164,7 +172,7 @@ class RecordFinishedReadingBookView: UIScrollView {
     // MARK: Set View
     private func setView() {
         addSubview(contentView)
-        [startReadingBookLabel, startReadingBookDateTextField, finishReadingBookLabel, finishReadingBookDateTextField, bookAssessmentLabel, bookAssessmentTextField, bookRatingView].forEach {
+        [startReadingBookLabel, startReadingBookDateTextField, finishReadingBookLabel, finishReadingBookDateTextField, bookAssessmentLabel, bookAssessmentTextField, bookRatingView, recordSaveButton].forEach {
             contentView.addSubview($0)
         }
         
@@ -215,6 +223,12 @@ class RecordFinishedReadingBookView: UIScrollView {
         bookRatingView.snp.makeConstraints {
             $0.top.equalTo(bookAssessmentTextField.snp.bottom).offset(15)
             $0.centerX.equalTo(contentView.snp.centerX)
+        }        
+        
+        recordSaveButton.snp.makeConstraints {
+            $0.top.equalTo(bookRatingView.snp.bottom).offset(30)
+            $0.height.equalTo(40)
+            $0.horizontalEdges.equalTo(contentView.snp.horizontalEdges).inset(50)
         }
     }
     

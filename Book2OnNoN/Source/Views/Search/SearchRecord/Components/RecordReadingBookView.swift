@@ -89,6 +89,14 @@ class RecordReadingBookView: UIView {
         return picker
     }()
     
+    private let recordSaveButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .PrestigeBlue
+        button.setTitle("기록하기", for: .normal)
+        button.layer.cornerRadius = 10.0
+        return button
+    }()
+    
     init(viewModel: SearchRecordViewModelType) {
         self.viewModel = viewModel
         super.init(frame: .zero)
@@ -102,7 +110,7 @@ class RecordReadingBookView: UIView {
     }
     
     private func setView() {
-        [startReadingBookLabel, startReadingBookDateTextField, amountOfReadingBookLabel, amountOfReadingBookTextField].forEach {
+        [startReadingBookLabel, startReadingBookDateTextField, amountOfReadingBookLabel, amountOfReadingBookTextField, recordSaveButton].forEach {
             addSubview($0)
         }
     }
@@ -128,6 +136,12 @@ class RecordReadingBookView: UIView {
             $0.top.equalTo(amountOfReadingBookLabel.snp.bottom).offset(5)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
             $0.height.equalTo(30)
+        }        
+
+        recordSaveButton.snp.makeConstraints {
+            $0.top.equalTo(amountOfReadingBookTextField.snp.bottom).offset(30)
+            $0.height.equalTo(40)
+            $0.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(50)
         }
     }
     

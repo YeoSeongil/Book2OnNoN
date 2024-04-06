@@ -65,6 +65,14 @@ class RecordInterestedBookView: UIView {
         return view
     }()
     
+    private let recordSaveButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .PrestigeBlue
+        button.setTitle("기록하기", for: .normal)
+        button.layer.cornerRadius = 10.0
+        return button
+    }()
+    
     private lazy var accessoryLabel: UILabel = {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 40))
         label.backgroundColor = .PrestigeBlue
@@ -86,7 +94,7 @@ class RecordInterestedBookView: UIView {
     }
     
     private func setView() {
-        [interestedAssessmentLabel, interestedAssessmentTextField, interestedRateLabel, interestedRateView].forEach {
+        [interestedAssessmentLabel, interestedAssessmentTextField, interestedRateLabel, interestedRateView, recordSaveButton].forEach {
             addSubview($0)
         }
     }
@@ -112,6 +120,12 @@ class RecordInterestedBookView: UIView {
             $0.top.equalTo(interestedRateLabel.snp.bottom).offset(5)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
             $0.height.equalTo(30)
+        }
+        
+        recordSaveButton.snp.makeConstraints {
+            $0.top.equalTo(interestedRateView.snp.bottom).offset(30)
+            $0.height.equalTo(40)
+            $0.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(50)
         }
     }
     
