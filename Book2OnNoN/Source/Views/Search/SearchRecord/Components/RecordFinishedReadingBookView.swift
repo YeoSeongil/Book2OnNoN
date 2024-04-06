@@ -271,6 +271,31 @@ class RecordFinishedReadingBookView: UIScrollView {
         bookAssessmentTextField.rx.text.orEmpty
             .bind(to: accessoryLabel.rx.text)
             .disposed(by: disposeBag)
+        
+        // Input
+        startReadingBookDateTextField.rx.text.orEmpty
+            .bind(to: viewModel.didFinishedReadingStartReadingBookDateValue)
+            .disposed(by: disposeBag)
+        
+        finishReadingBookDateTextField.rx.text.orEmpty
+            .bind(to: viewModel.didFinishedReadingStartReadingBookDateValue)
+            .disposed(by: disposeBag)
+        
+        bookAssessmentTextField.rx.text.orEmpty
+            .bind(to: viewModel.didFinishedReadingAssessmentTextValue)
+            .disposed(by: disposeBag)
+        
+        // Todo : rating 값이 한 번만 바인딩 되는 오류 수정
+        bookRatingView.rx.didFinishTouchingCosmos
+            .onNext { rating in
+                Observable.just(rating)
+                    .bind(to: self.viewModel.didFinishedReadingBookRatingValue)
+                    .disposed(by: self.disposeBag)
+            }
+    
+        recordSaveButton.rx.tap
+            .bind(to: viewModel.didFinishedReadingBooksSaveButtonTapped)
+            .disposed(by: disposeBag)
     }
     
     // MARK: Method
