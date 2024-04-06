@@ -2,7 +2,7 @@
 //  ReadingBooks+CoreDataProperties.swift
 //  Book2OnNoN
 //
-//  Created by 여성일 on 4/4/24.
+//  Created by 여성일 on 4/6/24.
 //
 //
 
@@ -20,7 +20,7 @@ extension ReadingBooks {
     @NSManaged public var name: String?
     @NSManaged public var readingPage: String?
     @NSManaged public var startReadingDate: Date?
-    @NSManaged public var user: Book2OnNonUser?
+    @NSManaged public var user3: Book2OnNonUser?
 
 }
 

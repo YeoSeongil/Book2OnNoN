@@ -2,14 +2,14 @@
 //  ReadingBooks+CoreDataClass.swift
 //  Book2OnNoN
 //
-//  Created by 여성일 on 4/4/24.
+//  Created by 여성일 on 4/6/24.
 //
 //
 
 import Foundation
 import CoreData
 
-@objc(ReadingBooks)
+
 public class ReadingBooks: NSManagedObject {
 
 }
