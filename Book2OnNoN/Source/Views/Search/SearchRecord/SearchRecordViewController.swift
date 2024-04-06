@@ -15,14 +15,6 @@ class SearchRecordViewController: BaseViewController {
     private let viewModel: SearchRecordViewModelType
     
     // MARK: UI Components
-    private let recordSaveButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("저장", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.Pretendard.semibold
-        return button
-    }()
-    
     private lazy var  summaryView = SearchRecordSummaryView(viewModel: viewModel)
     
     private lazy var  descriptionView = SearchRecordDescriptionView(viewModel: viewModel)
@@ -69,11 +61,6 @@ class SearchRecordViewController: BaseViewController {
     override func setViewController() {
         super.setViewController()
         view.backgroundColor = .black
-    }
-    
-    override func setNavigation() {
-        let rightButton = UIBarButtonItem(customView: recordSaveButton)
-        self.navigationItem.rightBarButtonItem = rightButton
     }
     
     override func setAddViews() {
@@ -124,9 +111,7 @@ class SearchRecordViewController: BaseViewController {
     
     override func bind() {
         super.bind()
-        recordSaveButton.rx.tap
-            .bind(to: viewModel.didRecordSaveButtonTapped)
-            .disposed(by: disposeBag)
+        
         // Input
         
         // Output
@@ -139,19 +124,16 @@ extension SearchRecordViewController: SearchRecordButtonViewDelegate {
     func didTapRecordButton(type: RecordButtonType) {
         switch type {
         case .finishedReading:
-            viewModel.didRecordButtonTapped.onNext("finish")
             recordFinishedView.isHidden = false
             recordReadingView.isHidden = true
             recordInterestView.isHidden = true
             self.view.endEditing(true)
         case .reading:
-            viewModel.didRecordButtonTapped.onNext("reading")
             recordFinishedView.isHidden = true
             recordReadingView.isHidden = false
             recordInterestView.isHidden = true
             self.view.endEditing(true)
         case .interested:
-            viewModel.didRecordButtonTapped.onNext("interested")
             recordFinishedView.isHidden = true
             recordReadingView.isHidden = true
             recordInterestView.isHidden = false
