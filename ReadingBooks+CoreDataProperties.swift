@@ -19,7 +19,7 @@ extension ReadingBooks {
     @NSManaged public var isbn: String?
     @NSManaged public var name: String?
     @NSManaged public var readingPage: String?
-    @NSManaged public var startReadingDate: Date?
+    @NSManaged public var startReadingDate: String?
     @NSManaged public var user3: Book2OnNonUser?
 
 }

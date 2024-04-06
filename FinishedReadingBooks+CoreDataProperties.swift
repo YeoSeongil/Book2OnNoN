@@ -17,11 +17,11 @@ extension FinishedReadingBooks {
     }
 
     @NSManaged public var comment: String?
-    @NSManaged public var finishReadingDate: Date?
+    @NSManaged public var finishReadingDate: String?
     @NSManaged public var isbn: String?
     @NSManaged public var name: String?
-    @NSManaged public var rating: Float
-    @NSManaged public var startReadingDate: Date?
+    @NSManaged public var rating: Double
+    @NSManaged public var startReadingDate: String?
     @NSManaged public var user1: Book2OnNonUser?
 
 }
