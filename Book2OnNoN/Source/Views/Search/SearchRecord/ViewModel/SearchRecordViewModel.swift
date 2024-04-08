@@ -17,7 +17,6 @@ enum SaveButtonType {
 }
 
 enum SaveProcedureType {
-    case trySave
     case successSave
     case failureSave
 }
@@ -119,12 +118,16 @@ class SearchRecordViewModel {
             inputFinishedReadingBookRatingValue.subscribe(onNext: { rating in
                 newRecord.rating = rating
             }).disposed(by: disposeBag)
+            
             user.addToFinishedReadingBook(newRecord)
-            outputSaveProcedure.accept(.trySave)
-            CoreDataManager.shared.saveData()
-            outputSaveProcedure.accept(.successSave)
-        } else {
-            outputSaveProcedure.accept(.failureSave)
+            CoreDataManager.shared.saveData { result in
+                switch result {
+                case .success:
+                    self.outputSaveProcedure.accept(.successSave)
+                case .failure(let errorr):
+                    self.outputSaveProcedure.accept(.failureSave)
+                }
+            }
         }
     }
     
@@ -141,11 +144,14 @@ class SearchRecordViewModel {
             }).disposed(by: disposeBag)
             
             user.addToReadingBook(newRecord)
-            outputSaveProcedure.accept(.trySave)
-            CoreDataManager.shared.saveData()
-            outputSaveProcedure.accept(.successSave)
-        } else {
-            outputSaveProcedure.accept(.failureSave)
+            CoreDataManager.shared.saveData { result in
+                switch result {
+                case .success:
+                    self.outputSaveProcedure.accept(.successSave)
+                case .failure(let errorr):
+                    self.outputSaveProcedure.accept(.failureSave)
+                }
+            }
         }
     }
     
@@ -162,11 +168,14 @@ class SearchRecordViewModel {
             }).disposed(by: disposeBag)
             
             user.addToInterestedReadingBook(newRecord)
-            outputSaveProcedure.accept(.trySave)
-            CoreDataManager.shared.saveData()
-            outputSaveProcedure.accept(.successSave)
-        } else {
-            outputSaveProcedure.accept(.failureSave)
+            CoreDataManager.shared.saveData { result in
+                switch result {
+                case .success:
+                    self.outputSaveProcedure.accept(.successSave)
+                case .failure(let errorr):
+                    self.outputSaveProcedure.accept(.failureSave)
+                }
+            }
         }
     }
 }
