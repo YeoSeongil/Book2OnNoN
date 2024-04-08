@@ -17,9 +17,9 @@ extension UIViewController {
     ///   - title: Alert의 Title Text
     ///   - message: Alert의 Message Text
     ///   - buttonTitle: Alert의 Button Title
-    func showOnlyOkAlert(title: String, message: String, buttonTitle: String) {
+    func showOnlyOkAlert(title: String, message: String, buttonTitle: String, handler: ((UIAlertAction) -> Void)?) {
         let alertSheet = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertSheet.addAction(UIAlertAction(title: buttonTitle, style: .default))
+        alertSheet.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: handler))
         self.present(alertSheet, animated: true)
     }
 }
