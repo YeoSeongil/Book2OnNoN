@@ -153,5 +153,20 @@ class RecordInterestedBookView: UIView {
         interestedAssessmentTextField.rx.text.orEmpty
             .bind(to: accessoryLabel.rx.text)
             .disposed(by: disposeBag)
+        
+        // input
+        recordSaveButton.rx.tap
+            .map { SaveButtonType.InterestedReadingBooksSaveButton }
+            .bind(to: viewModel.didSaveButtonTapped)
+            .disposed(by: disposeBag)
+        
+        interestedAssessmentTextField.rx.text.orEmpty
+            .bind(to: viewModel.didInterestedAssessmentTextValue)
+            .disposed(by: disposeBag)
+        
+        interestedRateView.rx.didFinishTouchingCosmos
+            .onNext { rating in
+                self.viewModel.didInterestedRateValue.onNext(rating)
+            }
     }
 }
