@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23C71" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Book2OnNonUser" representedClassName=".Book2OnNonUser" syncable="YES">
+        <attribute name="isRegister" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="finishedReadingBook" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FinishedReadingBooks" inverseName="user1" inverseEntity="FinishedReadingBooks"/>
+        <relationship name="interestedReadingBook" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="InterestedReadingBooks" inverseName="user2" inverseEntity="InterestedReadingBooks"/>
+        <relationship name="readingBook" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ReadingBooks" inverseName="user3" inverseEntity="ReadingBooks"/>
+    </entity>
+    <entity name="FinishedReadingBooks" representedClassName=".FinishedReadingBooks" syncable="YES">
+        <attribute name="comment" optional="YES" attributeType="String"/>
+        <attribute name="finishReadingDate" optional="YES" attributeType="String"/>
+        <attribute name="isbn" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="rating" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="startReadingDate" optional="YES" attributeType="String"/>
+        <relationship name="user1" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Book2OnNonUser" inverseName="finishedReadingBook" inverseEntity="Book2OnNonUser"/>
+    </entity>
+    <entity name="InterestedReadingBooks" representedClassName=".InterestedReadingBooks" syncable="YES">
+        <attribute name="comment" optional="YES" attributeType="String"/>
+        <attribute name="isbn" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="rating" optional="YES" attributeType="String"/>
+        <relationship name="user2" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Book2OnNonUser" inverseName="interestedReadingBook" inverseEntity="Book2OnNonUser"/>
+    </entity>
+    <entity name="ReadingBooks" representedClassName=".ReadingBooks" syncable="YES">
+        <attribute name="isbn" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="readingPage" optional="YES" attributeType="String"/>
+        <attribute name="startReadingDate" optional="YES" attributeType="String"/>
+        <relationship name="user3" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Book2OnNonUser" inverseName="readingBook" inverseEntity="Book2OnNonUser"/>
+    </entity>
+</model>
