@@ -60,7 +60,7 @@ class RecordReadingBookView: UIView {
         label.textColor = .white
         label.font = .Pretendard.semibold
         return label
-    }()    
+    }()
     
     private lazy var amountOfReadingBookTextField: UITextField = {
         let textField = UITextField()
@@ -125,7 +125,7 @@ class RecordReadingBookView: UIView {
             $0.top.equalTo(startReadingBookLabel.snp.bottom).offset(5)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
             $0.height.equalTo(30)
-        }        
+        }
         
         amountOfReadingBookLabel.snp.makeConstraints {
             $0.top.equalTo(startReadingBookDateTextField.snp.bottom).offset(20)
@@ -136,8 +136,8 @@ class RecordReadingBookView: UIView {
             $0.top.equalTo(amountOfReadingBookLabel.snp.bottom).offset(5)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
             $0.height.equalTo(30)
-        }        
-
+        }
+        
         recordSaveButton.snp.makeConstraints {
             $0.top.equalTo(amountOfReadingBookTextField.snp.bottom).offset(30)
             $0.height.equalTo(40)
@@ -158,12 +158,26 @@ class RecordReadingBookView: UIView {
                 self.amountOfReadingBookTextField.text = "\(index.row + 1) 쪽"
             }).disposed(by: disposeBag)
         
+        // input
+        recordSaveButton.rx.tap
+            .map { SaveButtonType.ReadingBooksSaveButton }
+            .bind(to: viewModel.didSaveButtonTapped)
+            .disposed(by: disposeBag)
+        
+        startReadingBookDateTextField.rx.text.orEmpty
+            .bind(to: viewModel.didReadingStartReadingBookDateValue)
+            .disposed(by: disposeBag)
+        
+        amountOfReadingBookTextField.rx.text.orEmpty
+            .bind(to: viewModel.didReadingAmountOfReadingBookValue)
+            .disposed(by: disposeBag)
+        
         // output
         viewModel.resultLookUpItem
             .drive(onNext: { item in
                 Observable.just(Array(1...item[0].subInfo.itemPage))
                     .bind(to: self.amountOfReadingBookPicker.rx.itemTitles) { _ , item in
-                           return "\(item)"
+                        return "\(item)"
                     }.disposed(by: self.disposeBag)
             }).disposed(by: disposeBag)
     }
