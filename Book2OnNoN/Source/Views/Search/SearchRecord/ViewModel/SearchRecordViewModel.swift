@@ -16,6 +16,12 @@ enum SaveButtonType {
     case InterestedReadingBooksSaveButton
 }
 
+enum SaveProcedureType {
+    case trySave
+    case successSave
+    case failureSave
+}
+
 protocol SearchRecordViewModelType {
     // Input
     var didSaveButtonTapped: AnyObserver<SaveButtonType> { get }
@@ -33,6 +39,7 @@ protocol SearchRecordViewModelType {
     
     // Output
     var resultLookUpItem: Driver<[LookUpItem]> { get }
+    var resultSaveProcedure: Driver<SaveProcedureType> { get }
 }
 
 class SearchRecordViewModel {
@@ -40,25 +47,26 @@ class SearchRecordViewModel {
     private let item: Item
     
     // Input
-    var inputDidSaveButtonTapped = PublishSubject<SaveButtonType>()
-    var inputFinishedStartReadingBookDateValue = BehaviorSubject<String>(value: "")
-    var inputFinishedReadingBookDateValue = BehaviorSubject<String>(value: "")
-    var inputFinishedReadingBookRatingValue = BehaviorSubject<Double>(value: 2.5)
-    var inputFinishedReadingAssessmentTextValue = BehaviorSubject<String>(value: "")
+    private let inputDidSaveButtonTapped = PublishSubject<SaveButtonType>()
+    private let inputFinishedStartReadingBookDateValue = BehaviorSubject<String>(value: "")
+    private let inputFinishedReadingBookDateValue = BehaviorSubject<String>(value: "")
+    private let inputFinishedReadingBookRatingValue = BehaviorSubject<Double>(value: 2.5)
+    private let inputFinishedReadingAssessmentTextValue = BehaviorSubject<String>(value: "")
     
-    var inputReadingStartReadingBookDateValue = BehaviorSubject<String>(value: "")
-    var inputReadingAmountOfReadingBookValue = BehaviorSubject<String>(value: "")
+    private let inputReadingStartReadingBookDateValue = BehaviorSubject<String>(value: "")
+    private let inputReadingAmountOfReadingBookValue = BehaviorSubject<String>(value: "")
     
-    var inputInterestedAssessmentTextValue = BehaviorSubject<String>(value: "")
-    var inputInterestedRateValue = BehaviorSubject<Double>(value: 2.5)
+    private let inputInterestedAssessmentTextValue = BehaviorSubject<String>(value: "")
+    private let inputInterestedRateValue = BehaviorSubject<Double>(value: 2.5)
     
     // Output
-    var outputLookUpItem = PublishRelay<[LookUpItem]>()
+    private let outputLookUpItem = PublishRelay<[LookUpItem]>()
+    private let outputSaveProcedure = PublishRelay<SaveProcedureType>()
     
     init(item: Item) {
         self.item = item
         tryGetLookUpBook()
-        tryRecordBook()
+        trySaveBookRecord()
     }
     
     private func tryGetLookUpBook() {
@@ -74,26 +82,25 @@ class SearchRecordViewModel {
         outputLookUpItem.accept(result.item)
     }
     
-    private func tryRecordBook() {
+    private func trySaveBookRecord() {
         guard let registeredUser = CoreDataManager.shared.fetchData(Book2OnNonUser.self)?.first(where: { $0.isRegister }) else {
-                print("등록된 사용자를 찾을 수 없습니다.")
-                return
+            return
         }
         
         inputDidSaveButtonTapped
             .subscribe(onNext: { type in
                 switch type {
                 case .FinishedReadingBooksSaveButton:
-                    self.saveFinishedReadingBook(user: registeredUser)
+                    self.recordFinishedReadingBook(user: registeredUser)
                 case .InterestedReadingBooksSaveButton:
-                    self.saveInterestedBook(user: registeredUser)
+                    self.recordInterestedBook(user: registeredUser)
                 case .ReadingBooksSaveButton:
-                    self.saveReadingBook(user: registeredUser)
+                    self.recordReadingBook(user: registeredUser)
                 }
             }).disposed(by: disposeBag)
     }
     
-    private func saveFinishedReadingBook(user: Book2OnNonUser) {
+    private func recordFinishedReadingBook(user: Book2OnNonUser) {
         if let newRecord = CoreDataManager.shared.insertData(FinishedReadingBooks.self) {
             newRecord.name = item.title
             newRecord.isbn = item.isbn
@@ -113,11 +120,15 @@ class SearchRecordViewModel {
                 newRecord.rating = rating
             }).disposed(by: disposeBag)
             user.addToFinishedReadingBook(newRecord)
+            outputSaveProcedure.accept(.trySave)
             CoreDataManager.shared.saveData()
+            outputSaveProcedure.accept(.successSave)
+        } else {
+            outputSaveProcedure.accept(.failureSave)
         }
     }
     
-    private func saveReadingBook(user: Book2OnNonUser) {
+    private func recordReadingBook(user: Book2OnNonUser) {
         if let newRecord = CoreDataManager.shared.insertData(ReadingBooks.self) {
             newRecord.name = item.title
             newRecord.isbn = item.isbn
@@ -130,11 +141,15 @@ class SearchRecordViewModel {
             }).disposed(by: disposeBag)
             
             user.addToReadingBook(newRecord)
+            outputSaveProcedure.accept(.trySave)
             CoreDataManager.shared.saveData()
+            outputSaveProcedure.accept(.successSave)
+        } else {
+            outputSaveProcedure.accept(.failureSave)
         }
     }
     
-    private func saveInterestedBook(user: Book2OnNonUser) {
+    private func recordInterestedBook(user: Book2OnNonUser) {
         if let newRecord = CoreDataManager.shared.insertData(InterestedReadingBooks.self) {
             newRecord.name = item.title
             newRecord.isbn = item.isbn
@@ -147,7 +162,11 @@ class SearchRecordViewModel {
             }).disposed(by: disposeBag)
             
             user.addToInterestedReadingBook(newRecord)
+            outputSaveProcedure.accept(.trySave)
             CoreDataManager.shared.saveData()
+            outputSaveProcedure.accept(.successSave)
+        } else {
+            outputSaveProcedure.accept(.failureSave)
         }
     }
 }
@@ -193,5 +212,9 @@ extension SearchRecordViewModel: SearchRecordViewModelType {
     // Output
     var resultLookUpItem: Driver<[LookUpItem]> {
         outputLookUpItem.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var resultSaveProcedure: Driver<SaveProcedureType> {
+        outputSaveProcedure.asDriver(onErrorDriveWith: .empty())
     }
 }
