@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import CoreData
 
 class HomeViewController: BaseViewController {
     
@@ -18,6 +19,10 @@ class HomeViewController: BaseViewController {
         return button
     }()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+        
     override func setViewController() {
         super.setViewController()
     }
