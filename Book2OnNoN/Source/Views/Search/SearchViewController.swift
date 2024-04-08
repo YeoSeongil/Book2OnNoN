@@ -150,7 +150,7 @@ class SearchViewController: BaseViewController {
                 case .emptySearchText:
                     self.searchTextField.shakeAnimation()
                 case .noResults:
-                    self.showOnlyOkAlert(title: "😢", message: "검색 결과가 없습니다.", buttonTitle: "확인했어요")
+                    self.showOnlyOkAlert(title: "😢", message: "검색 결과가 없습니다.", buttonTitle: "확인했어요", handler: nil)
                     self.searchTextField.text = .none
                 }
             }).disposed(by: disposeBag)
