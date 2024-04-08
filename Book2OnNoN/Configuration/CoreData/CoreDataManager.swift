@@ -8,7 +8,14 @@
 import Foundation
 import CoreData
 
+
 class CoreDataManager {
+    
+    enum CoreDataResult {
+       case success
+       case failure(Error)
+   }
+    
     static let shared: CoreDataManager = CoreDataManager()
     
     private lazy var persistentContainer: NSPersistentContainer = {
@@ -27,13 +34,16 @@ class CoreDataManager {
     
     private init() {  _ = persistentContainer }
     
-    func saveData() {
-        guard managedObjectContext.hasChanges else { return }
+    func saveData(completion: @escaping (CoreDataResult) -> Void) {
+        guard managedObjectContext.hasChanges else {
+            completion(.success)
+            return
+        }
         do {
             try managedObjectContext.save()
-            print("세이브 성공")
+            completion(.success)
         } catch {
-            print("save Error")
+            completion(.failure(error))
         }
     }
     
@@ -41,7 +51,6 @@ class CoreDataManager {
         guard let entityName = T.entity().name else {
             return nil
         }
-        print(entityName)
         return NSEntityDescription.insertNewObject(forEntityName: entityName, into: managedObjectContext) as? T
     }
     
