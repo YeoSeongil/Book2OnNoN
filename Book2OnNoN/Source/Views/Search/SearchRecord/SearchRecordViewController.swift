@@ -118,8 +118,6 @@ class SearchRecordViewController: BaseViewController {
         viewModel.resultSaveProcedure
             .drive(onNext: { type in
                 switch type {
-                case .trySave:
-                    print("저장 중입니다.")
                 case .successSave:
                     self.showOnlyOkAlert(title: "😄", message: "저장에 성공했어요.", buttonTitle: "확인했어요", handler: { _ in
                         self.navigationController?.popToRootViewController(animated: true)
@@ -152,5 +150,4 @@ extension SearchRecordViewController: SearchRecordButtonViewDelegate {
             self.view.endEditing(true)
         }
     }
-    
 }
