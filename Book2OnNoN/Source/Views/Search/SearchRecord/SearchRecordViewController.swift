@@ -42,7 +42,7 @@ class SearchRecordViewController: BaseViewController {
         view.isHidden = true
         return view
     }()
-
+    
     // MARK: init
     init(viewModel: SearchRecordViewModelType) {
         self.viewModel = viewModel
@@ -83,7 +83,7 @@ class SearchRecordViewController: BaseViewController {
             $0.horizontalEdges.equalToSuperview().inset(10)
             $0.height.equalTo(120)
         }
-
+        
         recordButtonView.snp.makeConstraints {
             $0.top.equalTo(descriptionView.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview().inset(10)
@@ -100,7 +100,7 @@ class SearchRecordViewController: BaseViewController {
             $0.top.equalTo(recordButtonView.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview().inset(10)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
-        }        
+        }
         
         recordInterestView.snp.makeConstraints {
             $0.top.equalTo(recordButtonView.snp.bottom).offset(20)
@@ -115,9 +115,21 @@ class SearchRecordViewController: BaseViewController {
         // Input
         
         // Output
+        viewModel.resultSaveProcedure
+            .drive(onNext: { type in
+                switch type {
+                case .trySave:
+                    print("저장 중입니다.")
+                case .successSave:
+                    self.showOnlyOkAlert(title: "😄", message: "저장에 성공했어요.", buttonTitle: "확인했어요", handler: { _ in
+                        self.navigationController?.popToRootViewController(animated: true)
+                    })
+                case .failureSave:
+                    self.showOnlyOkAlert(title: "😢", message: "저장에 실패했어요.", buttonTitle: "확인했어요", handler: { _ in
+                        self.navigationController?.popToRootViewController(animated: true)
+                    })
+                }}).disposed(by: disposeBag)
     }
-    
-    // MARK: Method
 }
 
 extension SearchRecordViewController: SearchRecordButtonViewDelegate {
@@ -140,5 +152,5 @@ extension SearchRecordViewController: SearchRecordButtonViewDelegate {
             self.view.endEditing(true)
         }
     }
-
+    
 }
