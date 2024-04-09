@@ -111,7 +111,6 @@ class SearchRecordViewController: BaseViewController {
     
     override func bind() {
         super.bind()
-        
         // Input
         
         // Output
