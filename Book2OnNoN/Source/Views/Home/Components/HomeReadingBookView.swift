@@ -10,12 +10,15 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
+
 class HomeReadingBookView: UIView {
     
     private let disposeBag = DisposeBag()
     private let viewModel: HomeViewModelType
     
     // MARK: UI Components
+    // Todo
+    // 유저의 이름을 받아와 USER님이 읽고 있는 책 << 으로 구현
     private let homeReadingBookViewLabel: UILabel = {
         let label = UILabel()
         label.text = "읽고 있는 책"
