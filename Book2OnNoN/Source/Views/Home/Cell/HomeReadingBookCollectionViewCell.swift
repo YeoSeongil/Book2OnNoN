@@ -6,7 +6,68 @@
 //
 
 import UIKit
-
+import SnapKit
 class HomeReadingBookCollectionViewCell: UICollectionViewCell {
     
+    static let id: String = "HomeReadingBookCollectionViewCell"
+    
+    private let homeReadingBookThumbnailImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
+        imageView.backgroundColor = .white
+        return imageView
+    }()
+    
+    private let HomeReadingBookTitleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = .Pretendard.cellBookTitle
+        label.textAlignment = .center
+        label.numberOfLines = 3
+        return label
+    }()
+    
+    // MARK: init
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setCell()
+        setAddViews()
+        setConstraint()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    // MARK: SetUp Cell
+    private func setCell() {
+        backgroundColor = .black
+    }
+    
+    private func setAddViews() {
+        [homeReadingBookThumbnailImageView, HomeReadingBookTitleLabel].forEach {
+            addSubview($0)
+        }
+    }
+    
+    private func setConstraint() {
+        homeReadingBookThumbnailImageView.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(120)
+            $0.top.equalToSuperview().offset(5)
+        }
+        
+        HomeReadingBookTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(homeReadingBookThumbnailImageView.snp.bottom).offset(15)
+            $0.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(30)
+            $0.bottom.equalToSuperview().inset(5)
+        }
+    }
+
+    // MARK: Configuration
+    func configuration(book: ReadingBooks) {
+        homeReadingBookThumbnailImageView.image = UIImage(systemName: "home")
+        //homeReadingBookThumbnailImageView.setImageKingfisher(with: )
+        HomeReadingBookTitleLabel.text = book.name
+    }
 }
+
