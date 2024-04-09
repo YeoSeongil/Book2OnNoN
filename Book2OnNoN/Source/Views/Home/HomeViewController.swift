@@ -6,12 +6,15 @@
 //
 
 import UIKit
+import SnapKit
 import RxSwift
 import RxCocoa
 import CoreData
 
 class HomeViewController: BaseViewController {
+    private let viewModel: HomeViewModelType
     
+    private lazy var  homeReadingBookView = HomeReadingBookView(viewModel: viewModel)
     let searchButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
@@ -19,16 +22,33 @@ class HomeViewController: BaseViewController {
         return button
     }()
     
+    init(viewModel: HomeViewModelType = HomeViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
         
     override func setViewController() {
         super.setViewController()
+        [homeReadingBookView].forEach {
+            view.addSubview($0)
+        }
     }
     
     override func setConstraints() {
         super.setConstraints()
+        homeReadingBookView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.width.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(300)
+        }
     }
     
     override func setNavigation() {
