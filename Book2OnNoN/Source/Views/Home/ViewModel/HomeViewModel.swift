@@ -6,3 +6,33 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
+
+protocol HomeViewModelType {
+    // Input
+    
+    // Output
+    var resultReadingBookRecordItem: Driver<[ReadingBooks]> { get }
+}
+
+class HomeViewModel {
+    // Output
+    private let outputReadingBookRecordItem = BehaviorRelay<[ReadingBooks]>(value: [])
+    
+    init() { 
+        fetchData()
+    }
+    
+    private func fetchData() {
+        guard let readingBookItem = CoreDataManager.shared.fetchData(ReadingBooks.self) else { return }
+        outputReadingBookRecordItem.accept(readingBookItem)
+    }
+}
+
+extension HomeViewModel: HomeViewModelType {
+    // Output
+    var resultReadingBookRecordItem: Driver<[ReadingBooks]> {
+        outputReadingBookRecordItem.asDriver(onErrorDriveWith: .empty())
+    }
+}
