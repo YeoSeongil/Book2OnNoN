@@ -103,6 +103,7 @@ class SearchRecordViewModel {
         if let newRecord = CoreDataManager.shared.insertData(FinishedReadingBooks.self) {
             newRecord.name = item.title
             newRecord.isbn = item.isbn
+            newRecord.thumbnail = item.cover
             inputFinishedStartReadingBookDateValue.subscribe(onNext: { date in
                 newRecord.startReadingDate = date
             }).disposed(by: disposeBag)
@@ -135,6 +136,7 @@ class SearchRecordViewModel {
         if let newRecord = CoreDataManager.shared.insertData(ReadingBooks.self) {
             newRecord.name = item.title
             newRecord.isbn = item.isbn
+            newRecord.thumbnail = item.cover
             inputReadingStartReadingBookDateValue.subscribe(onNext: { date in
                 newRecord.startReadingDate = date
             }).disposed(by: disposeBag)
@@ -159,6 +161,7 @@ class SearchRecordViewModel {
         if let newRecord = CoreDataManager.shared.insertData(InterestedReadingBooks.self) {
             newRecord.name = item.title
             newRecord.isbn = item.isbn
+            newRecord.thumbnail = item.cover
             inputInterestedAssessmentTextValue.subscribe(onNext: { comment in
                 newRecord.comment = comment
             }).disposed(by: disposeBag)
