@@ -45,7 +45,7 @@ class HomeReadingBookCollectionViewCell: UICollectionViewCell {
     }
     
     private func setAddViews() {
-        [homeReadingBookThumbnailImageView, HomeReadingBookTitleLabel].forEach {
+        [homeReadingBookThumbnailImageView, homeReadingBookTitleLabel].forEach {
             addSubview($0)
         }
     }
@@ -57,7 +57,7 @@ class HomeReadingBookCollectionViewCell: UICollectionViewCell {
             $0.bottom.equalToSuperview().inset(50)
         }
         
-        HomeReadingBookTitleLabel.snp.makeConstraints {
+        homeReadingBookTitleLabel.snp.makeConstraints {
             $0.top.equalTo(homeReadingBookThumbnailImageView.snp.bottom).offset(5)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(30)
             $0.bottom.equalToSuperview()
@@ -71,7 +71,7 @@ class HomeReadingBookCollectionViewCell: UICollectionViewCell {
         } else {
             homeReadingBookThumbnailImageView.image = UIImage(named: "unknownBook")
         }
-        HomeReadingBookTitleLabel.text = book.name
+        homeReadingBookTitleLabel.text = book.name
     }
 }
 
