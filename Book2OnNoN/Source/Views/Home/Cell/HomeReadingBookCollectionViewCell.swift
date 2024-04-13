@@ -14,7 +14,7 @@ class HomeReadingBookCollectionViewCell: UICollectionViewCell {
     private let homeReadingBookThumbnailImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleToFill
-        imageView.backgroundColor = .white
+        imageView.backgroundColor = .clear
         return imageView
     }()
     
@@ -54,19 +54,23 @@ class HomeReadingBookCollectionViewCell: UICollectionViewCell {
         homeReadingBookThumbnailImageView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(120)
             $0.top.equalToSuperview().offset(5)
+            $0.bottom.equalToSuperview().inset(50)
         }
         
         HomeReadingBookTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(homeReadingBookThumbnailImageView.snp.bottom).offset(15)
+            $0.top.equalTo(homeReadingBookThumbnailImageView.snp.bottom).offset(5)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(30)
-            $0.bottom.equalToSuperview().inset(5)
+            $0.bottom.equalToSuperview()
         }
     }
 
     // MARK: Configuration
     func configuration(book: ReadingBooks) {
-        homeReadingBookThumbnailImageView.image = UIImage(systemName: "home")
-        //homeReadingBookThumbnailImageView.setImageKingfisher(with: )
+        if let imageURL = book.thumbnail {
+            homeReadingBookThumbnailImageView.setImageKingfisher(with: imageURL)
+        } else {
+            homeReadingBookThumbnailImageView.image = UIImage(named: "unknownBook")
+        }
         HomeReadingBookTitleLabel.text = book.name
     }
 }
