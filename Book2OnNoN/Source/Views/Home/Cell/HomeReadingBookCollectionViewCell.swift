@@ -18,7 +18,7 @@ class HomeReadingBookCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let HomeReadingBookTitleLabel: UILabel = {
+    private let homeReadingBookTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.font = .Pretendard.cellBookTitle
