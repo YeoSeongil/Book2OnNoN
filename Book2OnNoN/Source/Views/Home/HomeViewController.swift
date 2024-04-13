@@ -18,6 +18,7 @@ class HomeViewController: BaseViewController {
     private let viewModel: HomeViewModelType
     
     private lazy var  homeReadingBookView = HomeReadingBookView(viewModel: viewModel)
+    private lazy var  homeInterestedBookView = HomeInterestedBookView(viewModel: viewModel)
     let searchButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
@@ -40,7 +41,7 @@ class HomeViewController: BaseViewController {
         
     override func setViewController() {
         super.setViewController()
-        [homeReadingBookView].forEach {
+        [homeReadingBookView, homeInterestedBookView].forEach {
             view.addSubview($0)
         }
     }
@@ -51,6 +52,12 @@ class HomeViewController: BaseViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.width.equalTo(view.safeAreaLayoutGuide)
             $0.height.equalTo(300)
+        }        
+        
+        homeInterestedBookView.snp.makeConstraints {
+            $0.top.equalTo(homeReadingBookView.snp.bottom).offset(10)
+            $0.width.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(170)
         }
     }
     
