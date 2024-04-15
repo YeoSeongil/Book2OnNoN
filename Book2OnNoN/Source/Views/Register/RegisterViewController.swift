@@ -31,6 +31,7 @@ class RegisterViewController: BaseViewController {
         let textField = UITextField(frame: CGRect(x: 0, y: 0, width: view.frame.width - 240, height: 30))
         textField.layer.addBorder(edge: .bottom, color: .white, thickness: 2)
         textField.textColor = .white
+        textField.textAlignment = .center
         textField.font = .Pretendard.semibold
         return textField
     }()
@@ -71,7 +72,7 @@ class RegisterViewController: BaseViewController {
         super.setConstraints()
         registerUserNameLabel.snp.makeConstraints {
             $0.centerX.equalTo(view.safeAreaLayoutGuide)
-            $0.centerY.equalTo(view.safeAreaLayoutGuide).offset(-100)
+            $0.centerY.equalTo(view.safeAreaLayoutGuide).offset(-70)
         }
         
         registerUserNameTextField.snp.makeConstraints {
@@ -93,6 +94,15 @@ class RegisterViewController: BaseViewController {
     }
     
     override func bind() {
+        registerUserNameTextField.rx.text.orEmpty
+            .map { $0.count <= 8 }
+            .subscribe(onNext: { [weak self ] isEditable in
+                if !isEditable {
+                    self?.registerUserNameTextField.text = String(self?.registerUserNameTextField.text?.dropLast() ?? "")
+                }
+            })
+            .disposed(by: disposeBag)
+        
         // Input
         registerUserNameTextField.rx.text.orEmpty
             .bind(to: viewModel.didRegisterUserName)
@@ -101,7 +111,6 @@ class RegisterViewController: BaseViewController {
         registerButton.rx.tap
             .bind(to: viewModel.didRegisterButtonTapped)
             .disposed(by: disposeBag)
-        
         
         // Output
         viewModel.resultRegisterError
@@ -117,7 +126,9 @@ class RegisterViewController: BaseViewController {
                 switch err {
                 case .successSave:
                     self.showOnlyOkAlert(title: "😄", message: "가입에 성공했어요.", buttonTitle: "확인했어요", handler: { _ in
-                        //self.navigationController?.popToRootViewController(animated: true)
+                        let tabBarController = Book2OnNonBaseTabBarController()
+                        tabBarController.modalPresentationStyle = .fullScreen
+                        self.present(tabBarController, animated: true)
                     })
                 case .failureSave:
                     self.showOnlyOkAlert(title: "😢", message: "가입에 실패했어요.", buttonTitle: "확인했어요", handler: .none)
