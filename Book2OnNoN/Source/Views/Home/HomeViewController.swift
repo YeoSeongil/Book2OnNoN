@@ -37,6 +37,7 @@ class HomeViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        homeReadingBookView.delegate = self
     }
         
     override func setViewController() {
@@ -77,5 +78,13 @@ class HomeViewController: BaseViewController {
             .subscribe(onNext: { _ in
                 self.navigationController?.pushViewController(SearchViewController(), animated: true)
             }).disposed(by: disposeBag)
+    }
+}
+
+extension HomeViewController: HomeReadingBookViewDelegate {
+    func didSelectReadingBook(_ record: ReadingBooks) {
+        let recordViewModel = ReadingBookRecordViewModel(readingBookRecordData: record)
+        let recordViewController = ReadingBookRecordViewController(viewModel: recordViewModel)
+        self.navigationController?.pushViewController(recordViewController, animated: true)
     }
 }
