@@ -69,7 +69,8 @@ class ReadingBookRecordSummaryView: UIView {
     }
     
     private func bind() {
-        viewModel.ResultReadingBooksRecordData
+        // Output
+        viewModel.resultReadingBooksRecordData
             .drive(onNext: { record in
                 self.configuration(with: record)
             })
