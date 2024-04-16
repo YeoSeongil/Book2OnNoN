@@ -16,7 +16,14 @@ class ReadingBookRecordViewController: BaseViewController {
     private let viewModel: ReadingBookRecordViewModelType
     
     private lazy var readingBookRecordSummaryView = ReadingBookRecordSummaryView(viewModel: viewModel)
+    
     // MARK: UI Components
+    let deleteButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "trash"), for: .normal)
+        button.tintColor = .white
+        return button
+    }()
     
     // MARK: init
     init(viewModel: ReadingBookRecordViewModelType) {
@@ -51,9 +58,30 @@ class ReadingBookRecordViewController: BaseViewController {
     
     override func setNavigation() {
         super.setNavigation()
+        let rightButton = UIBarButtonItem(customView: deleteButton)
+        self.navigationItem.rightBarButtonItem = rightButton
     }
     
     override func bind() {
         super.bind()
+        
+        // Input
+        deleteButton.rx.tap
+            .bind(to: viewModel.didDeleteButtonTapped)
+            .disposed(by: disposeBag)
+        
+        // Output
+        viewModel.resultReadingBookRecordDeleteProcedureType
+            .drive(onNext: { type in
+                switch type {
+                case .successDelete:
+                    self.showOnlyOkAlert(title: "😄", message: "삭제에 성공했어요.", buttonTitle: "확인했어요", handler: { _ in
+                        self.navigationController?.popToRootViewController(animated: true)
+                    })
+                case .failureDelete:
+                    self.showOnlyOkAlert(title: "😢", message: "저장에 실패했어요.", buttonTitle: "확인했어요", handler: .none)
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
