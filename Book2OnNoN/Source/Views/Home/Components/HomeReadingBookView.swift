@@ -10,8 +10,13 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
+protocol HomeReadingBookViewDelegate: AnyObject {
+    func didSelectReadingBook( _ record: ReadingBooks)
+}
 
 class HomeReadingBookView: UIView {
+    
+    weak var delegate: HomeReadingBookViewDelegate?
     
     private let disposeBag = DisposeBag()
     private let viewModel: HomeViewModelType
@@ -70,6 +75,11 @@ class HomeReadingBookView: UIView {
     
     private func bind() {
         readingBookCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
+
+        readingBookCollectionView.rx.modelSelected(ReadingBooks.self)
+            .bind(onNext: { [weak self] record in
+                self?.delegate?.didSelectReadingBook(record)
+            }).disposed(by: disposeBag)
         
         // Output
         viewModel.resultReadingBookRecordItem
