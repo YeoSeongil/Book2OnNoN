@@ -10,9 +10,6 @@ import RxSwift
 import RxCocoa
 import CoreData
 
-// Todo
-// 나머지 데이터도 받아와 바인딩 구현
-
 protocol HomeViewModelType {
     // Input
     
