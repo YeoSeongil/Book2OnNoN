@@ -6,3 +6,20 @@
 //
 
 import Foundation
+
+protocol ReadingBookRecordViewModelType {
+    
+}
+
+class ReadingBookRecordViewModel {
+    private let readingBookRecordData: ReadingBooks
+    
+    init(readingBookRecordData: ReadingBooks) {
+        self.readingBookRecordData = ReadingBooks()
+    }
+
+}
+
+extension ReadingBookRecordViewModel: ReadingBookRecordViewModelType {
+    
+}
