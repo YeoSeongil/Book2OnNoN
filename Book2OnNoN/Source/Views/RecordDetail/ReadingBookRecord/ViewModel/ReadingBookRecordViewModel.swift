@@ -21,10 +21,11 @@ protocol ReadingBookRecordViewModelType {
     // Output
     var resultReadingBooksRecordData: Driver<[ReadingBooks]> { get }
     var resultReadingBookRecordDeleteProcedureType: Driver<ReadingBookRecordDeleteProcedureType> { get }
+    var resultReadingBookLookUpItem: Driver<[LookUpItem]> { get }
 }
 
 class ReadingBookRecordViewModel {
-    private let disposBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     private let readingBookRecordData: ReadingBooks
     
     // Input
@@ -33,13 +34,28 @@ class ReadingBookRecordViewModel {
     // Output
     private let outputReadingBooksRecordData = BehaviorRelay<[ReadingBooks]>(value: [])
     private let outputReadingBookRecordDeleteProcedureType = PublishRelay<ReadingBookRecordDeleteProcedureType>()
+    private let outputReadingBookLookUpItem = PublishRelay<[LookUpItem]>()
     
     init(readingBookRecordData: ReadingBooks) {
         self.readingBookRecordData = readingBookRecordData
         outputReadingBooksRecordData.accept([readingBookRecordData])
+        tryGetLookUpBook()
         tryDeleteReadingBookRecord()
     }
 
+    private func tryGetLookUpBook() {
+        BookRepository.shared.getLookUpItemData(isbn: self.readingBookRecordData.isbn!)
+            .asObservable()
+            .subscribe(onNext: { result in
+                self.handleGetLookUpResult(result)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func handleGetLookUpResult(_ result: LookUp) {
+        outputReadingBookLookUpItem.accept(result.item)
+    }
+    
     private func tryDeleteReadingBookRecord() {
         inputDeleteButtonTapped
             .subscribe(onNext: { [weak self] _ in
@@ -49,12 +65,12 @@ class ReadingBookRecordViewModel {
                     switch result {
                     case .success:
                         self.outputReadingBookRecordDeleteProcedureType.accept(.successDelete)
-                    case .failure(let error):
+                    case .failure(_):
                         self.outputReadingBookRecordDeleteProcedureType.accept(.failureDelete)
                     }
                 }
             })
-            .disposed(by: disposBag)
+            .disposed(by: disposeBag)
     }
 }
 
@@ -71,5 +87,9 @@ extension ReadingBookRecordViewModel: ReadingBookRecordViewModelType {
     
     var resultReadingBookRecordDeleteProcedureType: Driver<ReadingBookRecordDeleteProcedureType> {
         outputReadingBookRecordDeleteProcedureType.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var resultReadingBookLookUpItem: Driver<[LookUpItem]> {
+        outputReadingBookLookUpItem.asDriver(onErrorDriveWith: .empty())
     }
 }
