@@ -83,7 +83,7 @@ extension HomeInterestedBookView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let padding: CGFloat = 10
         let collectionViewWidth = collectionView.bounds.width - (padding * 4) // 왼쪽, 오른쪽 패딩을 포함하여 전체 너비 계산
-        let cellWidth = collectionViewWidth / 3 // 전체 너비의 1/3 크기로 셀의 너비 설정
+        let cellWidth = collectionViewWidth / 3.3 // 전체 너비의 1/3.3 크기로 셀의 너비 설정
         let cellHeight = collectionView.bounds.height
         return CGSize(width: cellWidth, height: cellHeight)
     }
