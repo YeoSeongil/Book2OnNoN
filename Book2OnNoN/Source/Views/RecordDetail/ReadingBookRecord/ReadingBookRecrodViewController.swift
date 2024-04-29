@@ -16,6 +16,7 @@ class ReadingBookRecordViewController: BaseViewController {
     private let viewModel: ReadingBookRecordViewModelType
     
     private lazy var readingBookRecordSummaryView = ReadingBookRecordSummaryView(viewModel: viewModel)
+    private lazy var readingBookRecordContentView = ReadingBookRecordContentView(viewModel: viewModel)
     
     // MARK: UI Components
     let deleteButton: UIButton = {
@@ -36,13 +37,17 @@ class ReadingBookRecordViewController: BaseViewController {
     }
     
     // MARK: SetUp ViewController
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func setViewController() {
         super.setViewController()
-        [readingBookRecordSummaryView].forEach {
+        [readingBookRecordSummaryView, readingBookRecordContentView].forEach {
             view.addSubview($0)
         }
     }
@@ -51,6 +56,12 @@ class ReadingBookRecordViewController: BaseViewController {
         super.setConstraints()
         readingBookRecordSummaryView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalToSuperview().inset(10)
+            $0.height.equalTo(200)
+        }        
+        
+        readingBookRecordContentView.snp.makeConstraints {
+            $0.top.equalTo(readingBookRecordSummaryView.snp.bottom).offset(30)
             $0.horizontalEdges.equalToSuperview().inset(10)
             $0.height.equalTo(200)
         }
