@@ -6,24 +6,58 @@
 //
 
 import UIKit
+import SnapKit
+import RxSwift
+import RxCocoa
+import CoreData
 
-class ReadingBookRecordModifyViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+class ReadingBookRecordModifyViewController: BaseViewController {
+    private let viewModel: ReadingBookRecordViewModelType
+    
+    private lazy var readingBookRecordContentView = ReadingBookRecordContentView(viewModel: viewModel)
+    
+    // MARK: UI Components
+    
+    // MARK: init
+    init(viewModel: ReadingBookRecordViewModelType) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
-    */
-
+    
+    // MARK: SetUp ViewController
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    override func setViewController() {
+        super.setViewController()
+        [readingBookRecordContentView].forEach {
+            view.addSubview($0)
+        }
+    }
+    
+    override func setConstraints() {
+        super.setConstraints()
+        readingBookRecordContentView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
+            $0.height.equalTo(200)
+        }
+    }
+    
+    override func bind() {
+        super.bind()
+        
+        // Input
+        
+        // Output
+    }
 }
