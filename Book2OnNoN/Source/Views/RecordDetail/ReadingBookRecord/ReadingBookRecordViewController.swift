@@ -25,11 +25,14 @@ class ReadingBookRecordViewController: BaseViewController {
         return button
     }()   
     
-    private let modifyButton: UIButton = {
+    private lazy var modifyButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
         button.tintColor = .white
         button.addAction(UIAction { _ in
+            let modifyViewController = ReadingBookRecordModifyViewController(viewModel: self.viewModel)
+            modifyViewController.modalPresentationStyle = .pageSheet
+            self.present(modifyViewController, animated: true)
         }, for: .touchUpInside)
         return button
     }()
