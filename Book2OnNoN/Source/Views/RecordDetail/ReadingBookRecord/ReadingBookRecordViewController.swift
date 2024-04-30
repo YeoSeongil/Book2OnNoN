@@ -12,17 +12,25 @@ import RxCocoa
 import CoreData
 
 class ReadingBookRecordViewController: BaseViewController {
-    
     private let viewModel: ReadingBookRecordViewModelType
     
     private lazy var readingBookRecordSummaryView = ReadingBookRecordSummaryView(viewModel: viewModel)
     private lazy var readingBookRecordContentView = ReadingBookRecordContentView(viewModel: viewModel)
     
     // MARK: UI Components
-    let deleteButton: UIButton = {
+    private let deleteButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "trash"), for: .normal)
         button.tintColor = .white
+        return button
+    }()   
+    
+    private let modifyButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+        button.tintColor = .white
+        button.addAction(UIAction { _ in
+        }, for: .touchUpInside)
         return button
     }()
     
@@ -69,8 +77,9 @@ class ReadingBookRecordViewController: BaseViewController {
     
     override func setNavigation() {
         super.setNavigation()
-        let rightButton = UIBarButtonItem(customView: deleteButton)
-        self.navigationItem.rightBarButtonItem = rightButton
+        let rightDeleteButton = UIBarButtonItem(customView: deleteButton)
+        let rightModifyButton = UIBarButtonItem(customView: modifyButton)
+        self.navigationItem.rightBarButtonItems = [rightDeleteButton, rightModifyButton]
     }
     
     override func bind() {
@@ -79,6 +88,10 @@ class ReadingBookRecordViewController: BaseViewController {
         // Input
         deleteButton.rx.tap
             .bind(to: viewModel.didDeleteButtonTapped)
+            .disposed(by: disposeBag)
+        
+        modifyButton.rx.tap
+            .bind(to: viewModel.didModifyButtonTapped)
             .disposed(by: disposeBag)
         
         // Output
