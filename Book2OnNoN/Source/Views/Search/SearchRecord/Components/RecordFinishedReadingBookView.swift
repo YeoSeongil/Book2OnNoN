@@ -38,17 +38,7 @@ class RecordFinishedReadingBookView: UIScrollView {
         textField.font = .Pretendard.regular
         textField.layer.cornerRadius = 5
         textField.inputView = startReadingBookDatePicker
-        
-        let imageView = UIImageView(image: UIImage(systemName: "calendar"))
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .white
-        
-        let leftViewContainer = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
-        leftViewContainer.addSubview(imageView)
-        imageView.frame = leftViewContainer.bounds
-        textField.leftView = leftViewContainer
-        textField.leftViewMode = .always
-        
+        textField.addLeftViewImage(systemName: "calendar")
         return textField
     }()
     
@@ -76,17 +66,7 @@ class RecordFinishedReadingBookView: UIScrollView {
         textField.tintColor = .clear
         textField.font = .Pretendard.regular
         textField.inputView = finishReadingBookDatePicker
-        
-        let imageView = UIImageView(image: UIImage(systemName: "calendar"))
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .white
-        
-        let leftViewContainer = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
-        leftViewContainer.addSubview(imageView)
-        imageView.frame = leftViewContainer.bounds
-        textField.leftView = leftViewContainer
-        textField.leftViewMode = .always
-        
+        textField.addLeftViewImage(systemName: "calendar")
         return textField
     }()
     
@@ -113,17 +93,7 @@ class RecordFinishedReadingBookView: UIScrollView {
         textField.textColor = .white
         textField.font = .Pretendard.regular
         textField.layer.cornerRadius = 5
-        
-        let imageView = UIImageView(image: UIImage(systemName: "square.and.pencil"))
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .white
-        
-        let leftViewContainer = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
-        leftViewContainer.addSubview(imageView)
-        imageView.frame = leftViewContainer.bounds
-        textField.leftView = leftViewContainer
-        textField.leftViewMode = .always
-        
+        textField.addLeftViewImage(systemName: "square.and.pencil")
         return textField
     }()
     
