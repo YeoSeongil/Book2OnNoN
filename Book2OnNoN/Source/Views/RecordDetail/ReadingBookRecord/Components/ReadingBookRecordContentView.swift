@@ -19,16 +19,16 @@ class ReadingBookRecordContentView: UIView {
      //private var amountOfReadingBookBarCharView: BarChartView!
     
     // MARK: UIComponents
-    private let readingBookStartReadingBookLabel: UILabel = {
+    private let startReadingBookLabel: UILabel = {
         let label = UILabel()
         label.text = "읽기 시작한 날"
         label.textColor = .white
         label.backgroundColor = .clear
         label.font = .Pretendard.semibold
         return label
-    }()   
+    }()
     
-    private lazy var readingBookDateTextField: UITextField = {
+    private lazy var startReadingBookDateTextField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .PrestigeBlue
         textField.textColor = .white
@@ -36,16 +36,7 @@ class ReadingBookRecordContentView: UIView {
         textField.font = .Pretendard.regular
         textField.layer.cornerRadius = 5
         textField.inputView = readingBookDatePicker
-        
-        let imageView = UIImageView(image: UIImage(systemName: "calendar"))
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = .white
-        
-        let leftViewContainer = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 20))
-        leftViewContainer.addSubview(imageView)
-        imageView.frame = leftViewContainer.bounds
-        textField.leftView = leftViewContainer
-        textField.leftViewMode = .always
+        textField.addLeftViewImage(systemName: "calendar")
         
         return textField
     }()
@@ -58,7 +49,7 @@ class ReadingBookRecordContentView: UIView {
         return picker
     }()
     
-    private let readingBookAmountOfReadingBookLabel: UILabel = {
+    private let amountOfReadingBookLabel: UILabel = {
         let label = UILabel()
         label.text = "독서량"
         label.textColor = .white
@@ -67,14 +58,14 @@ class ReadingBookRecordContentView: UIView {
         return label
     }()
 
-    private lazy var readingBookAmountOfReadingBookTextField: UITextField = {
+    private lazy var amountOfReadingBookTextField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .PrestigeBlue
         textField.textColor = .white
         textField.tintColor = .clear
         textField.font = .Pretendard.regular
         textField.layer.cornerRadius = 5
-        textField.inputView = readingBookAmountOfReadingBookPicker
+        textField.inputView = amountOfReadingBookPicker
         
         let imageView = UIImageView(image: UIImage(systemName: "book"))
         imageView.contentMode = .scaleAspectFit
@@ -89,7 +80,7 @@ class ReadingBookRecordContentView: UIView {
         return textField
     }()
     
-    private let readingBookAmountOfReadingBookPicker: UIPickerView = {
+    private let amountOfReadingBookPicker: UIPickerView = {
         let picker = UIPickerView()
         return picker
     }()
@@ -109,30 +100,30 @@ class ReadingBookRecordContentView: UIView {
     
     // MARK: Set View
     private func setView() {
-        [readingBookStartReadingBookLabel, readingBookDateTextField, readingBookAmountOfReadingBookLabel, readingBookAmountOfReadingBookTextField].forEach {
+        [startReadingBookLabel, startReadingBookDateTextField, amountOfReadingBookLabel, amountOfReadingBookTextField].forEach {
             addSubview($0)
         }
     }
     
     private func setConstraints() {
-        readingBookStartReadingBookLabel.snp.makeConstraints {
+        startReadingBookLabel.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.leading.equalTo(safeAreaLayoutGuide)
         }
         
-        readingBookDateTextField.snp.makeConstraints {
-            $0.top.equalTo(readingBookStartReadingBookLabel.snp.bottom).offset(5)
+        startReadingBookDateTextField.snp.makeConstraints {
+            $0.top.equalTo(startReadingBookLabel.snp.bottom).offset(5)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
             $0.height.equalTo(30)
         }
         
-        readingBookAmountOfReadingBookLabel.snp.makeConstraints {
-            $0.top.equalTo(readingBookDateTextField.snp.bottom).offset(20)
+        amountOfReadingBookLabel.snp.makeConstraints {
+            $0.top.equalTo(startReadingBookDateTextField.snp.bottom).offset(20)
             $0.leading.equalTo(safeAreaLayoutGuide)
         }
         
-        readingBookAmountOfReadingBookTextField.snp.makeConstraints {
-            $0.top.equalTo(readingBookAmountOfReadingBookLabel.snp.bottom).offset(5)
+        amountOfReadingBookTextField.snp.makeConstraints {
+            $0.top.equalTo(amountOfReadingBookLabel.snp.bottom).offset(5)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
             $0.height.equalTo(30)
         }
@@ -143,12 +134,12 @@ class ReadingBookRecordContentView: UIView {
             .map { [weak self] in
                 self?.dateFormatter.string(from: $0)
             }
-            .bind(to: readingBookDateTextField.rx.text)
+            .bind(to: startReadingBookDateTextField.rx.text)
             .disposed(by: disposeBag)
         
-        readingBookAmountOfReadingBookPicker.rx.itemSelected
+        amountOfReadingBookPicker.rx.itemSelected
             .subscribe(onNext: { index  in
-                self.readingBookAmountOfReadingBookTextField.text = "\(index.row + 1) 쪽"
+                self.amountOfReadingBookTextField.text = "\(index.row + 1) 쪽"
             }).disposed(by: disposeBag)
         
         // Output
@@ -161,7 +152,7 @@ class ReadingBookRecordContentView: UIView {
         viewModel.resultReadingBookLookUpItem
             .drive(onNext: { item in
                 Observable.just(Array(1...item[0].subInfo.itemPage))
-                    .bind(to: self.readingBookAmountOfReadingBookPicker.rx.itemTitles) { _ , item in
+                    .bind(to: self.amountOfReadingBookPicker.rx.itemTitles) { _ , item in
                         return "\(item)"
                     }.disposed(by: self.disposeBag)
             }).disposed(by: disposeBag)
@@ -169,8 +160,8 @@ class ReadingBookRecordContentView: UIView {
     
     // MARK: Method
     private func configuration(with record: [ReadingBooks]) {
-        readingBookAmountOfReadingBookTextField.text = record[0].readingPage
-        readingBookDateTextField.text = record[0].startReadingDate
+        startReadingBookDateTextField.text = record[0].startReadingDate
+        amountOfReadingBookTextField.text = record[0].readingPage
     }
     
     private let dateFormatter: DateFormatter = {
