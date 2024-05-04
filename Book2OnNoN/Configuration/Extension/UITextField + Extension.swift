@@ -9,6 +9,12 @@ import Foundation
 import UIKit
 
 extension UITextField {
+    /// TextField에 image LeftView를 추가합니다..
+    /// ```
+    /// UITextField.addLeftViewImage(systemName: "image")
+    /// ```
+    /// - Parameters:
+    ///   - systemName: imageView의 image (system symbol image를 입력합니다.)
     func addLeftViewImage(systemName: String) {
         let imageView = UIImageView(image: UIImage(systemName: systemName))
         imageView.contentMode = .scaleAspectFit
