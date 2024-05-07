@@ -23,18 +23,6 @@ class ReadingBookRecordViewController: BaseViewController {
         button.setImage(UIImage(systemName: "trash"), for: .normal)
         button.tintColor = .white
         return button
-    }()   
-    
-    private lazy var modifyButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
-        button.tintColor = .white
-        button.addAction(UIAction { _ in
-            let modifyViewController = ReadingBookRecordModifyViewController(viewModel: self.viewModel)
-            modifyViewController.modalPresentationStyle = .pageSheet
-            self.present(modifyViewController, animated: true)
-        }, for: .touchUpInside)
-        return button
     }()
     
     // MARK: init
@@ -61,6 +49,8 @@ class ReadingBookRecordViewController: BaseViewController {
         [readingBookRecordSummaryView, readingBookRecordContentView].forEach {
             view.addSubview($0)
         }
+        
+        readingBookRecordContentView.delegate = self
     }
     
     override func setConstraints() {
@@ -81,8 +71,7 @@ class ReadingBookRecordViewController: BaseViewController {
     override func setNavigation() {
         super.setNavigation()
         let rightDeleteButton = UIBarButtonItem(customView: deleteButton)
-        let rightModifyButton = UIBarButtonItem(customView: modifyButton)
-        self.navigationItem.rightBarButtonItems = [rightDeleteButton, rightModifyButton]
+        self.navigationItem.rightBarButtonItem = rightDeleteButton
     }
     
     override func bind() {
@@ -91,10 +80,6 @@ class ReadingBookRecordViewController: BaseViewController {
         // Input
         deleteButton.rx.tap
             .bind(to: viewModel.didDeleteButtonTapped)
-            .disposed(by: disposeBag)
-        
-        modifyButton.rx.tap
-            .bind(to: viewModel.didModifyButtonTapped)
             .disposed(by: disposeBag)
         
         // Output
@@ -110,5 +95,19 @@ class ReadingBookRecordViewController: BaseViewController {
                 }
             })
             .disposed(by: disposeBag)
+    }
+}
+
+extension ReadingBookRecordViewController: ReadingBookRecordContentViewDelegate {
+    func editStartReadingDate() {
+        let modalViewController = EditStartReadingDateViewController(viewModel: viewModel)
+        modalViewController.modalPresentationStyle = .overCurrentContext
+        modalViewController.modalTransitionStyle = .crossDissolve
+    
+        self.present(modalViewController, animated: true)
+    }
+    
+    func editAmountOfReadingBook() {
+        
     }
 }
