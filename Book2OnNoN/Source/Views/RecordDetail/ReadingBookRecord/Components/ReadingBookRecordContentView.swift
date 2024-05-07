@@ -11,11 +11,16 @@ import RxSwift
 import RxCocoa
 import Charts
 
+protocol ReadingBookRecordContentViewDelegate: AnyObject {
+    func editStartReadingDate()
+    func editAmountOfReadingBook()
+}
 class ReadingBookRecordContentView: UIView {
+    weak var delegate: ReadingBookRecordContentViewDelegate?
     
     private let disposeBag = DisposeBag()
     private let viewModel: ReadingBookRecordViewModelType
-    
+
      //private var amountOfReadingBookBarCharView: BarChartView!
     
     // MARK: UIComponents
@@ -28,7 +33,7 @@ class ReadingBookRecordContentView: UIView {
         return label
     }()
     
-    private lazy var startReadingBookTextLabel: UILabel = {
+    private lazy var startReadingDateTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.backgroundColor = .PrestigeBlue
@@ -74,7 +79,7 @@ class ReadingBookRecordContentView: UIView {
     
     // MARK: Set View
     private func setView() {
-        [startReadingBookLabel, startReadingBookTextLabel, amountOfReadingBookLabel, amountOfReadingBookTextLabel].forEach {
+        [startReadingBookLabel, startReadingDateTextLabel, amountOfReadingBookLabel, amountOfReadingBookTextLabel].forEach {
             addSubview($0)
         }
     }
@@ -85,14 +90,14 @@ class ReadingBookRecordContentView: UIView {
             $0.leading.equalTo(safeAreaLayoutGuide)
         }
         
-        startReadingBookTextLabel.snp.makeConstraints {
+        startReadingDateTextLabel.snp.makeConstraints {
             $0.top.equalTo(startReadingBookLabel.snp.bottom).offset(5)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
             $0.height.equalTo(30)
         }
         
         amountOfReadingBookLabel.snp.makeConstraints {
-            $0.top.equalTo(startReadingBookTextLabel.snp.bottom).offset(20)
+            $0.top.equalTo(startReadingDateTextLabel.snp.bottom).offset(20)
             $0.leading.equalTo(safeAreaLayoutGuide)
         }
         
@@ -104,6 +109,21 @@ class ReadingBookRecordContentView: UIView {
     }
     
     private func bind() {
+        startReadingDateTextLabel.rx.tap
+            .subscribe(onNext: { [weak self] in
+                print("탭")
+                self?.delegate?.editStartReadingDate()
+            })
+            .disposed(by: disposeBag)       
+        
+        amountOfReadingBookTextLabel.rx.tap
+            .subscribe(onNext: { [weak self] in
+                print("amount")
+            })
+            .disposed(by: disposeBag)
+        
+        // Input
+        
         // Output
         viewModel.resultReadingBooksRecordData
             .drive(onNext: { record in
@@ -114,7 +134,7 @@ class ReadingBookRecordContentView: UIView {
     
     // MARK: Method
     private func configuration(with record: [ReadingBooks]) {
-        startReadingBookTextLabel.addImageLabel(text: record[0].startReadingDate!, systemName: "calendar")
+        startReadingDateTextLabel.addImageLabel(text: record[0].startReadingDate!, systemName: "calendar")
         amountOfReadingBookTextLabel.addImageLabel(text: record[0].readingPage!, systemName: "book")
     }
     
