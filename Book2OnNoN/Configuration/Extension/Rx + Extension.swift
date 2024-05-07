@@ -9,7 +9,14 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+
 extension Reactive where Base: UILabel {
+    /// Tap 제스처를 추가하여 Void 타입의 Observable을 반환한다.
+    /// ```
+    /// UILabel.rx.tap
+    ///    .subscribe(onNext: { _ in print("Tap" }
+    ///    .disposed(by: disposeBag)
+    /// ```
     var tap: Observable<Void> {
         let tapGestureRecognizer = UITapGestureRecognizer()
         
