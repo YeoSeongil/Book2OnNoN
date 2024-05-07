@@ -17,11 +17,13 @@ enum ReadingBookRecordDeleteProcedureType  {
 protocol ReadingBookRecordViewModelType {
     // Input
     var didDeleteButtonTapped: AnyObserver<Void> { get }
+    var didEditStartReadingDateSaveButtonTapped: AnyObserver<Void> { get }
+    var didEditStartReadingDateValue: AnyObserver<String> { get }
     
     // Output
     var resultReadingBooksRecordData: Driver<[ReadingBooks]> { get }
-    var resultReadingBookRecordDeleteProcedureType: Driver<ReadingBookRecordDeleteProcedureType> { get }
     var resultReadingBookLookUpItem: Driver<[LookUpItem]> { get }
+    var resultReadingBookRecordDeleteProcedureType: Driver<ReadingBookRecordDeleteProcedureType> { get }
 }
 
 class ReadingBookRecordViewModel {
@@ -30,10 +32,14 @@ class ReadingBookRecordViewModel {
     
     // Input
     private let inputDeleteButtonTapped = PublishSubject<Void>()
+    private let inputEditStartReadingDateSaveButtonTapped = PublishSubject<Void>()
+    private let inputEditStartReadingDateValue = PublishSubject<String>()
     
     // Output
-    private let outputReadingBooksRecordData = BehaviorRelay<[ReadingBooks]>(value: [])
+    private let outputStartReadingBookEditTapped = PublishRelay<Void>()
+    private let outputAmountOfReadingBookEditTapped = PublishRelay<Void>()
     private let outputReadingBookRecordDeleteProcedureType = PublishRelay<ReadingBookRecordDeleteProcedureType>()
+    private let outputReadingBooksRecordData = BehaviorRelay<[ReadingBooks]>(value: [])
     private let outputReadingBookLookUpItem = PublishRelay<[LookUpItem]>()
     
     init(readingBookRecordData: ReadingBooks) {
@@ -80,6 +86,14 @@ extension ReadingBookRecordViewModel: ReadingBookRecordViewModelType {
         inputDeleteButtonTapped.asObserver()
     }
     
+    var didEditStartReadingDateSaveButtonTapped: AnyObserver<Void> {
+        inputEditStartReadingDateSaveButtonTapped.asObserver()
+    }
+    
+    var didEditStartReadingDateValue: AnyObserver<String> {
+        inputEditStartReadingDateValue.asObserver()
+    }
+    
     // Output
     var resultReadingBooksRecordData: Driver<[ReadingBooks]> {
         outputReadingBooksRecordData.asDriver(onErrorDriveWith: .empty())
@@ -88,7 +102,7 @@ extension ReadingBookRecordViewModel: ReadingBookRecordViewModelType {
     var resultReadingBookRecordDeleteProcedureType: Driver<ReadingBookRecordDeleteProcedureType> {
         outputReadingBookRecordDeleteProcedureType.asDriver(onErrorDriveWith: .empty())
     }
-    
+
     var resultReadingBookLookUpItem: Driver<[LookUpItem]> {
         outputReadingBookLookUpItem.asDriver(onErrorDriveWith: .empty())
     }
