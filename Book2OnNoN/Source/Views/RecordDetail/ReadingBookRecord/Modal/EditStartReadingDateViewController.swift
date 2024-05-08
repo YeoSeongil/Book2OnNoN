@@ -134,8 +134,6 @@ class EditStartReadingDateViewController: BaseViewController {
             .bind(to: viewModel.didEditStartReadingDateSaveButtonTapped)
             .disposed(by: disposeBag)
         
-
-        
         // Output
         viewModel.resultReadingBooksRecordData
             .drive(onNext: { data in
