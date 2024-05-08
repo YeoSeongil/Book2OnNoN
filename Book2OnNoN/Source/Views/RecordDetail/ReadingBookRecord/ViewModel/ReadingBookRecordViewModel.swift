@@ -47,6 +47,7 @@ class ReadingBookRecordViewModel {
         outputReadingBooksRecordData.accept([readingBookRecordData])
         tryGetLookUpBook()
         tryDeleteReadingBookRecord()
+        tryStartReadingDateUpdate()
     }
 
     private func tryGetLookUpBook() {
@@ -73,6 +74,26 @@ class ReadingBookRecordViewModel {
                         self.outputReadingBookRecordDeleteProcedureType.accept(.successDelete)
                     case .failure(_):
                         self.outputReadingBookRecordDeleteProcedureType.accept(.failureDelete)
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func tryStartReadingDateUpdate() {
+        inputEditStartReadingDateSaveButtonTapped
+            .withLatestFrom(inputEditStartReadingDateValue)
+            .subscribe(onNext: { date in
+                if let books = CoreDataManager.shared.fetchData(ReadingBooks.self) {
+                    books[0].startReadingDate = date
+                }
+                
+                CoreDataManager.shared.saveData { result in
+                    switch result {
+                    case .success:
+                        print("성공")
+                    case .failure(let error):
+                        print("실패")
                     }
                 }
             })
