@@ -18,7 +18,9 @@ protocol ReadingBookRecordViewModelType {
     // Input
     var didDeleteButtonTapped: AnyObserver<Void> { get }
     var didEditStartReadingDateSaveButtonTapped: AnyObserver<Void> { get }
-    var didEditStartReadingDateValue: AnyObserver<String> { get }
+    var didEditStartReadingDateValue: AnyObserver<String> { get }    
+    var didEditAmountOfReadingBookSaveButtonTapped: AnyObserver<Void> { get }
+    var didEditAmountOfReadingBookValue: AnyObserver<String> { get }
     
     // Output
     var resultReadingBooksRecordData: Driver<[ReadingBooks]> { get }
@@ -34,13 +36,15 @@ class ReadingBookRecordViewModel {
     private let inputDeleteButtonTapped = PublishSubject<Void>()
     private let inputEditStartReadingDateSaveButtonTapped = PublishSubject<Void>()
     private let inputEditStartReadingDateValue = PublishSubject<String>()
+    private let inputEditAmountOfReadingBookSaveButtonTapped = PublishSubject<Void>()
+    private let inputEditAmountOfReadingBookValue = PublishSubject<String>()
     
     // Output
     private let outputStartReadingBookEditTapped = PublishRelay<Void>()
     private let outputAmountOfReadingBookEditTapped = PublishRelay<Void>()
     private let outputReadingBookRecordDeleteProcedureType = PublishRelay<ReadingBookRecordDeleteProcedureType>()
     private let outputReadingBooksRecordData = BehaviorRelay<[ReadingBooks]>(value: [])
-    private let outputReadingBookLookUpItem = PublishRelay<[LookUpItem]>()
+    private let outputReadingBookLookUpItem = BehaviorRelay<[LookUpItem]>(value: [])
     
     init(readingBookRecordData: ReadingBooks) {
         self.readingBookRecordData = readingBookRecordData
@@ -114,6 +118,14 @@ extension ReadingBookRecordViewModel: ReadingBookRecordViewModelType {
     
     var didEditStartReadingDateValue: AnyObserver<String> {
         inputEditStartReadingDateValue.asObserver()
+    }
+    
+    var didEditAmountOfReadingBookSaveButtonTapped: AnyObserver<Void> {
+        inputEditAmountOfReadingBookSaveButtonTapped.asObserver()
+    }
+    
+    var didEditAmountOfReadingBookValue: AnyObserver<String> {
+        inputEditAmountOfReadingBookValue.asObserver()
     }
     
     // Output
