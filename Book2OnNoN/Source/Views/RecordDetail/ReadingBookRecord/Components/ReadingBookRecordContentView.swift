@@ -134,7 +134,7 @@ class ReadingBookRecordContentView: UIView {
     // MARK: Method
     private func configuration(with record: [ReadingBooks]) {
         startReadingDateTextLabel.addImageLabel(text: record[0].startReadingDate!, systemName: "calendar")
-        amountOfReadingBookTextLabel.addImageLabel(text: "\(record[0].readingPage)", systemName: "book")
+        amountOfReadingBookTextLabel.addImageLabel(text: "\(record[0].readingPage) 쪽", systemName: "book")
     }
     
     private let dateFormatter: DateFormatter = {
