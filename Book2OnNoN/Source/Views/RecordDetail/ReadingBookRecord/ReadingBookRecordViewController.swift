@@ -108,6 +108,10 @@ extension ReadingBookRecordViewController: ReadingBookRecordContentViewDelegate 
     }
     
     func editAmountOfReadingBook() {
-        
+        let modalViewController = EditAmountOfReadingBookViewController(viewModel: viewModel)
+        modalViewController.modalPresentationStyle = .overCurrentContext
+        modalViewController.modalTransitionStyle = .crossDissolve
+    
+        self.present(modalViewController, animated: true)
     }
 }
