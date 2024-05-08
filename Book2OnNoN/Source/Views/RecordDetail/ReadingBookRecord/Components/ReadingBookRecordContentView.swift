@@ -111,14 +111,13 @@ class ReadingBookRecordContentView: UIView {
     private func bind() {
         startReadingDateTextLabel.rx.tap
             .subscribe(onNext: { [weak self] in
-                print("탭")
                 self?.delegate?.editStartReadingDate()
             })
             .disposed(by: disposeBag)       
         
         amountOfReadingBookTextLabel.rx.tap
             .subscribe(onNext: { [weak self] in
-                print("amount")
+                self?.delegate?.editAmountOfReadingBook()
             })
             .disposed(by: disposeBag)
         
@@ -135,7 +134,7 @@ class ReadingBookRecordContentView: UIView {
     // MARK: Method
     private func configuration(with record: [ReadingBooks]) {
         startReadingDateTextLabel.addImageLabel(text: record[0].startReadingDate!, systemName: "calendar")
-        amountOfReadingBookTextLabel.addImageLabel(text: record[0].readingPage!, systemName: "book")
+        amountOfReadingBookTextLabel.addImageLabel(text: "\(record[0].readingPage)", systemName: "book")
     }
     
     private let dateFormatter: DateFormatter = {
