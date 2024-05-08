@@ -149,6 +149,8 @@ class RecordReadingBookView: UIView {
             .disposed(by: disposeBag)
         
         amountOfReadingBookTextField.rx.text.orEmpty
+            .map{ $0.extractDigitsToInt() }
+            .compactMap { $0 }
             .bind(to: viewModel.didReadingAmountOfReadingBookValue)
             .disposed(by: disposeBag)
         
