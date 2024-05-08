@@ -25,7 +25,6 @@ class HomeViewController: BaseViewController {
         button.tintColor = .white
         return button
     }()
-    
     init(viewModel: HomeViewModelType = HomeViewModel()) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
