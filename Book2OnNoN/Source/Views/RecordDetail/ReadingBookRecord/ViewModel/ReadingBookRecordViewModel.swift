@@ -84,7 +84,8 @@ class ReadingBookRecordViewModel {
         inputEditStartReadingDateSaveButtonTapped
             .withLatestFrom(inputEditStartReadingDateValue)
             .subscribe(onNext: { date in
-                if let books = CoreDataManager.shared.fetchData(ReadingBooks.self) {
+                let predicate = NSPredicate(format: "isbn == %@", self.readingBookRecordData.isbn ?? "")
+                if let books = CoreDataManager.shared.fetchData(ReadingBooks.self, predicate: predicate), let book = books.first {
                     books[0].startReadingDate = date
                 }
                 
