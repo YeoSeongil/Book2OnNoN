@@ -20,7 +20,7 @@ protocol ReadingBookRecordViewModelType {
     var didEditStartReadingDateSaveButtonTapped: AnyObserver<Void> { get }
     var didEditStartReadingDateValue: AnyObserver<String> { get }    
     var didEditAmountOfReadingBookSaveButtonTapped: AnyObserver<Void> { get }
-    var didEditAmountOfReadingBookValue: AnyObserver<String> { get }
+    var didEditAmountOfReadingBookValue: AnyObserver<Int> { get }
     
     // Output
     var resultReadingBooksRecordData: Driver<[ReadingBooks]> { get }
@@ -37,7 +37,7 @@ class ReadingBookRecordViewModel {
     private let inputEditStartReadingDateSaveButtonTapped = PublishSubject<Void>()
     private let inputEditStartReadingDateValue = PublishSubject<String>()
     private let inputEditAmountOfReadingBookSaveButtonTapped = PublishSubject<Void>()
-    private let inputEditAmountOfReadingBookValue = PublishSubject<String>()
+    private let inputEditAmountOfReadingBookValue = PublishSubject<Int>()
     
     // Output
     private let outputStartReadingBookEditTapped = PublishRelay<Void>()
@@ -52,6 +52,7 @@ class ReadingBookRecordViewModel {
         tryGetLookUpBook()
         tryDeleteReadingBookRecord()
         tryStartReadingDateUpdate()
+        tryAmountOfReadingBookUpdate()
     }
 
     private func tryGetLookUpBook() {
@@ -90,9 +91,29 @@ class ReadingBookRecordViewModel {
             .subscribe(onNext: { date in
                 let predicate = NSPredicate(format: "isbn == %@", self.readingBookRecordData.isbn ?? "")
                 if let books = CoreDataManager.shared.fetchData(ReadingBooks.self, predicate: predicate), let book = books.first {
-                    books[0].startReadingDate = date
+                    book.startReadingDate = date
                 }
                 
+                CoreDataManager.shared.saveData { result in
+                    switch result {
+                    case .success:
+                        print("성공")
+                    case .failure(let error):
+                        print("실패")
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func tryAmountOfReadingBookUpdate() {
+        inputEditAmountOfReadingBookSaveButtonTapped
+            .withLatestFrom(inputEditAmountOfReadingBookValue)
+            .subscribe(onNext: { amountOfReadingBook in
+                let predicate = NSPredicate(format: "isbn == %@", self.readingBookRecordData.isbn ?? "")
+                if let books = CoreDataManager.shared.fetchData(ReadingBooks.self, predicate: predicate), let book = books.first {
+                    book.readingPage = Int32(amountOfReadingBook)
+                }
                 CoreDataManager.shared.saveData { result in
                     switch result {
                     case .success:
@@ -124,7 +145,7 @@ extension ReadingBookRecordViewModel: ReadingBookRecordViewModelType {
         inputEditAmountOfReadingBookSaveButtonTapped.asObserver()
     }
     
-    var didEditAmountOfReadingBookValue: AnyObserver<String> {
+    var didEditAmountOfReadingBookValue: AnyObserver<Int> {
         inputEditAmountOfReadingBookValue.asObserver()
     }
     
