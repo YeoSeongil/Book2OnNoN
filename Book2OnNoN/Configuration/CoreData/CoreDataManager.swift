@@ -58,8 +58,13 @@ class CoreDataManager {
         managedObjectContext.delete(object)
     }
     
-    func fetchData<T: NSManagedObject>(_ type: T.Type) -> [T]? {
+    func fetchData<T: NSManagedObject>(_ type: T.Type,  predicate: NSPredicate? = nil) -> [T]? {
         let fetchRequest = NSFetchRequest<T>(entityName: String(describing: type))
+        
+        if let predicate = predicate {
+            fetchRequest.predicate = predicate
+        }
+        
         do {
             let result = try managedObjectContext.fetch(fetchRequest)
             return result
