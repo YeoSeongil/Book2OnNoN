@@ -134,18 +134,14 @@ class EditStartReadingDateViewController: BaseViewController {
             .bind(to: viewModel.didEditStartReadingDateSaveButtonTapped)
             .disposed(by: disposeBag)
         
-        startReadingBookDatePicker.rx.date
-            .compactMap { [weak self] date in
-                return self?.dateFormatter.string(from: date)
-            }
-            .bind(to: viewModel.didEditStartReadingDateValue)
-            .disposed(by: disposeBag)
+
         
         // Output
         viewModel.resultReadingBooksRecordData
             .drive(onNext: { data in
                 let convertDate = self.convertStringToDate(data[0].startReadingDate ?? "")
                 self.startReadingBookDatePicker.date = convertDate!
+                self.bindDatePickerToViewModel()
             })
             .disposed(by: disposeBag)
     }
@@ -164,4 +160,13 @@ class EditStartReadingDateViewController: BaseViewController {
         formatter.dateFormat = "yyyy.MM.dd"
         return formatter
     }()
+    
+    private func bindDatePickerToViewModel() {
+        startReadingBookDatePicker.rx.date
+            .compactMap { [weak self] date in
+                return self?.dateFormatter.string(from: date)
+            }
+            .bind(to: viewModel.didEditStartReadingDateValue)
+            .disposed(by: disposeBag)
+    }
 }
