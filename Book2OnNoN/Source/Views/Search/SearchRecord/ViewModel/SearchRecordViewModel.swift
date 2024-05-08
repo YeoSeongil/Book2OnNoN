@@ -31,7 +31,7 @@ protocol SearchRecordViewModelType {
     var didFinishedReadingAssessmentTextValue: AnyObserver<String> { get }
     
     var didReadingStartReadingBookDateValue: AnyObserver<String> { get }
-    var didReadingAmountOfReadingBookValue: AnyObserver<String> { get }
+    var didReadingAmountOfReadingBookValue: AnyObserver<Int> { get }
     
     var didInterestedAssessmentTextValue: AnyObserver<String> { get }
     var didInterestedRateValue: AnyObserver<Double> { get }
@@ -53,7 +53,7 @@ class SearchRecordViewModel {
     private let inputFinishedReadingAssessmentTextValue = BehaviorSubject<String>(value: "")
     
     private let inputReadingStartReadingBookDateValue = BehaviorSubject<String>(value: "")
-    private let inputReadingAmountOfReadingBookValue = BehaviorSubject<String>(value: "")
+    private let inputReadingAmountOfReadingBookValue = BehaviorSubject<Int>(value: 1)
     
     private let inputInterestedAssessmentTextValue = BehaviorSubject<String>(value: "")
     private let inputInterestedRateValue = BehaviorSubject<Double>(value: 2.5)
@@ -142,7 +142,7 @@ class SearchRecordViewModel {
             }).disposed(by: disposeBag)
             
             inputReadingAmountOfReadingBookValue.subscribe(onNext: { page in
-                newRecord.readingPage = page
+                newRecord.readingPage = Int32(page)
             }).disposed(by: disposeBag)
             
             user.addToReadingBook(newRecord)
@@ -209,7 +209,7 @@ extension SearchRecordViewModel: SearchRecordViewModelType {
         inputReadingStartReadingBookDateValue.asObserver()
     }
     
-    var didReadingAmountOfReadingBookValue: AnyObserver<String> {
+    var didReadingAmountOfReadingBookValue: AnyObserver<Int> {
         inputReadingAmountOfReadingBookValue.asObserver()
     }
     
