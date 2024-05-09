@@ -154,6 +154,19 @@ class EditAmountOfReadingBookViewController: BaseViewController {
                 self.amountOfReadingBookPicker.selectRow(rowIndex, inComponent: 0, animated: false)
             })
             .disposed(by: disposeBag)
+        
+        viewModel.resultReadingBookRecordEditProcedureType
+            .drive(onNext: { type in
+                switch type {
+                case .successEdit:
+                    self.showOnlyOkAlert(title: "😄", message: "수정에 성공했어요.", buttonTitle: "확인했어요", handler: { _ in
+                        self.dismiss(animated: true)
+                    })
+                case .failureEdit:
+                    self.showOnlyOkAlert(title: "😢", message: "수정에 실패했어요.", buttonTitle: "확인했어요", handler: { _ in
+                        self.dismiss(animated: true)
+                    })
+                }}).disposed(by: disposeBag)
     }
     
     // MARK: Method
