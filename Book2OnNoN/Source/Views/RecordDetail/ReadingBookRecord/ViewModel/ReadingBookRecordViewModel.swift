@@ -56,13 +56,32 @@ class ReadingBookRecordViewModel {
     
     init(readingBookRecordData: ReadingBooks) {
         self.readingBookRecordData = readingBookRecordData
-        outputReadingBooksRecordData.accept([readingBookRecordData])
+        tryFetchData()
         tryGetLookUpBook()
         tryDeleteReadingBookRecord()
         tryStartReadingDateUpdate()
         tryAmountOfReadingBookUpdate()
+        setupNotificationObservers()
     }
-
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
+    }
+    
+    private func setupNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleCoreDataChange), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
+    }
+    
+    @objc private func handleCoreDataChange() {
+        tryFetchData()
+    }
+    
+    private func tryFetchData() {
+        let predicate = NSPredicate(format: "isbn == %@", self.readingBookRecordData.isbn ?? "")
+        guard let books = CoreDataManager.shared.fetchData(ReadingBooks.self, predicate: predicate) else { return }
+        outputReadingBooksRecordData.accept(books)
+    }
+    
     private func tryGetLookUpBook() {
         BookRepository.shared.getLookUpItemData(isbn: self.readingBookRecordData.isbn!)
             .asObservable()
