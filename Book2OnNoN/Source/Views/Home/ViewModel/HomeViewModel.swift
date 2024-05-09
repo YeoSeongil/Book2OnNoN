@@ -28,6 +28,10 @@ class HomeViewModel {
         fetchData()
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
+    }
+
     private func fetchData() {
         guard let readingBookItem = CoreDataManager.shared.fetchData(ReadingBooks.self) else { return }
         outputReadingBookRecordItem.accept(readingBookItem)
