@@ -12,6 +12,11 @@ import RxCocoa
 enum ReadingBookRecordDeleteProcedureType  {
     case successDelete
     case failureDelete
+} 
+
+enum ReadingBookRecordEditProcedureType  {
+    case successEdit
+    case failureEdit
 }
 
 protocol ReadingBookRecordViewModelType {
@@ -26,6 +31,7 @@ protocol ReadingBookRecordViewModelType {
     var resultReadingBooksRecordData: Driver<[ReadingBooks]> { get }
     var resultReadingBookLookUpItem: Driver<[LookUpItem]> { get }
     var resultReadingBookRecordDeleteProcedureType: Driver<ReadingBookRecordDeleteProcedureType> { get }
+    var resultReadingBookRecordEditProcedureType: Driver<ReadingBookRecordEditProcedureType> { get }
 }
 
 class ReadingBookRecordViewModel {
@@ -43,8 +49,10 @@ class ReadingBookRecordViewModel {
     private let outputStartReadingBookEditTapped = PublishRelay<Void>()
     private let outputAmountOfReadingBookEditTapped = PublishRelay<Void>()
     private let outputReadingBookRecordDeleteProcedureType = PublishRelay<ReadingBookRecordDeleteProcedureType>()
+    private let outputReadingBookRecordEditProcedureType = PublishRelay<ReadingBookRecordEditProcedureType>()
     private let outputReadingBooksRecordData = BehaviorRelay<[ReadingBooks]>(value: [])
     private let outputReadingBookLookUpItem = BehaviorRelay<[LookUpItem]>(value: [])
+    
     
     init(readingBookRecordData: ReadingBooks) {
         self.readingBookRecordData = readingBookRecordData
@@ -97,9 +105,9 @@ class ReadingBookRecordViewModel {
                 CoreDataManager.shared.saveData { result in
                     switch result {
                     case .success:
-                        print("성공")
+                        self.outputReadingBookRecordEditProcedureType.accept(.successEdit)
                     case .failure(let error):
-                        print("실패")
+                        self.outputReadingBookRecordEditProcedureType.accept(.failureEdit)
                     }
                 }
             })
@@ -117,9 +125,9 @@ class ReadingBookRecordViewModel {
                 CoreDataManager.shared.saveData { result in
                     switch result {
                     case .success:
-                        print("성공")
+                        self.outputReadingBookRecordEditProcedureType.accept(.successEdit)
                     case .failure(let error):
-                        print("실패")
+                        self.outputReadingBookRecordEditProcedureType.accept(.failureEdit)
                     }
                 }
             })
@@ -160,5 +168,9 @@ extension ReadingBookRecordViewModel: ReadingBookRecordViewModelType {
 
     var resultReadingBookLookUpItem: Driver<[LookUpItem]> {
         outputReadingBookLookUpItem.asDriver(onErrorDriveWith: .empty())
+    }
+    
+    var resultReadingBookRecordEditProcedureType: Driver<ReadingBookRecordEditProcedureType> {
+        outputReadingBookRecordEditProcedureType.asDriver(onErrorDriveWith: .empty())
     }
 }
