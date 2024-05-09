@@ -147,11 +147,11 @@ class EditStartReadingDateViewController: BaseViewController {
             .drive(onNext: { type in
                 switch type {
                 case .successEdit:
-                    self.showOnlyOkAlert(title: "😄", message: "저장에 성공했어요.", buttonTitle: "확인했어요", handler: { _ in
+                    self.showOnlyOkAlert(title: "😄", message: "수정에 성공했어요.", buttonTitle: "확인했어요", handler: { _ in
                         self.dismiss(animated: true)
                     })
                 case .failureEdit:
-                    self.showOnlyOkAlert(title: "😢", message: "저장에 실패했어요.", buttonTitle: "확인했어요", handler: { _ in
+                    self.showOnlyOkAlert(title: "😢", message: "수정에 실패했어요.", buttonTitle: "확인했어요", handler: { _ in
                         self.dismiss(animated: true)
                     })
                 }}).disposed(by: disposeBag)
