@@ -25,6 +25,7 @@ class HomeViewController: BaseViewController {
         button.tintColor = .white
         return button
     }()
+    
     init(viewModel: HomeViewModelType = HomeViewModel()) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -37,6 +38,7 @@ class HomeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         homeReadingBookView.delegate = self
+        homeInterestedBookView.delegate = self
     }
         
     override func setViewController() {
@@ -84,6 +86,14 @@ extension HomeViewController: HomeReadingBookViewDelegate {
     func didSelectReadingBook(_ record: ReadingBooks) {
         let recordViewModel = ReadingBookRecordViewModel(readingBookRecordData: record)
         let recordViewController = ReadingBookRecordViewController(viewModel: recordViewModel)
+        self.navigationController?.pushViewController(recordViewController, animated: true)
+    }
+}
+
+extension HomeViewController: HomeInterestedBookViewDelegate {
+    func didSelectReadingBook(_ record: InterestedReadingBooks) {
+        let recordViewModel = InterestedBooksRecordViewModel(interestedBookRecordData: record)
+        let recordViewController = InterestedBookRecordViewController(viewModel: recordViewModel)
         self.navigationController?.pushViewController(recordViewController, animated: true)
     }
 }
