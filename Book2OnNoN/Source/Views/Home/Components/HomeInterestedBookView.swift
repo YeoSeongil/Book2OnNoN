@@ -10,11 +10,16 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
+protocol HomeInterestedBookViewDelegate: AnyObject {
+    func didSelectReadingBook( _ record: InterestedReadingBooks)
+}
 
 class HomeInterestedBookView: UIView {
+    weak var delegate: HomeInterestedBookViewDelegate?
     
     private let disposeBag = DisposeBag()
     private let viewModel: HomeViewModelType
+    
     
     // MARK: UI Components
     private let homeInterestedBookViewLabel: UILabel = {
@@ -70,6 +75,11 @@ class HomeInterestedBookView: UIView {
     
     private func bind() {
         interestedBookCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
+
+        interestedBookCollectionView.rx.modelSelected(InterestedReadingBooks.self)
+            .bind(onNext: { [weak self] record in
+                self?.delegate?.didSelectReadingBook(record)
+            }).disposed(by: disposeBag)
         
         // Output
         viewModel.resultInterestedBookRecordItem
