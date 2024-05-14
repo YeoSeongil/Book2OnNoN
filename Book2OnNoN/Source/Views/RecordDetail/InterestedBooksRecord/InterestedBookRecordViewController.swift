@@ -42,6 +42,7 @@ class InterestedBookRecordViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        interestedBookRecordContentView.delegate = self
     }
     
     override func setViewController() {
@@ -80,4 +81,19 @@ class InterestedBookRecordViewController: BaseViewController {
             .bind(to: viewModel.didDeleteButtonTapped)
             .disposed(by: disposeBag)
     }
+}
+
+extension InterestedBookRecordViewController: InterestedBookRecordContentViewDelegate {
+    func editInterestedAssessment() {
+        let modalViewController = EditInterestedAssessmentViewController(viewModel: viewModel)
+        modalViewController.modalPresentationStyle = .overCurrentContext
+        modalViewController.modalTransitionStyle = .crossDissolve
+    
+        self.present(modalViewController, animated: true)
+    }
+    
+    func editInterestedRate() {
+         
+    }
+    
 }
