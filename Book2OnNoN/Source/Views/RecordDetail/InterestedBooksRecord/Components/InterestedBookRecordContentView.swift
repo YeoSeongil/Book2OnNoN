@@ -12,8 +12,8 @@ import RxCocoa
 import Cosmos
 
 protocol InterestedBookRecordContentViewDelegate: AnyObject {
-    func editStartReadingDate()
-    func editAmountOfReadingBook()
+    func editInterestedAssessment()
+    func editInterestedRate()
 }
 
 class InterestedBookRecordContentView: UIView {
@@ -112,10 +112,10 @@ class InterestedBookRecordContentView: UIView {
     private func bind() {
         interestedAssessmentTextLabel.rx.tap
             .subscribe(onNext: { [weak self] in
-                self?.delegate?.editStartReadingDate()
+                self?.delegate?.editInterestedAssessment()
             })
             .disposed(by: disposeBag)
-        
+
         // Input
         
         // Output
