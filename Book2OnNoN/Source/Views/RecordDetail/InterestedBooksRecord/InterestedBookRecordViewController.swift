@@ -15,6 +15,7 @@ class InterestedBookRecordViewController: BaseViewController {
     private let viewModel: InterestedBookRecordViewModelType
     
     private lazy var interestedBookRecordSummaryView = InterestedBookRecordSummaryView(viewModel: viewModel)
+    private lazy var interestedBookRecordContentView = InterestedBookRecordContentView(viewModel: viewModel)
     
     // MARK: UI Components
     private let deleteButton: UIButton = {
@@ -45,7 +46,7 @@ class InterestedBookRecordViewController: BaseViewController {
     
     override func setViewController() {
         super.setViewController()
-        [interestedBookRecordSummaryView].forEach {
+        [interestedBookRecordSummaryView, interestedBookRecordContentView].forEach {
             view.addSubview($0)
         }
     }
@@ -55,6 +56,12 @@ class InterestedBookRecordViewController: BaseViewController {
         
         interestedBookRecordSummaryView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalToSuperview().inset(10)
+            $0.height.equalTo(200)
+        }
+        
+        interestedBookRecordContentView.snp.makeConstraints {
+            $0.top.equalTo(interestedBookRecordSummaryView.snp.bottom).offset(30)
             $0.horizontalEdges.equalToSuperview().inset(10)
             $0.height.equalTo(200)
         }
