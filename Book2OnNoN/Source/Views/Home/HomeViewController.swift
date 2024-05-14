@@ -19,6 +19,7 @@ class HomeViewController: BaseViewController {
     
     private lazy var  homeReadingBookView = HomeReadingBookView(viewModel: viewModel)
     private lazy var  homeInterestedBookView = HomeInterestedBookView(viewModel: viewModel)
+    
     let searchButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
