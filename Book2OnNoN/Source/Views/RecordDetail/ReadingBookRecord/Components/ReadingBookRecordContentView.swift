@@ -15,6 +15,7 @@ protocol ReadingBookRecordContentViewDelegate: AnyObject {
     func editStartReadingDate()
     func editAmountOfReadingBook()
 }
+
 class ReadingBookRecordContentView: UIView {
     weak var delegate: ReadingBookRecordContentViewDelegate?
     
@@ -33,14 +34,13 @@ class ReadingBookRecordContentView: UIView {
         return label
     }()
     
-    private lazy var startReadingDateTextLabel: UILabel = {
+    private let startReadingDateTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.backgroundColor = .PrestigeBlue
         label.font = .Pretendard.regular
         label.layer.cornerRadius = 5
         label.layer.masksToBounds = true
-        label.addImageLabel(text: "테스트", systemName: "calendar")
         return label
     }()
 
@@ -53,14 +53,13 @@ class ReadingBookRecordContentView: UIView {
         return label
     }()
 
-    private lazy var amountOfReadingBookTextLabel: UILabel = {
+    private let amountOfReadingBookTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
         label.backgroundColor = .PrestigeBlue
         label.font = .Pretendard.regular
         label.layer.cornerRadius = 5
         label.layer.masksToBounds = true
-        label.addImageLabel(text: "테스트", systemName: "book")
         return label
     }()
     
@@ -133,7 +132,12 @@ class ReadingBookRecordContentView: UIView {
     
     // MARK: Method
     private func configuration(with record: [ReadingBooks]) {
-        startReadingDateTextLabel.addImageLabel(text: record[0].startReadingDate!, systemName: "calendar")
+        if let date = record[0].startReadingDate {
+            startReadingDateTextLabel.addImageLabel(text: date, systemName: "calendar")
+        } else {
+            startReadingDateTextLabel.addImageLabel(text: "관심 한줄평이 없어요.", systemName: "calendar")
+        }
+        
         amountOfReadingBookTextLabel.addImageLabel(text: "\(record[0].readingPage) 쪽", systemName: "book")
     }
     
