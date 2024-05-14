@@ -107,7 +107,11 @@ extension InterestedBookRecordViewController: InterestedBookRecordContentViewDel
     }
     
     func editInterestedRate() {
-         
+        let modalViewController = EditInterestedRateViewController(viewModel: viewModel)
+        modalViewController.modalPresentationStyle = .overCurrentContext
+        modalViewController.modalTransitionStyle = .crossDissolve
+    
+        self.present(modalViewController, animated: true)
     }
     
 }
