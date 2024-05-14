@@ -49,6 +49,7 @@ class InterestedBooksRecordViewModel {
         self.interestedBookRecordData = interestedBookRecordData
         tryFetchData()
         tryInterestedAssessmentUpdate()
+        tryDeleteReadingBookRecord()
         setupNotificationObservers()
     }
     
@@ -68,6 +69,23 @@ class InterestedBooksRecordViewModel {
         let predicate = NSPredicate(format: "isbn == %@", self.interestedBookRecordData.isbn ?? "")
         guard let books = CoreDataManager.shared.fetchData(InterestedReadingBooks.self, predicate: predicate) else { return }
         outputInterestedBooksRecordData.accept(books)
+    }
+    
+    private func tryDeleteInterestedBookRecord() {
+        inputDeleteButtonTapped
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                CoreDataManager.shared.deleteData(self.interestedBookRecordData)
+                CoreDataManager.shared.saveData { result in
+                    switch result {
+                    case .success:
+                        self.outputInterestedBookRecordDeleteProcedureType.accept(.successDelete)
+                    case .failure(_):
+                        self.outputInterestedBookRecordDeleteProcedureType.accept(.failureDelete)
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
     }
     
     private func tryInterestedAssessmentUpdate() {
