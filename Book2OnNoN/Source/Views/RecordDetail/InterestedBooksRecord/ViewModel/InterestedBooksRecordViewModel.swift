@@ -49,7 +49,7 @@ class InterestedBooksRecordViewModel {
         self.interestedBookRecordData = interestedBookRecordData
         tryFetchData()
         tryInterestedAssessmentUpdate()
-        tryDeleteReadingBookRecord()
+        tryDeleteInterestedBookRecord()
         setupNotificationObservers()
     }
     
