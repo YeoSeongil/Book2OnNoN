@@ -24,6 +24,8 @@ protocol InterestedBookRecordViewModelType {
     var didDeleteButtonTapped: AnyObserver<Void> { get }
     var didEditInterestedAssessmentSaveButtonTapped: AnyObserver<Void> { get }
     var didEditInterestedAssessmentValue: AnyObserver<String> { get }
+    var didEditInterestedRateSaveButtonTapped: AnyObserver<Void> { get }
+    var didEditInterestedInterestedRateValue: AnyObserver<Double> { get }
     
     // Output
     var resultInterestedBooksRecordData: Driver<[InterestedReadingBooks]> { get }
@@ -39,7 +41,9 @@ class InterestedBooksRecordViewModel {
     private let inputDeleteButtonTapped = PublishSubject<Void>()
     private let inputEditInterestedAssessmentSaveButtonTapped = PublishSubject<Void>()
     private let inputEditInterestedAssessmentValue = PublishSubject<String>()
-   
+    private let inputEditInterestedRateSaveButtonTapped = PublishSubject<Void>()
+    private let inputEditInterestedRateValue = PublishSubject<Double>()
+
     // Output
     private let outputInterestedBooksRecordData = BehaviorRelay<[InterestedReadingBooks]>(value: [])
     private let outputInterestedBookRecordDeleteProcedureType = PublishRelay<InterestedBookRecordDeleteProcedureType>()
@@ -49,6 +53,7 @@ class InterestedBooksRecordViewModel {
         self.interestedBookRecordData = interestedBookRecordData
         tryFetchData()
         tryInterestedAssessmentUpdate()
+        tryInterestedRateUpdate()
         tryDeleteInterestedBookRecord()
         setupNotificationObservers()
     }
@@ -108,6 +113,26 @@ class InterestedBooksRecordViewModel {
             })
             .disposed(by: disposeBag)
     }
+    
+    private func tryInterestedRateUpdate() {
+        inputEditInterestedRateSaveButtonTapped
+            .withLatestFrom(inputEditInterestedRateValue)
+            .subscribe(onNext: { rate in
+                let predicate = NSPredicate(format: "isbn == %@", self.interestedBookRecordData.isbn ?? "")
+                if let books = CoreDataManager.shared.fetchData(InterestedReadingBooks.self, predicate: predicate), let book = books.first {
+                    book.rating =  rate
+                }
+                CoreDataManager.shared.saveData { result in
+                    switch result {
+                    case .success:
+                        self.outputInterestedBookRecordEditProcedureType.accept(.successEdit)
+                    case .failure(let error):
+                        self.outputInterestedBookRecordEditProcedureType.accept(.failureEdit)
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
+    }
 }
 
 extension InterestedBooksRecordViewModel: InterestedBookRecordViewModelType {
@@ -122,6 +147,14 @@ extension InterestedBooksRecordViewModel: InterestedBookRecordViewModelType {
     
     var didEditInterestedAssessmentValue: AnyObserver<String> {
         inputEditInterestedAssessmentValue.asObserver()
+    }
+    
+    var didEditInterestedRateSaveButtonTapped: AnyObserver<Void> {
+        inputEditInterestedRateSaveButtonTapped.asObserver()
+    }
+    
+    var didEditInterestedInterestedRateValue: AnyObserver<Double> {
+        inputEditInterestedRateValue.asObserver()
     }
     
     // Output
