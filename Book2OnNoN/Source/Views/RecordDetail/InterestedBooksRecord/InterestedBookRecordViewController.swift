@@ -80,6 +80,20 @@ class InterestedBookRecordViewController: BaseViewController {
         deleteButton.rx.tap
             .bind(to: viewModel.didDeleteButtonTapped)
             .disposed(by: disposeBag)
+        
+        // Output
+        viewModel.resultInterestedBookRecordDeleteProcedureType
+            .drive(onNext: { type in
+                switch type {
+                case .successDelete:
+                    self.showOnlyOkAlert(title: "😄", message: "삭제에 성공했어요.", buttonTitle: "확인했어요", handler: { _ in
+                        self.navigationController?.popToRootViewController(animated: true)
+                    })
+                case .failureDelete:
+                    self.showOnlyOkAlert(title: "😢", message: "저장에 실패했어요.", buttonTitle: "확인했어요", handler: .none)
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
 
