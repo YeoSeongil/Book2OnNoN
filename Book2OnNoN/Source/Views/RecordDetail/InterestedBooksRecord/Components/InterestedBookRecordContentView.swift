@@ -51,7 +51,16 @@ class InterestedBookRecordContentView: UIView {
         label.font = .Pretendard.semibold
         return label
     }()
-
+    
+    private let interestedRatingEditButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "pencil"), for: .normal)
+        button.tintColor = .white
+        button.layer.cornerRadius = 8
+        button.backgroundColor = UIColor(white: 0, alpha: 0.3)
+        return button
+    }()
+    
     private let interestedRateView: CosmosView = {
         let view = CosmosView()
         view.settings.fillMode = .half
@@ -80,7 +89,7 @@ class InterestedBookRecordContentView: UIView {
     
     // MARK: Set View
     private func setView() {
-        [interestedAssessmentLabel, interestedAssessmentTextLabel, interestedRateLabel, interestedRateView].forEach {
+        [interestedAssessmentLabel, interestedAssessmentTextLabel, interestedRateLabel, interestedRatingEditButton, interestedRateView].forEach {
             addSubview($0)
         }
     }
@@ -92,18 +101,25 @@ class InterestedBookRecordContentView: UIView {
         }
         
         interestedAssessmentTextLabel.snp.makeConstraints {
-            $0.top.equalTo(interestedAssessmentLabel.snp.bottom).offset(5)
+            $0.top.equalTo(interestedAssessmentLabel.snp.bottom).offset(15)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
             $0.height.equalTo(30)
         }
         
         interestedRateLabel.snp.makeConstraints {
-            $0.top.equalTo(interestedAssessmentTextLabel.snp.bottom).offset(20)
+            $0.top.equalTo(interestedAssessmentTextLabel.snp.bottom).offset(30)
             $0.leading.equalTo(safeAreaLayoutGuide)
+        }        
+        
+        interestedRatingEditButton.snp.makeConstraints {
+            $0.top.equalTo(interestedAssessmentTextLabel.snp.bottom).offset(30)
+            $0.width.equalTo(30)
+            $0.height.equalTo(30)
+            $0.trailing.equalTo(safeAreaLayoutGuide)
         }
         
         interestedRateView.snp.makeConstraints {
-            $0.top.equalTo(interestedRateLabel.snp.bottom).offset(5)
+            $0.top.equalTo(interestedRateLabel.snp.bottom).offset(15)
             $0.horizontalEdges.equalTo(safeAreaLayoutGuide)
             $0.height.equalTo(30)
         }
@@ -115,7 +131,13 @@ class InterestedBookRecordContentView: UIView {
                 self?.delegate?.editInterestedAssessment()
             })
             .disposed(by: disposeBag)
-
+        
+        interestedRatingEditButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.delegate?.editInterestedRate()
+            })
+            .disposed(by: disposeBag)
+        
         // Input
         
         // Output
