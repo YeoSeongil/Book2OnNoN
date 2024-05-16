@@ -59,10 +59,13 @@ class MyLibraryViewController: BaseViewController {
     override func bind() {
         finishedReadingBookCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
         
-        viewModel.finishedReadingBookRecordItem
-            .drive(onNext: { item in
-                print(item)
-            })
+        finishedReadingBookCollectionView.rx.modelSelected(FinishedReadingBooks.self)
+            .bind(onNext: { [weak self] record in
+                let recordViewModel = FinishedReadingBookRecordViewModel(finishedReadingBookRecordData: record)
+                let recordViewController = FinishedReadingBookRecordViewController(viewModel: recordViewModel)
+                self?.navigationController?.pushViewController(recordViewController, animated: true)
+            }).disposed(by: disposeBag)
+        
         // Output
         viewModel.finishedReadingBookRecordItem
             .drive(finishedReadingBookCollectionView.rx.items(cellIdentifier: FinishedReadingBookCollectionViewCell.id, cellType: FinishedReadingBookCollectionViewCell.self)) { row, item, cell in
