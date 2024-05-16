@@ -23,7 +23,7 @@ class MyLibraryViewModel {
     init()  {
         fetchData()
         
-        CoreDataManager.shared.rxObserveCoreDataChanges()
+        CoreDataManager.shared.observeCoreDataChanges()
             .subscribe(onNext: { [weak self] in
                 self?.fetchData()
             })
