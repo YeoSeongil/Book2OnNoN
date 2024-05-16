@@ -61,19 +61,12 @@ class ReadingBookRecordViewModel {
         tryDeleteReadingBookRecord()
         tryStartReadingDateUpdate()
         tryAmountOfReadingBookUpdate()
-        setupNotificationObservers()
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
-    }
-    
-    private func setupNotificationObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleCoreDataChange), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
-    }
-    
-    @objc private func handleCoreDataChange() {
-        tryFetchData()
+
+        CoreDataManager.shared.observeCoreDataChanges()
+            .subscribe(onNext: { [weak self] in
+                self?.tryFetchData()
+            })
+            .disposed(by: disposeBag)
     }
     
     private func tryFetchData() {
