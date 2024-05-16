@@ -149,7 +149,7 @@ class FinishedReadingBookRecordContentView: UIView {
         }
         
         bookRateView.snp.makeConstraints {
-            $0.top.equalTo(bookAssessmentTextLabel.snp.bottom).offset(10)
+            $0.top.equalTo(bookAssessmentTextLabel.snp.bottom).offset(15)
             $0.height.equalTo(30)
             $0.centerX.equalTo(safeAreaLayoutGuide)
         }
