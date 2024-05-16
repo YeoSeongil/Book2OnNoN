@@ -54,6 +54,15 @@ class MyLibraryViewController: BaseViewController {
     
     override func setNavigation() {
         super.setNavigation()
+        
+        let backButton = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        backButton.tintColor = .white
+        self.navigationItem.backBarButtonItem = backButton
+        
+        self.title = "나의 서재"
+        if let navigationBar = self.navigationController?.navigationBar {
+            navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        }
     }
     
     override func bind() {
