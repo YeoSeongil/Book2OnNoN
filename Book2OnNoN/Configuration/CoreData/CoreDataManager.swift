@@ -7,7 +7,7 @@
 
 import Foundation
 import CoreData
-
+import RxSwift
 
 class CoreDataManager {
     
@@ -17,6 +17,7 @@ class CoreDataManager {
    }
     
     static let shared: CoreDataManager = CoreDataManager()
+    private let notificationCenter = NotificationCenter.default
     
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Book2OnNoNData")
@@ -73,15 +74,16 @@ class CoreDataManager {
             return nil
         }
     }
-    
-    private var coreDataChangeHandler: (() -> Void)?
-    
-    func observeCoreDataChanges(_ handler: @escaping () -> Void) {
-        coreDataChangeHandler = handler
-        NotificationCenter.default.addObserver(self, selector: #selector(handleCoreDataChanges(_:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
-    }
-    
-    @objc private func handleCoreDataChanges(_ notification: Notification) {
-        coreDataChangeHandler?()
+
+    func observeCoreDataChanges() -> Observable<Void> {
+        return Observable.create { observer in
+            let token = self.notificationCenter.addObserver(forName: NSNotification.Name.NSManagedObjectContextDidSave, object: nil, queue: nil) { _ in
+                observer.onNext(())
+            }
+            
+            return Disposables.create {
+                self.notificationCenter.removeObserver(token)
+            }
+        }
     }
 }
