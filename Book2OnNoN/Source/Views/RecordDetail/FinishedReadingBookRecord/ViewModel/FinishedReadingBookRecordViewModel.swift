@@ -22,6 +22,9 @@ enum FinishedReadingBookRecordEditProcedureType  {
 protocol FinishedReadingBookRecordViewModelType {
     // Input
     var didDeleteButtonTapped: AnyObserver<Void> {get}
+    var didEditBookAssessmentSaveButtonTapped: AnyObserver<Void> {get}
+    var didEditBookAssessmentTextValue: AnyObserver<String> {get}
+    var didEditBookRateValue: AnyObserver<Double> {get}
     
     // Output
     var resultFinishedReadingBookRecordData: Driver<[FinishedReadingBooks]> { get }
@@ -35,6 +38,9 @@ class FinishedReadingBookRecordViewModel {
     
     // Input
     private let inputDeleteButtonTapped = PublishSubject<Void>()
+    private let inputEditbookAssessmentSaveButtonTapped = PublishSubject<Void>()
+    private let inputEditbookAssessmentTextValue = PublishSubject<String>()
+    private let inputBookRateValue = PublishSubject<Double>()
     
     // Output
     private let outputFinishedReadingBookRecordData = BehaviorRelay<[FinishedReadingBooks]>(value: [])
@@ -45,6 +51,13 @@ class FinishedReadingBookRecordViewModel {
         self.finishedReadingBookRecordData = finishedReadingBookRecordData
         tryFetchData()
         tryDeleteFinishedReadingBookRecord()
+        tryBookAssessmentUpdate()
+        
+        CoreDataManager.shared.observeCoreDataChanges()
+            .subscribe(onNext: { [weak self] in
+                self?.tryFetchData()
+            })
+            .disposed(by: disposeBag)
     }
     
     private func tryFetchData() {
@@ -70,12 +83,45 @@ class FinishedReadingBookRecordViewModel {
             .disposed(by: disposeBag)
     }
     
+    private func tryBookAssessmentUpdate() {
+        inputEditbookAssessmentSaveButtonTapped
+            .withLatestFrom(Observable.combineLatest(inputEditbookAssessmentTextValue.asObservable(), inputBookRateValue.asObservable()))
+            .subscribe(onNext: { (textValue, rateValue) in
+                let predicate = NSPredicate(format: "isbn == %@", self.finishedReadingBookRecordData.isbn ?? "")
+                if let books = CoreDataManager.shared.fetchData(FinishedReadingBooks.self, predicate: predicate), let book = books.first {
+                    book.rating = rateValue
+                    book.comment = textValue
+                }
+                
+                CoreDataManager.shared.saveData { result in
+                    switch result {
+                    case .success:
+                        self.outputFinishedReadingBookRecordEditProcedureType.accept(.successEdit)
+                    case .failure(let error):
+                        self.outputFinishedReadingBookRecordEditProcedureType.accept(.failureEdit)
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
+    }
 }
 
 extension FinishedReadingBookRecordViewModel: FinishedReadingBookRecordViewModelType {
     // Input
     var didDeleteButtonTapped: AnyObserver<Void> {
         inputDeleteButtonTapped.asObserver()
+    }
+    
+    var didEditBookAssessmentSaveButtonTapped: AnyObserver<Void> {
+        inputEditbookAssessmentSaveButtonTapped.asObserver()
+    }
+    
+    var didEditBookAssessmentTextValue: AnyObserver<String> {
+        inputEditbookAssessmentTextValue.asObserver()
+    }
+    
+    var didEditBookRateValue: AnyObserver<Double> {
+        inputBookRateValue.asObserver()
     }
     
     // Output
