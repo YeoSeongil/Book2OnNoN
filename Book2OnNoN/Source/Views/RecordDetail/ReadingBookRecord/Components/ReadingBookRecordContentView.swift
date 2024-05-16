@@ -135,7 +135,7 @@ class ReadingBookRecordContentView: UIView {
         if let date = record[0].startReadingDate {
             startReadingDateTextLabel.addImageLabel(text: date, systemName: "calendar")
         } else {
-            startReadingDateTextLabel.addImageLabel(text: "관심 한줄평이 없어요.", systemName: "calendar")
+            startReadingDateTextLabel.addImageLabel(text: "날짜 기록이 없어요.", systemName: "calendar")
         }
         
         amountOfReadingBookTextLabel.addImageLabel(text: "\(record[0].readingPage) 쪽", systemName: "book")
