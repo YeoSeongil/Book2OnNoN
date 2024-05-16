@@ -73,4 +73,15 @@ class CoreDataManager {
             return nil
         }
     }
+    
+    private var coreDataChangeHandler: (() -> Void)?
+    
+    func observeCoreDataChanges(_ handler: @escaping () -> Void) {
+        coreDataChangeHandler = handler
+        NotificationCenter.default.addObserver(self, selector: #selector(handleCoreDataChanges(_:)), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
+    }
+    
+    @objc private func handleCoreDataChanges(_ notification: Notification) {
+        coreDataChangeHandler?()
+    }
 }
