@@ -19,17 +19,19 @@ protocol HomeViewModelType {
 }
 
 class HomeViewModel {
+    private let disposeBag = DisposeBag()
     // Output
     private let outputReadingBookRecordItem = BehaviorRelay<[ReadingBooks]>(value: [])
     private let outputInterestedBookRecordItem = BehaviorRelay<[InterestedReadingBooks]>(value: [])
     
-    init() { 
-        setupNotificationObservers()
+    init() {
         fetchData()
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
+        
+        CoreDataManager.shared.observeCoreDataChanges()
+            .subscribe(onNext: { [weak self] in
+                self?.fetchData()
+            })
+            .disposed(by: disposeBag)
     }
 
     private func fetchData() {
@@ -38,14 +40,6 @@ class HomeViewModel {
         
         guard let interestedBookitem = CoreDataManager.shared.fetchData(InterestedReadingBooks.self) else { return }
         outputInterestedBookRecordItem.accept(interestedBookitem)
-    }
-    
-    private func setupNotificationObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleCoreDataChange), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
-    }
-    
-    @objc private func handleCoreDataChange() {
-        fetchData()
     }
 }
 
