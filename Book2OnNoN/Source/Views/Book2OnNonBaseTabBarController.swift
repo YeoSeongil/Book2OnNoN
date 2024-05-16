@@ -19,9 +19,12 @@ final class Book2OnNonBaseTabBarController: UITabBarController {
         let homeVc = UINavigationController(rootViewController: HomeViewController())
         homeVc.navigationBar.isTranslucent = false
         homeVc.tabBarItem = UITabBarItem(title: "홈", image: UIImage(systemName: "house"), selectedImage:UIImage(systemName: "house.fill"))
+
+        let myLibraryVc = MyLibraryViewController()
+        myLibraryVc.tabBarItem = UITabBarItem(title: "나의 서재", image: UIImage(systemName: "books.vertical"), selectedImage:UIImage(systemName: "books.vertical.fill"))
         
         viewControllers = [
-            homeVc
+            homeVc, myLibraryVc
         ]
         
         self.tabBar.tintColor = .white
