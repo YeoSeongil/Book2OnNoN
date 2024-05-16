@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+
 class HomeReadingBookCollectionViewCell: UICollectionViewCell {
     
     static let id: String = "HomeReadingBookCollectionViewCell"
