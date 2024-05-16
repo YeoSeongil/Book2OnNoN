@@ -11,9 +11,6 @@ import RxSwift
 import RxCocoa
 import CoreData
 
-
-// Todo
-// User 정보가 없을 때 register 하는 기능 구현
 class HomeViewController: BaseViewController {
     private let viewModel: HomeViewModelType
     
