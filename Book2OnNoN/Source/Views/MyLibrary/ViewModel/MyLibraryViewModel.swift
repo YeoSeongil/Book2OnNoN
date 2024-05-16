@@ -22,24 +22,14 @@ class MyLibraryViewModel {
     
     init()  {
         fetchData()
-        setupNotificationObservers()
+        CoreDataManager.shared.observeCoreDataChanges { [weak self] in
+            self?.fetchData()
+        }
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
-    }
-
     private func fetchData() {
         guard let finishedReadingBookItem = CoreDataManager.shared.fetchData(FinishedReadingBooks.self) else { return }
         outputFinishedReadingBookRecordItem.accept(finishedReadingBookItem)
-    }
-    
-    private func setupNotificationObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleCoreDataChange), name: NSNotification.Name.NSManagedObjectContextDidSave, object: nil)
-    }
-    
-    @objc private func handleCoreDataChange() {
-        fetchData()
     }
 }
 
