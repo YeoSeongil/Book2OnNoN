@@ -1,8 +1,10 @@
 ## 개발 기간
-- 개발 : 24.02.13 ~
-- 출시 및 배포 : 
+- 개발 : 24.03.11 ~ 24.05.16
 
 ## 기능
+- 알라딘 API를 바탕으로 책 검색 기능 제공
+- 다 읽은 책, 관심 있는 책, 읽고 있는 책에 대한 기록을 작성할 수 있는 기능 제공
+- 내 기록을 한번에 모아볼 수 있는 모아보기 기능 제공
 
 ## 기술
 - UIKit
@@ -13,6 +15,7 @@
 - Alamofire
 - CoreData
 - Kingfisher
+- Cosmos
 
 ## 개발 환경
 - Swift
@@ -35,3 +38,7 @@
 |REFACTOR|리팩토링|
 |TODO|Todo 작성|
 |COMMENT|주석 작성|
+
+## 시연 영상
+https://youtu.be/61v7EJvqf5E?si=TNJl6SssJUr7nCDF
+
