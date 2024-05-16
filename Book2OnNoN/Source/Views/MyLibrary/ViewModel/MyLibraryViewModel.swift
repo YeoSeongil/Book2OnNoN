@@ -22,9 +22,12 @@ class MyLibraryViewModel {
     
     init()  {
         fetchData()
-        CoreDataManager.shared.observeCoreDataChanges { [weak self] in
-            self?.fetchData()
-        }
+        
+        CoreDataManager.shared.rxObserveCoreDataChanges()
+            .subscribe(onNext: { [weak self] in
+                self?.fetchData()
+            })
+            .disposed(by: disposeBag)
     }
     
     private func fetchData() {
