@@ -1,3 +1,7 @@
+# Book2OnNoN - 나만의 작은 모바일 서재
+
+![KakaoTalk_20240618_150834553](https://github.com/YeoSeongil/ProjectBook2OnNoN/assets/75207506/2a65af88-a183-4be8-8c80-7fb4b44f0c5c)
+
 ## 개발 기간
 - 개발 : 24.03.11 ~ 24.05.16
 
